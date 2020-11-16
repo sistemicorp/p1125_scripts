@@ -43,7 +43,7 @@ import importlib.util
 import datetime
 from bokeh.layouts import row, column
 from bokeh.plotting import figure, curdoc
-from bokeh.models import ColumnDataSource, DatetimeTickFormatter
+from bokeh.models import ColumnDataSource, DatetimeTickFormatter, Div
 from bokeh.models.widgets.inputs import Select
 from bokeh.events import DoubleTap
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, WheelZoomTool
@@ -214,6 +214,7 @@ def main():
 
     logger.info(G['d'].p1125_ping)
     logger.info(G['d'].p1125_status)
+    logger.info(G['d'].p1125_settings)
     #logger.info(G['d'].p1125_data)  # uncomment to see imported fields/data
 
     plot_data = extract_data(G['d'].p1125_data, ['mAhr', 'iavg_max_ua'])
@@ -239,12 +240,19 @@ def main():
 
     s = create_select_widget(G['d'].p1125_data)
 
+    hdr1 = Div(text="""Setup: VOUT {} mV, TIME_CAPTURE_WINDOW_S {} sec, {} sec""".format(
+            G['d'].p1125_settings["VOUT"], G['d'].p1125_settings["TIME_CAPTURE_WINDOW_S"], G['d'].p1125_settings["TIME_TOTAL_RUN_S"]))
+
+    hdr2 = Div(text="""P1125: {}, {}, {}, {} degC""".format(
+            G['d'].p1125_ping["version"], G['d'].p1125_ping["rpi_serial"], G['d'].p1125_ping["url"],
+            G['d'].p1125_status["temperature_degc"]))
+
     # init the first data to plot
     source_rt.data = G['d'].p1125_data[0]['plot']
     dt = datetime.datetime.strptime(G['d'].p1125_data[0]['datetime'], '%Y%m%d-%H%M%S')
     source_sel.data = {'t': [dt, dt], 'y': [PLOT_MIN, PLOT_MAX]}
 
-    doc_layout.add_root(column(s, row(plot, plot_rt)))
+    doc_layout.add_root(column(hdr1, hdr2, s, row(plot, plot_rt)))
     return True
 
 
