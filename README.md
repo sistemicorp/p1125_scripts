@@ -109,6 +109,6 @@ $ bokeh serve --show p1125_example_mahrs_logging_plot.py --args -f 20201116-1353
 Where the logging filename, `2020116-135355.py` will be specific to you.
 
 Your browser should open similar to this,
-![alt text](https://github.com/sistemicorp/p1125_scripts/raw/master/readme_images/logging_plot.png "Logging Plot")
+![alt text](https://github.com/sistemicorp/p1125_scripts/raw/main/readme_images/logging_plot.png "Logging Plot")
 
-  
+
