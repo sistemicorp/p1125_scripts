@@ -34,8 +34,9 @@ Getting Started
     IP address being used.
   * once the IP address is found, change the example scripts, for example,
   
-
+```python
     P1125_URL = "http://192.168.0.123/api/V1"
+```
     
 * The first script to try, to confirm everything is working is `python3 p1125_example_plot_cal_loads.py`
 

@@ -45,12 +45,13 @@ from bokeh.layouts import layout
 from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
+from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, WheelZoomTool
 
 from p1125api import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-FORMAT = "%(asctime)s: %(filename)20s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
+FORMAT = "%(asctime)s: %(filename)22s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
 formatter = logging.Formatter(FORMAT)
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(formatter)
@@ -64,6 +65,9 @@ if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
     exit(1)
 
 plot = figure(toolbar_location="above", y_range=(0.1, 1000000), y_axis_type="log")
+plot.xaxis.axis_label = "Time (mS)"
+plot.yaxis.axis_label = "Current (uA)"
+
 doc_layout = layout()
 
 VOUT = 3000                       # mV, output level
@@ -77,10 +81,10 @@ def plot_add(data, name, color="green"):
     :param data: The data to plot in bokeh format, { "x": [...], "y": [...] }
     :param name: string name
     :param color: string color, can be 'red', 'blue', or "#ABC123", ...
-    :return: None
+    :return: line object to be included in Hover tool
     """
     source = ColumnDataSource(data=data)
-    plot.line(x="t", y="i", line_width=2, source=source, color=color, legend_label=name)
+    return plot.line(x="t", y="i", line_width=2, source=source, color=color, legend_label=name)
 
 
 def plot_fini():
@@ -152,7 +156,15 @@ def main():
     #logger.info(result)
     if not success: return False
     result.pop("success")
-    plot_add(result, "MyPlot", "blue")
+    line = plot_add(result, "MyPlot", "blue")
+
+    ht = HoverTool(
+        tooltips=[("Current", "@i{0.00} uA"), ("Time", "@t{0.00} mS")],
+        mode='vline',  # display a tooltip whenever the cursor is vertically in line with a glyph
+        show_arrow=True,
+        renderers=[line],
+    )
+    plot.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
 
     plot_fini()
     return True

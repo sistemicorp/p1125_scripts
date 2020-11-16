@@ -45,12 +45,13 @@ from bokeh.layouts import layout
 from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
+from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, WheelZoomTool
 
 from p1125api import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-FORMAT = "%(asctime)s: %(filename)20s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
+FORMAT = "%(asctime)s: %(filename)32s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
 formatter = logging.Formatter(FORMAT)
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(formatter)
@@ -65,7 +66,12 @@ if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
 
 # bokeh plot setup
 plot = figure(toolbar_location="above", y_range=(0.1, 1000000), y_axis_type="log")
+plot.xaxis.axis_label = "Time (mS)"
+plot.yaxis.axis_label = "Current (uA)"
 doc_layout = layout()
+
+data = {}  # global dict to hold plotting vectors
+source = ColumnDataSource(data=data)
 
 VOUT = 4000  # mV, output voltage
 SPAN = P1125API.TBASE_SPAN_100MS
@@ -77,20 +83,22 @@ LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], "200k", "green"),
                  ([P1125API.DEMO_CAL_LOAD_200],  "200",  "black"),
 
                  # loads in parallel
-                 ([P1125API.DEMO_CAL_LOAD_200K, P1125API.DEMO_CAL_LOAD_20K], "200k//20k", "red"),
+                 ([P1125API.DEMO_CAL_LOAD_200K, P1125API.DEMO_CAL_LOAD_20K], "200k_20k", "red"),
                  ]
 
 
-def plot_add(data, name, color="green"):
+def plot_add(new_data, name, color="green"):
     """ Add line to the plot
 
     :param data: The data to plot in bokeh format, { "x": [...], "y": [...] }
     :param name: string name
     :param color: string color, can be 'red', 'blue', or "#ABC123", ...
-    :return: None
+    :return: plot line for the hover tool
     """
-    source = ColumnDataSource(data=data)
-    plot.line(x="t", y="i", line_width=2, source=source, color=color, legend_label=name)
+    data[name] = new_data[name]
+    if "t" not in data: data["t"] = new_data["t"]  # only need to add t once
+    source.data = data  # update ColumnDataSource with new data
+    return plot.line(x="t", y="{}".format(name), line_width=2, source=source, color=color, legend_label=name)
 
 
 def plot_fini():
@@ -144,31 +152,36 @@ def main():
     if not success: return False
 
     # loop thru all the loads to plot
+    _tooltips = [("Time", "@t{0.00} mS"),]
     for load, name, color in LOADS_TO_PLOT:
-        logger.info(load)
+        logger.info("{}, {}".format(load, name))
 
         success, result = p1125.set_cal_load(loads=load)
         logger.info("set_cal_load: {}".format(result))
-        if not success: return False
+        if not success: break
 
         success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
         logger.info("acquisition_start: {}".format(result))
-        if not success: return False
+        if not success: break
 
         success, result = p1125.acquisition_complete()
         logger.info("acquisition_complete: {}".format(result))
-        if not success: return False
+        if not success: break
 
         success, result = p1125.acquisition_get_data()
+        result[name] = result.pop("i")  # rename the current for this load to name, every y vector must be unique name
+        _tooltips.append(("{}".format(name), "@{}{{0.00}} uA".format(name)))
         #logger.info("acquisition_get_data: {}".format(result))
-        if not success: return False
-        result.pop("success")
-        plot_add(result, name, color)
+        if not success: break
+        line = plot_add(result, name, color)  # the last 'line' is used by hovertool
 
     # turn off any loads
     success, result = p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
     logger.info("set_cal_load: {}".format(result))
     if not success: return False
+
+    ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[line])
+    plot.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
 
     plot_fini()
     return True
