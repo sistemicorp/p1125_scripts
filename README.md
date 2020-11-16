@@ -17,13 +17,14 @@ Getting Started
 * All the example scripts have a section that looks like this,
 
 
-
+```python
     # NOTE: Change to P1125 IP address or hostname
     P1125_URL = "http://IP_ADDRESS_OR_HOSTNAME/api/V1"
     
     if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
         logger.error("Please set P1125_URL with valid IP/Hostname")
         exit(1)
+```
         
 * `IP_ADDRESS_OR_HOSTNAME` needs to be changed to reflect the P1125 IP address or hostname.
 * The hostname of the P1125 is written on the bottom of the device, in the format `p1125-####`.
