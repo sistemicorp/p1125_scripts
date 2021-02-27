@@ -64,9 +64,12 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "http://IP_ADDRESS_OR_HOSTNAME/api/V1"
+P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_API = "/api/V1"
+URL = "http://" + P1125_URL + P1125_API
 
-if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
+
+if "p115-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
@@ -82,13 +85,13 @@ def _log_response(response):
 
 def ping(args):
     payload = {"method": "V1.ping", "jsonrpc": "2.0", "id": 0,}
-    response = requests.post(P1125_URL, json=payload).json()
+    response = requests.post(URL, json=payload).json()
     return _log_response(response)
 
 
 def status(args):
     payload = {"method": "V1.status", "jsonrpc": "2.0", "id": 0,}
-    response = requests.post(P1125_URL, json=payload).json()
+    response = requests.post(URL, json=payload).json()
     return _log_response(response)
 
 
@@ -96,17 +99,17 @@ def cal(args):
 
     if args._start:
         payload = {"method": "V1.cal", "jsonrpc": "2.0", "id": 0, }
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._status:
         payload = {"method": "V1.cal_status", "jsonrpc": "2.0", "id": 0, }
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._values:
         payload = {"method": "V1.cal_values", "jsonrpc": "2.0", "id": 0, }
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     else:
@@ -117,26 +120,26 @@ def vout(args):
     if args._set:
         payload = {"method": "V1.vout", "jsonrpc": "2.0", "id": 0,
                    "params": {"value": args._set}}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
 
 def probe(args):
     if args._status:
         payload = {"method": "V1.probe_status", "jsonrpc": "2.0", "id": 0,}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._connect:
         payload = {"method": "V1.probe_connect", "jsonrpc": "2.0", "id": 0,
                    "params": {"value": True}}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._disconnect:
         payload = {"method": "V1.probe_connect", "jsonrpc": "2.0", "id": 0,
                    "params": {"value": False}}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
 
@@ -147,30 +150,30 @@ def trig(args):
                           "slope": args._slope,
                           "level": float(args._level)}
                }
-    response = requests.post(P1125_URL, json=payload).json()
+    response = requests.post(URL, json=payload).json()
     return _log_response(response)
 
 
 def acquire(args):
     if args._start:
         payload = {"method": "V1.acquire_start", "jsonrpc": "2.0", "id": 0,}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._stop:
         payload = {"method": "V1.acquire_stop", "jsonrpc": "2.0", "id": 0,}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
     elif args._triggered:
         payload = {"method": "V1.acquire_is_triggered", "jsonrpc": "2.0", "id": 0,}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
 
 def plotdata(args):
     payload = {"method": "V1.plot_data", "jsonrpc": "2.0", "id": 0,}
-    response = requests.post(P1125_URL, json=payload).json()
+    response = requests.post(URL, json=payload).json()
     return _log_response(response)
 
 
@@ -179,7 +182,7 @@ def timebase(args):
         payload = {"method": "V1.timebase", "jsonrpc": "2.0", "id": 0,
                    "params": {"span": args._span,}
                   }
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
 
@@ -188,7 +191,7 @@ def calload(args):
         loads = args._load.split(',')
         payload = {"method": "V1.cal_load", "jsonrpc": "2.0", "id": 0,
                    "params": {"loads": loads}}
-        response = requests.post(P1125_URL, json=payload).json()
+        response = requests.post(URL, json=payload).json()
         return _log_response(response)
 
 

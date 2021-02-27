@@ -59,9 +59,11 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "http://IP_ADDRESS_OR_HOSTNAME/api/V1"
+P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_API = "/api/V1"
+URL = "http://" + P1125_URL + P1125_API
 
-if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
+if "p115-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
@@ -126,7 +128,7 @@ def main():
     The target power system, if it has a switched mode buck/boost, will have different
     efficiency at different input voltages.  This test will quantify that efficiency.
     """
-    p1125 = P1125(url=P1125_URL, loggerIn=logger)
+    p1125 = P1125(url=URL, loggerIn=logger)
 
     # check if the P1125 is reachable
     success, result = p1125.ping()

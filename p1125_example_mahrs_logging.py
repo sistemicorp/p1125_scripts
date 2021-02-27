@@ -58,9 +58,11 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "http://IP_ADDRESS_OR_HOSTNAME/api/V1"
+P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_API = "/api/V1"
+URL = "http://" + P1125_URL + P1125_API
 
-if "IP_ADDRESS_OR_HOSTNAME" in P1125_URL:
+if "p115-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
@@ -74,7 +76,7 @@ LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
 WRITE_PLOT_DATA = True        # flag for write_data()
 WAIT_POLLING_TIME_S = 0.5     # time to wait between polls whilst waiting for TIME_CAPTURE_WINDOW_S to complete
 
-p1125 = P1125(url=P1125_URL, loggerIn=logger)
+p1125 = P1125(url=URL, loggerIn=logger)
 filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".py"
 
 
