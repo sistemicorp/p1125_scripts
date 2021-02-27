@@ -184,15 +184,17 @@ def create_select_widget(d):
 
 def main():
     """
-    Companion script to p1125_rpc_mahrs_logging.py
+    Companion script to p1125_example_mahrs_logging.py
 
     Extracts data from the logging file and plots it.
     """
     epilog = """
+    DO NOT RUN p1125_example_mahrs_logging_plot.py directly.
+    
     Usage examples:
-       bokeh serve --show p1125_rpc_mahrs_logging_plot.py --args -f 20201027-170242.py
+       bokeh serve --show p1125_example_mahrs_logging_plot.py --args -f 20201027-170242.py
     """
-    parser = argparse.ArgumentParser(description='p1125r_rpc_mahrs_logging file parser',
+    parser = argparse.ArgumentParser(description='p1125r_example_mahrs_logging_plot file parser, used with "boke serve"',
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog=epilog)
     parser.add_argument("-f", "--file", dest="file", action='store', required=True, help='log file to parse/plot')
