@@ -57,7 +57,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 PLOT_MIN = 0.01
-PLOT_MAX = 100000
+PLOT_MAX = 1000000
 
 G = {  # global variables
     "select_options": [],  # holds select drop down options, as tuple (idx, name)

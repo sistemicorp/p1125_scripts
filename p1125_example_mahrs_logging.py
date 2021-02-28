@@ -322,5 +322,15 @@ def main():
 
 
 if __name__ == "__main__":
-    success = main()
+
+    try:
+        success = main()
+
+    # catch CTRL-C
+    except Exception as e:
+        p1125.probe(connect=False)
+        p1125.acquisition_stop()
+        success = False
+        logger.error(e)
+
     if not success: logger.error("failed")
