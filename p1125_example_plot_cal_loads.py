@@ -58,7 +58,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "p1125-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_URL = "192.168.0.152"  # for example, p115-a12b.local, or 192.168.0.123
 P1125_API = "/api/V1"
 URL = "http://" + P1125_URL + P1125_API
 
@@ -68,14 +68,20 @@ if "p1125-####.local" in P1125_URL:
 
 # bokeh plot setup
 plot = figure(toolbar_location="above", y_range=(0.1, 1000000), y_axis_type="log")
-plot.xaxis.axis_label = "Time (mS)"
+plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
 doc_layout = layout()
 
-data = {}  # global dict to hold plotting vectors
+data = {
+    "vout": [],
+    "min": [],
+    "max": [],
+    "avg": [],
+    "exp": [],
+}  # global dict to hold plotting vectors
 source = ColumnDataSource(data=data)
 
-VOUT = 4000                   # mV, output voltage, 2000-8000 mV
+VOUT = [3900, 4000, 4100]                   # mV, output voltage, 2000-8000 mV
 SPAN = P1125API.TBASE_SPAN_100MS
 
 #                      loads to cycle thru,  line name,   color
@@ -88,6 +94,9 @@ LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], "200k", "green"),
                  ([P1125API.DEMO_CAL_LOAD_200K, P1125API.DEMO_CAL_LOAD_20K], "200k_20k", "red"),
                  ]
 
+LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], 200000.0),
+                 ([P1125API.DEMO_CAL_LOAD_20K],   20000.0)
+                 ]
 
 def plot_add(new_data, name, color="green"):
     """ Add line to the plot
@@ -138,10 +147,6 @@ def main():
     logger.info("calibrate: {}".format(result))
     if not success: return False
 
-    success, result = p1125.set_vout(VOUT)
-    logger.info("set_vout: {}".format(result))
-    if not success: return False
-
     success, result = p1125.set_timebase(SPAN)
     logger.info("set_timebase: {}".format(result))
     if not success: return False
@@ -154,36 +159,53 @@ def main():
     if not success: return False
 
     # loop thru all the loads to plot
-    _tooltips = [("Time", "@t{0.00} mS"),]
-    for load, name, color in LOADS_TO_PLOT:
-        logger.info("{}, {}".format(load, name))
+    for vout in VOUT:
 
-        success, result = p1125.set_cal_load(loads=load)
-        logger.info("set_cal_load: {}".format(result))
-        if not success: break
+        success, result = p1125.set_vout(vout)
+        logger.info("set_vout: {}".format(result))
+        if not success: return False
 
-        success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
-        logger.info("acquisition_start: {}".format(result))
-        if not success: break
+        for load, resistance in LOADS_TO_PLOT:
+            logger.info("{} mV, {}".format(vout, resistance))
 
-        success, result = p1125.acquisition_complete()
-        logger.info("acquisition_complete: {}".format(result))
-        if not success: break
+            success, result = p1125.set_cal_load(loads=load)
+            logger.info("set_cal_load: {}".format(result))
+            if not success: break
 
-        success, result = p1125.acquisition_get_data()
-        result[name] = result.pop("i")  # rename the current for this load to name, every y vector must be unique name
-        _tooltips.append(("{}".format(name), "@{}{{0.00}} uA".format(name)))
-        #logger.info("acquisition_get_data: {}".format(result))
-        if not success: break
-        line = plot_add(result, name, color)  # the last 'line' is used by hovertool
+            success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
+            logger.info("acquisition_start: {}".format(result))
+            if not success: break
+
+            success, result = p1125.acquisition_complete()
+            logger.info("acquisition_complete: {}".format(result))
+            if not success: break
+
+            success, result = p1125.acquisition_get_data()
+            data["vout"].append(vout)
+            data["min"].append(min(result["i"]))
+            data["max"].append(max(result["i"]))
+            data["avg"].append(sum(result["i"]) / len(result["i"]))
+            data["exp"].append(float(vout) / resistance * 1000.0)
+            logger.info("VOUT {} mV, Expected {:9.2f} uA, min/avg/max:  {:9.2f} {:9.2f} {:9.2f} uA".format(data["vout"][-1],
+                                                                                                           data["exp"][-1],
+                                                                                                           data["min"][-1],
+                                                                                                           data["avg"][-1],
+                                                                                                           data["max"][-1],
+                                                                                                           ))
+
 
     # turn off any loads
     success, result = p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
     logger.info("set_cal_load: {}".format(result))
     if not success: return False
 
-    ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[line])
-    plot.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
+    #ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[line])
+    #plot.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
+
+    plot.cross(x="vout", y="avg", size=20, color="blue", source=source)
+    plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
+    plot.dash(x="vout", y="min", size=20, color="red", source=source)
+    plot.dash(x="vout", y="max", size=20, color="red", source=source)
 
     plot_fini()
     return True
