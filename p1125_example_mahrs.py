@@ -59,11 +59,11 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_URL = "p1125-####.local"  # for example, p115-a12b.local, or 192.168.0.123
 P1125_API = "/api/V1"
 URL = "http://" + P1125_URL + P1125_API
 
-if "p115-####.local" in P1125_URL:
+if "p1125-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 

@@ -58,19 +58,19 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_URL = "p1125-####.local"  # for example, p115-a12b.local, or 192.168.0.123
 P1125_API = "/api/V1"
 URL = "http://" + P1125_URL + P1125_API
 
-if "p115-####.local" in P1125_URL:
+if "p1125-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
 # Change these parameters to suit your needs:
-VOUT = 1500                   # mV, output voltage, 1500-4500 mV
+VOUT = 4000                   # mV, output voltage, 2000-8000 mV
 CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
-TIME_TOTAL_RUN_S = 300        # 3600 * 6   # seconds, total run time of the log
+TIME_TOTAL_RUN_S = 60 * 5     # seconds, total run time of the log
 LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
 
 WRITE_PLOT_DATA = True        # flag for write_data()
