@@ -66,8 +66,10 @@ if "p1125-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
+p1125 = P1125(url=URL, loggerIn=logger)
+
 # bokeh plot setup
-plot = figure(toolbar_location="above", y_range=(0.1, 1000000), y_axis_type="log")
+plot = figure(toolbar_location="above", y_range=(1, 1200000), y_axis_type="log")
 plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
 doc_layout = layout()
@@ -81,21 +83,20 @@ data = {
 }  # global dict to hold plotting vectors
 source = ColumnDataSource(data=data)
 
-VOUT = [3900, 4000, 4100]                   # mV, output voltage, 2000-8000 mV
-SPAN = P1125API.TBASE_SPAN_100MS
+OUT_MIN_VAL = 1800
+OUT_MAX_VAL = 8000
+OUT_STEP_VALUE = 400
+VOUT = [v for v in range(OUT_MIN_VAL, OUT_MAX_VAL, OUT_STEP_VALUE)]
 
-#                      loads to cycle thru,  line name,   color
-LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], "200k", "green"),
-                 ([P1125API.DEMO_CAL_LOAD_20K],  "20k",  "blue"),
-                 ([P1125API.DEMO_CAL_LOAD_2K],   "2k",   "yellow"),
-                 ([P1125API.DEMO_CAL_LOAD_200],  "200",  "black"),
+SPAN = P1125API.TBASE_SPAN_50MS
 
-                 # loads in parallel
-                 ([P1125API.DEMO_CAL_LOAD_200K, P1125API.DEMO_CAL_LOAD_20K], "200k_20k", "red"),
-                 ]
-
+# loads to cycle thru
 LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], 200000.0),
-                 ([P1125API.DEMO_CAL_LOAD_20K],   20000.0)
+                 ([P1125API.DEMO_CAL_LOAD_20K],   20000.0),
+                 ([P1125API.DEMO_CAL_LOAD_2K],     2000.0),
+                 ([P1125API.DEMO_CAL_LOAD_200],     200.0),
+                 ([P1125API.DEMO_CAL_LOAD_20],       20.0),
+                 ([P1125API.DEMO_CAL_LOAD_8],         8.06),
                  ]
 
 def plot_add(new_data, name, color="green"):
@@ -128,7 +129,6 @@ def main():
     The internal Calibration loads will be used to plot essentially DC currents of various magnitudes.
     Since internal loads are used, the Probe is not connected.
     """
-    p1125 = P1125(url=URL, loggerIn=logger)
 
     # check if the P1125 is reachable
     success, result = p1125.ping()
@@ -192,12 +192,11 @@ def main():
                                                                                                            data["avg"][-1],
                                                                                                            data["max"][-1],
                                                                                                            ))
+            # large error...
+            if abs(data["exp"][-1] - data["avg"][-1]) / data["exp"][-1] > 0.05:
+                logger.error(result["i"])
 
 
-    # turn off any loads
-    success, result = p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
-    logger.info("set_cal_load: {}".format(result))
-    if not success: return False
 
     #ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[line])
     #plot.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
@@ -212,5 +211,14 @@ def main():
 
 
 if __name__ == "__main__":
-    success = main()
+    try:
+        success = main()
+
+    except:
+        pass
+
+    finally:
+        # turn off any loads
+        p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
+
     if not success: logger.error("failed")

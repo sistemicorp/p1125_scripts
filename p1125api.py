@@ -64,8 +64,8 @@ class P1125API(Const):
 
     """
 
-    VOUT_MIN_VAL = 1500
-    VOUT_MAX_VAL = 4500
+    VOUT_MIN_VAL = 1800
+    VOUT_MAX_VAL = 8000
     VOUT_STEP_VALUE = 100
 
     ACQUIRE_MODE_RUN = "ACQUIRE_MODE_RUN"
@@ -130,22 +130,22 @@ class P1125API(Const):
     DEMO_CAL_LOAD_NONE = "DEMO_CAL_LOAD_NONE"
     DEMO_CAL_LOAD_2M   = "DEMO_CAL_LOAD_2M_"
     DEMO_CAL_LOAD_200K = "DEMO_CAL_LOAD_200K_"
-    DEMO_CAL_LOAD_100K = "DEMO_CAL_LOAD_100K_"
     DEMO_CAL_LOAD_20K  = "DEMO_CAL_LOAD_20K_"
-    DEMO_CAL_LOAD_10K  = "DEMO_CAL_LOAD_10K_"
     DEMO_CAL_LOAD_2K   = "DEMO_CAL_LOAD_2K_"
     DEMO_CAL_LOAD_200  = "DEMO_CAL_LOAD_200_"
+    DEMO_CAL_LOAD_40   = "DEMO_CAL_LOAD_40_"
     DEMO_CAL_LOAD_20   = "DEMO_CAL_LOAD_20_"
+    DEMO_CAL_LOAD_8    = "DEMO_CAL_LOAD_8_"
     DEMO_CAL_LOAD_LIST = [
         DEMO_CAL_LOAD_NONE,
         DEMO_CAL_LOAD_2M,
         DEMO_CAL_LOAD_200K,
-        DEMO_CAL_LOAD_100K,
         DEMO_CAL_LOAD_20K,
-        DEMO_CAL_LOAD_10K,
         DEMO_CAL_LOAD_2K,
         DEMO_CAL_LOAD_200,
+        DEMO_CAL_LOAD_40,
         DEMO_CAL_LOAD_20,
+        DEMO_CAL_LOAD_8,
     ]
 
 
@@ -234,10 +234,10 @@ class P1125(object):
 
         return True, result
 
-    def set_vout(self, value_mv=1500):
+    def set_vout(self, value_mv=P1125API.VOUT_MIN_VAL):
         """ Set VOUT
 
-        :param value_mv: <1500-4500>
+        :param value_mv: <1500-8000>
         :return:  success <True/False>, result <json/None>
         """
         payload = {"method": "V1.vout", "params": {"value": value_mv}}  # in mV
