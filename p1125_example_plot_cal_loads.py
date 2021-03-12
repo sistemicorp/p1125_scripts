@@ -45,7 +45,7 @@ from bokeh.layouts import layout, row
 from bokeh.io import show
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
-from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, WheelZoomTool
+from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, ZoomInTool
 
 from p1125api import P1125, P1125API
 
@@ -69,13 +69,17 @@ if "p1125-####.local" in P1125_URL:
 p1125 = P1125(url=URL, loggerIn=logger)
 
 # bokeh plot setup
-plot = figure(toolbar_location="above", y_range=(1, 1200000), y_axis_type="log")
+plot = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
 plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
 
-plot_err = figure(toolbar_location="above", y_range=(1, 1000000), y_axis_type="log")
+plot_err = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
 plot_err.xaxis.axis_label = "VOUT (mV)"
-plot_err.yaxis.axis_label = "Load"
+plot_err.yaxis.axis_label = "Current (uA)"
+
+plot_errp = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
+plot_errp.xaxis.axis_label = "VOUT (mV)"
+plot_errp.yaxis.axis_label = "Current (uA)"
 
 doc_layout = layout()
 
@@ -86,6 +90,7 @@ data = {
     "avg": [],
     "exp": [],
     "err": [],
+    "errp": [],  # peak error
     "res": [],
 }  # global dict to hold plotting vectors
 source = ColumnDataSource(data=data)
@@ -94,40 +99,19 @@ OUT_MIN_VAL = 1800
 OUT_MAX_VAL = 8000
 OUT_STEP_VALUE = 400
 VOUT = [v for v in range(OUT_MIN_VAL, OUT_MAX_VAL, OUT_STEP_VALUE)]
-VOUT = [4000]
+#VOUT = [4000]
 
 SPAN = P1125API.TBASE_SPAN_50MS
 
 # loads to cycle thru
-LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_200K], 200000.0),
+LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
+                 ([P1125API.DEMO_CAL_LOAD_200K], 200000.0),
                  ([P1125API.DEMO_CAL_LOAD_20K],   20000.0),
                  ([P1125API.DEMO_CAL_LOAD_2K],     2000.0),
                  ([P1125API.DEMO_CAL_LOAD_200],     200.0),
                  ([P1125API.DEMO_CAL_LOAD_20],       20.0),
                  ([P1125API.DEMO_CAL_LOAD_8],         8.06),
                  ]
-
-def plot_add(new_data, name, color="green"):
-    """ Add line to the plot
-
-    :param data: The data to plot in bokeh format, { "x": [...], "y": [...] }
-    :param name: string name
-    :param color: string color, can be 'red', 'blue', or "#ABC123", ...
-    :return: plot line for the hover tool
-    """
-    data[name] = new_data[name]
-    if "t" not in data: data["t"] = new_data["t"]  # only need to add t once
-    source.data = data  # update ColumnDataSource with new data
-    return plot.line(x="t", y="{}".format(name), line_width=2, source=source, color=color, legend_label=name)
-
-
-def plot_fini():
-    """ Plot the data, opens web browser with plot
-
-    :return: None
-    """
-    doc_layout.children.append(row(plot, plot_err))
-    show(doc_layout)
 
 
 def main():
@@ -194,8 +178,13 @@ def main():
             data["max"].append(max(result["i"]))
             data["avg"].append(sum(result["i"]) / len(result["i"]))
             data["exp"].append(float(vout) / resistance * 1000.0)
-            data["err"].append((((data["max"][-1] - data["min"][-1]) / 2.0) * 100.0) / data["exp"][-1])  # *10 extra for viewing
+            data["err"].append((abs(data["avg"][-1] - data["exp"][-1]) * 100.0) / data["exp"][-1])
             data["res"].append(resistance)
+
+            # find the peak error from the acquistion
+            peak_error = max(abs(data["exp"][-1] - data["min"][-1]), abs(data["exp"][-1] - data["max"][-1]))
+            data["errp"].append(peak_error * 100.0 / data["exp"][-1])
+
             logger.info("VOUT {} mV, Expected {:9.2f} uA, min/avg/max:  {:9.2f} {:9.2f} {:9.2f} uA".format(data["vout"][-1],
                                                                                                            data["exp"][-1],
                                                                                                            data["min"][-1],
@@ -203,23 +192,29 @@ def main():
                                                                                                            data["max"][-1],
                                                                                                            ))
             # large error...
-            if abs(data["exp"][-1] - data["avg"][-1]) / data["exp"][-1] > 0.05:
-                logger.error(result["i"])
-
-
+            #if data["errp"][-1] > 0.10: logger.error(result["i"])
 
     plot.cross(x="vout", y="avg", size=20, color="blue", source=source)
     plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
     plot.dash(x="vout", y="min", size=20, color="red", source=source)
     plot.dash(x="vout", y="max", size=20, color="red", source=source)
 
-    dots = plot_err.circle_dot(x="vout", y="res", size="err", fill_alpha=0.2, color="red", source=source)
+    dots = plot_err.circle_dot(x="vout", y="exp", size="err", fill_alpha=0.2, color="red", source=source)
+    plot_err.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
 
     _tooltips = [("Error", "@err{0.0} %"), ]
     ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[dots])
-    plot_err.tools = [ht, BoxZoomTool(), WheelZoomTool(dimensions="width"), ResetTool(), UndoTool(), PanTool(dimensions="width")]
+    plot_err.tools = [ht, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
 
-    plot_fini()
+    _tooltips_peak = [("Error", "@errp{0.0} %"), ]
+    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, color="red", source=source)
+    plot_errp.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
+    htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
+    plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+
+    doc_layout.children.append(row(plot, plot_err))
+    doc_layout.children.append(row(plot_errp))
+    show(doc_layout)
     return True
 
 
