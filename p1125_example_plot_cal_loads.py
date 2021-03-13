@@ -40,6 +40,7 @@ Notes:
 1) Calibration loads are only attached to the supply when the probe is DISCONNECTED.
 
 """
+from time import sleep
 import logging
 from bokeh.layouts import layout, row
 from bokeh.io import show
@@ -52,6 +53,7 @@ from p1125api import P1125, P1125API
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 FORMAT = "%(asctime)s: %(filename)32s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
+FORMAT = "%(asctime)s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
 formatter = logging.Formatter(FORMAT)
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(formatter)
@@ -72,10 +74,6 @@ p1125 = P1125(url=URL, loggerIn=logger)
 plot = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
 plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
-
-plot_err = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
-plot_err.xaxis.axis_label = "VOUT (mV)"
-plot_err.yaxis.axis_label = "Current (uA)"
 
 plot_errp = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
 plot_errp.xaxis.axis_label = "VOUT (mV)"
@@ -102,6 +100,10 @@ VOUT = [v for v in range(OUT_MIN_VAL, OUT_MAX_VAL, OUT_STEP_VALUE)]
 #VOUT = [4000]
 
 SPAN = P1125API.TBASE_SPAN_50MS
+PLOT_CIRCLE_ERR = 10  # percent error as a plot size
+CURRENT_MIN_UA  = 2.0
+CURRENT_MAX_UA  = 1400000.0
+DELAY_LOAD_SETTLE_S = 0.4
 
 # loads to cycle thru
 LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
@@ -109,8 +111,9 @@ LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
                  ([P1125API.DEMO_CAL_LOAD_20K],   20000.0),
                  ([P1125API.DEMO_CAL_LOAD_2K],     2000.0),
                  ([P1125API.DEMO_CAL_LOAD_200],     200.0),
-                 ([P1125API.DEMO_CAL_LOAD_20],       20.0),
-                 ([P1125API.DEMO_CAL_LOAD_8],         8.06),
+                 ([P1125API.DEMO_CAL_LOAD_20],      (20.0 + 0.04)),  # + pcb resistance/NFET Vds
+                 ([P1125API.DEMO_CAL_LOAD_8],        (8.06 + 0.06)),
+                 ([P1125API.DEMO_CAL_LOAD_8, P1125API.DEMO_CAL_LOAD_20],  (1 / ((1/(8.06 + 0.06)) + (1/(20.0 + 0.04))))),
                  ]
 
 
@@ -158,11 +161,18 @@ def main():
         if not success: return False
 
         for load, resistance in LOADS_TO_PLOT:
-            logger.info("{} mV, {}".format(vout, resistance))
+            expected_i_ua = float(vout) / resistance * 1000.0
+            if expected_i_ua < CURRENT_MIN_UA or expected_i_ua > CURRENT_MAX_UA:
+                continue
+
+            logger.info("{} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
 
             success, result = p1125.set_cal_load(loads=load)
             logger.info("set_cal_load: {}".format(result))
             if not success: break
+
+            # when going from a high load to small, need settling
+            if load == P1125API.DEMO_CAL_LOAD_2M: sleep(DELAY_LOAD_SETTLE_S)
 
             success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
             logger.info("acquisition_start: {}".format(result))
@@ -177,7 +187,7 @@ def main():
             data["min"].append(min(result["i"]))
             data["max"].append(max(result["i"]))
             data["avg"].append(sum(result["i"]) / len(result["i"]))
-            data["exp"].append(float(vout) / resistance * 1000.0)
+            data["exp"].append(expected_i_ua)
             data["err"].append((abs(data["avg"][-1] - data["exp"][-1]) * 100.0) / data["exp"][-1])
             data["res"].append(resistance)
 
@@ -192,28 +202,20 @@ def main():
                                                                                                            data["max"][-1],
                                                                                                            ))
             # large error...
-            #if data["errp"][-1] > 0.10: logger.error(result["i"])
+            if data["errp"][-1] > 10: logger.error(result["i"])
 
-    plot.cross(x="vout", y="avg", size=20, color="blue", source=source)
+    plot.cross(x="vout", y="avg", size=10, color="blue", source=source)
     plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
-    plot.dash(x="vout", y="min", size=20, color="red", source=source)
-    plot.dash(x="vout", y="max", size=20, color="red", source=source)
-
-    dots = plot_err.circle_dot(x="vout", y="exp", size="err", fill_alpha=0.2, color="red", source=source)
-    plot_err.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
-
-    _tooltips = [("Error", "@err{0.0} %"), ]
-    ht = HoverTool(tooltips=_tooltips, mode='vline', show_arrow=True, renderers=[dots])
-    plot_err.tools = [ht, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+    plot.dash(x="vout", y="min", size=10, color="red", source=source)
+    plot.dash(x="vout", y="max", size=10, color="red", source=source)
 
     _tooltips_peak = [("Error", "@errp{0.0} %"), ]
-    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, color="red", source=source)
-    plot_errp.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
+    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, line_width=1, color="red", source=source)
+    plot_errp.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
     htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
     plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
 
-    doc_layout.children.append(row(plot, plot_err))
-    doc_layout.children.append(row(plot_errp))
+    doc_layout.children.append(row(plot, plot_errp))
     show(doc_layout)
     return True
 
