@@ -72,11 +72,20 @@ if "p1125-####.local" in P1125_URL:
 p1125 = P1125(url=URL, loggerIn=logger)
 
 # bokeh plot setup
-plot = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log", title="Current Min/Avg/Max/Expected vs VOUT")
+PLOT_WIDTH = 600
+PLOT_HEIGHT = 800
+plot = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+              y_axis_type="log", title="Current Min/Avg/Max/Expected vs VOUT")
 plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
 
-plot_errp = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log", title="RMS Noise (as % of Expected) vs VOUT")
+plot_sigma = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+                    y_axis_type="log", title="RMS Noise (as % of Expected) vs VOUT")
+plot_sigma.xaxis.axis_label = "VOUT (mV)"
+plot_sigma.yaxis.axis_label = "Current (uA)"
+
+plot_errp = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+                   y_axis_type="log", title="Peak Error (as % of Expected) vs VOUT")
 plot_errp.xaxis.axis_label = "VOUT (mV)"
 plot_errp.yaxis.axis_label = "Current (uA)"
 
@@ -222,13 +231,19 @@ def main():
     plot.dash(x="vout", y="min", size=10, color="red", source=source)
     plot.dash(x="vout", y="max", size=10, color="red", source=source)
 
-    _tooltips_peak = [("Sigma", "@sigma_percent{0.0} %"), ]
-    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="sigma_percent", fill_alpha=0.2, line_width=1, color="red", source=source)
-    plot_errp.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
+    _tooltips_sigma = [("Sigma", "@sigma_percent{0.0} %"), ]
+    dotssigma = plot_sigma.circle_dot(x="vout", y="exp", size="sigma_percent", fill_alpha=0.2, line_width=1, color="red", source=source)
+    plot_sigma.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
+    htsigma = HoverTool(tooltips=_tooltips_sigma, mode='vline', show_arrow=True, renderers=[dotssigma])
+    plot_sigma.tools = [htsigma, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+
+    _tooltips_peak = [("Error", "@errp{0.0} %"), ]
+    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, color="red", source=source)
+    plot_errp.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
     htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
     plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
 
-    doc_layout.children.append(row(plot, plot_errp))
+    doc_layout.children.append(row(plot, plot_errp, plot_sigma))
     show(doc_layout)
     return True
 
