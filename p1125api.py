@@ -301,13 +301,14 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def acquisition_complete(self):
+    def acquisition_complete(self, retries=RETRIES_ACQUISITION_COMPLETE):
         """ Poll Acquisistion Complete
 
+        :param retries: number of polling retries
         :return: success <True/False>, result <json/None>
         """
         triggered = False
-        retries = self.RETRIES_ACQUISITION_COMPLETE
+        retries = retries
         while not triggered and retries:
             sleep(self.DELAY_WAIT_ACQUISITION_POLL_S)
             retries -= 1

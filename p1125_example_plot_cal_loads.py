@@ -41,6 +41,7 @@ Notes:
 
 """
 from time import sleep
+import numpy as np
 import logging
 from bokeh.layouts import layout, row
 from bokeh.io import show
@@ -71,11 +72,11 @@ if "p1125-####.local" in P1125_URL:
 p1125 = P1125(url=URL, loggerIn=logger)
 
 # bokeh plot setup
-plot = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
+plot = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log", title="Current Min/Avg/Max/Expected vs VOUT")
 plot.xaxis.axis_label = "VOUT (mV)"
 plot.yaxis.axis_label = "Current (uA)"
 
-plot_errp = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log")
+plot_errp = figure(toolbar_location="above", y_range=(1, 2000000), y_axis_type="log", title="RMS Noise (as % of Expected) vs VOUT")
 plot_errp.xaxis.axis_label = "VOUT (mV)"
 plot_errp.yaxis.axis_label = "Current (uA)"
 
@@ -90,6 +91,8 @@ data = {
     "err": [],
     "errp": [],  # peak error
     "res": [],
+    "sigma": [],
+    "sigma_percent": [],
 }  # global dict to hold plotting vectors
 source = ColumnDataSource(data=data)
 
@@ -99,11 +102,11 @@ OUT_STEP_VALUE = 400
 VOUT = [v for v in range(OUT_MIN_VAL, OUT_MAX_VAL, OUT_STEP_VALUE)]
 #VOUT = [4000]
 
-SPAN = P1125API.TBASE_SPAN_50MS
+SPAN = P1125API.TBASE_SPAN_500MS
 PLOT_CIRCLE_ERR = 10  # percent error as a plot size
-CURRENT_MIN_UA  = 2.0
-CURRENT_MAX_UA  = 1400000.0
-DELAY_LOAD_SETTLE_S = 0.4
+CURRENT_MIN_UA  = 1.0
+CURRENT_MAX_UA  = 900000.0
+DELAY_VOUT_SETTLE_S = 0.05
 
 # loads to cycle thru
 LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
@@ -159,10 +162,12 @@ def main():
         success, result = p1125.set_vout(vout)
         logger.info("set_vout: {}".format(result))
         if not success: return False
+        sleep(DELAY_VOUT_SETTLE_S)
 
         for load, resistance in LOADS_TO_PLOT:
             expected_i_ua = float(vout) / resistance * 1000.0
             if expected_i_ua < CURRENT_MIN_UA or expected_i_ua > CURRENT_MAX_UA:
+                logger.info("SKIP (out of range): {} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
                 continue
 
             logger.info("{} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
@@ -170,9 +175,6 @@ def main():
             success, result = p1125.set_cal_load(loads=load)
             logger.info("set_cal_load: {}".format(result))
             if not success: break
-
-            # when going from a high load to small, need settling
-            if load == P1125API.DEMO_CAL_LOAD_2M: sleep(DELAY_LOAD_SETTLE_S)
 
             success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
             logger.info("acquisition_start: {}".format(result))
@@ -182,11 +184,16 @@ def main():
             logger.info("acquisition_complete: {}".format(result))
             if not success: break
 
-            success, result = p1125.acquisition_get_data()
+            p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
+            p1125.acquisition_stop()
+
+            _, result = p1125.acquisition_get_data()
+
+            samples = len(result["i"])
             data["vout"].append(vout)
             data["min"].append(min(result["i"]))
             data["max"].append(max(result["i"]))
-            data["avg"].append(sum(result["i"]) / len(result["i"]))
+            data["avg"].append(sum(result["i"]) / samples)
             data["exp"].append(expected_i_ua)
             data["err"].append((abs(data["avg"][-1] - data["exp"][-1]) * 100.0) / data["exp"][-1])
             data["res"].append(resistance)
@@ -195,22 +202,28 @@ def main():
             peak_error = max(abs(data["exp"][-1] - data["min"][-1]), abs(data["exp"][-1] - data["max"][-1]))
             data["errp"].append(peak_error * 100.0 / data["exp"][-1])
 
-            logger.info("VOUT {} mV, Expected {:9.2f} uA, min/avg/max:  {:9.2f} {:9.2f} {:9.2f} uA".format(data["vout"][-1],
-                                                                                                           data["exp"][-1],
-                                                                                                           data["min"][-1],
-                                                                                                           data["avg"][-1],
-                                                                                                           data["max"][-1],
-                                                                                                           ))
+            sigma = np.std(result["i"])
+            data["sigma"].append(sigma)
+            sigma_as_percent = sigma * 100.0 / data["exp"][-1]
+            data["sigma_percent"].append(sigma_as_percent)
+            logger.info("""VOUT {} mV, Expected {:9.2f} uA, min/avg/max: {:9.2f} {:9.2f} {:9.2f} uA, sigma {:8.3f} ({:3.1}%), {} samples""".format(data["vout"][-1],
+                                                                                            data["exp"][-1],
+                                                                                            data["min"][-1],
+                                                                                            data["avg"][-1],
+                                                                                            data["max"][-1],
+                                                                                            sigma, sigma_as_percent,
+                                                                                            samples
+                                                                                            ))
             # large error...
-            if data["errp"][-1] > 10: logger.error(result["i"])
+            #if data["errp"][-1] > PLOT_CIRCLE_ERR: logger.error(result["i"])
 
     plot.cross(x="vout", y="avg", size=10, color="blue", source=source)
     plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
     plot.dash(x="vout", y="min", size=10, color="red", source=source)
     plot.dash(x="vout", y="max", size=10, color="red", source=source)
 
-    _tooltips_peak = [("Error", "@errp{0.0} %"), ]
-    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, line_width=1, color="red", source=source)
+    _tooltips_peak = [("Sigma", "@sigma_percent{0.0} %"), ]
+    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="sigma_percent", fill_alpha=0.2, line_width=1, color="red", source=source)
     plot_errp.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
     htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
     plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
