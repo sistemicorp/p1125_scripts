@@ -105,17 +105,14 @@ data = {
 }  # global dict to hold plotting vectors
 source = ColumnDataSource(data=data)
 
-OUT_MIN_VAL = 1800
-OUT_MAX_VAL = 8000
-OUT_STEP_VALUE = 400
-VOUT = [v for v in range(OUT_MIN_VAL, OUT_MAX_VAL, OUT_STEP_VALUE)]
+VOUT = [1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000]
 #VOUT = [4000]
 
 SPAN = P1125API.TBASE_SPAN_500MS
-PLOT_CIRCLE_ERR = 10  # percent error as a plot size
+PLOT_CIRCLE_ERR = 10          # percent error as "green circle" reference on the plots
 CURRENT_MIN_UA  = 1.0
-CURRENT_MAX_UA  = 900000.0
-DELAY_VOUT_SETTLE_S = 0.05
+CURRENT_MAX_UA  = 900000.0    # WARNING! Do not exceed 900mA or damage may occur!
+DELAY_VOUT_SETTLE_S = 0.5
 
 # loads to cycle thru
 LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
@@ -165,7 +162,6 @@ def main():
     logger.info("set_trigger: {}".format(result))
     if not success: return False
 
-    # loop thru all the loads to plot
     for vout in VOUT:
 
         success, result = p1125.set_vout(vout)
@@ -259,5 +255,6 @@ if __name__ == "__main__":
     finally:
         # turn off any loads
         p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
+        p1125.probe(connect=False)
 
     if not success: logger.error("failed")
