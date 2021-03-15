@@ -172,7 +172,7 @@ def main():
         for load, resistance in LOADS_TO_PLOT:
             expected_i_ua = float(vout) / resistance * 1000.0
             if expected_i_ua < CURRENT_MIN_UA or expected_i_ua > CURRENT_MAX_UA:
-                logger.info("SKIP (out of range): {} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
+                logger.info("SKIP (Current out of range): {} mV, {:0.3f} Ohms, expected {:.1f} uA".format(vout, resistance, expected_i_ua))
                 continue
 
             logger.info("{} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
