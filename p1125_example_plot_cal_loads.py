@@ -61,7 +61,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 
 # NOTE: Change to P1125 IP address or hostname
-P1125_URL = "192.168.0.152"  # for example, p115-a12b.local, or 192.168.0.123
+P1125_URL = "p1125-####.local"  # for example, p115-a12b.local, or 192.168.0.123
 P1125_API = "/api/V1"
 URL = "http://" + P1125_URL + P1125_API
 
