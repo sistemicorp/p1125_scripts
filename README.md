@@ -50,9 +50,9 @@ The (example) script `p1125_example_mahrs_logging.py` is provided as an example 
  (hours, days, etc) measurement logs.  The companion script `p1125_example_mahrs_logging_plot.py` plots the data.
  
 The measurement data for long time logs comes from the "mAhr" data stream of the P1125.  This stream is
-averaged measurement data from the real time P1125 data acquisition path.  The P1125 sampling rate is always 31.25 kHz
-(32usec samples).  The "mAhr" stream takes these samples and integrates them over a ~15ms window to determine
-the average for that window.  Fast events within the ~15ms window are of course included in this average.
+averaged measurement data from the real time P1125 data acquisition path.  The P1125 sampling rate is always 39kHz
+(25.6 usec).  The "mAhr" stream takes these samples and integrates them over a ~12ms window to determine
+the average for that window.  Fast events within the ~12ms window are of course included in this average.
 This averaging is done to reduce the amount of data to process when dealing with long time logs. In addition to this
 averaging, the data is further reduced by getting rid of data that is within a small percentage of the previous
 sample.  This reduction varies depending on the data pattern.
@@ -72,10 +72,7 @@ VOUT = 1500                   # mV, output voltage, 1500-4500 mV
 CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
 TIME_TOTAL_RUN_S = 300        # 3600 * 6   # seconds, total run time of the log
-LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
-
-WRITE_PLOT_DATA = True        # flag for write_data()
-WAIT_POLLING_TIME_S = 0.5     # time to wait between polls whilst waiting for TIME_CAPTURE_WINDOW_S to complete
+LOG_FILE_PATH = "./"          # path to output file (filename is generated)
 ```
 
 The logging script will generate a python file with the measurement data.  This log file name is a date stamp.
