@@ -51,15 +51,13 @@ The (example) script `p1125_example_mahrs_logging.py` is provided as an example 
  
 The measurement data for long time logs comes from the "mAhr" data stream of the P1125.  This stream is
 averaged measurement data from the real time P1125 data acquisition path.  The P1125 sampling rate is always 39kHz
-(25.6 usec).  The "mAhr" stream takes these samples and integrates them over a ~12ms window to determine
-the average for that window.  Fast events within the ~12ms window are of course included in this average.
-This averaging is done to reduce the amount of data to process when dealing with long time logs. In addition to this
-averaging, the data is further reduced by getting rid of data that is within a small percentage of the previous
-sample.  This reduction varies depending on the data pattern.
+(25.6 usec).  The "mAhr" stream takes these samples and integrates them over a ~10ms window to determine
+the average for that window.  Fast events within the ~10ms window are of course included in this average.
+This averaging is done to reduce the amount of data to process when dealing with long time plots/logs. 
 
 There are two main parameters to set up for a long term log,
 * `TIME_CAPTURE_WINDOW_S`
-  * This represents the total time to take ~15ms samples.
+  * This represents the total time to take ~10ms samples.
   * A resonable value for this is `60` (seconds).  This will result in up to ~4k samples per capture window.
 * `TIME_TOTAL_RUN_S`
   * This sets the total run time.
@@ -91,8 +89,7 @@ p1125_data = [
 {'datetime': '20201116-135708', 'time_s': 63.24122, 'mAhr': 0.7486486, 'iavg_max_ua': 751.399, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
 {'datetime': '20201116-135811', 'time_s': 63.24122, 'mAhr': 0.7484611, 'iavg_max_ua': 751.2046, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
 {'datetime': '20201116-135915', 'time_s': 63.24122, 'mAhr': 0.748446, 'iavg_max_ua': 751.0996, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443,  ...
-]                                                                                                                                                                                                                      
-                                                                                                                                                                                                                       
+]                                                                                                                                                                                                                                                                                                                                                                                                                                             
 ```
 The example script sets up a 2K Ohm load at 3000mV VOUT, so the expected current is ~750uA.  Because this test load is constant, there
 isn't much interesting to see, and note the number of samples is greatly reduced because the load was static.
