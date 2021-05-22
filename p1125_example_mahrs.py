@@ -83,7 +83,7 @@ VOUT_LIST = [3000, 2800, 2600, 2400, 2200]      # list of voltages over which to
 CONNECT_PROBE = True               # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_STOP_S = 30                   # seconds over which to measure the mAhr
 intcurr_results = []               # list of results for every VOUT
-setup_done = True                  # set to true if target is powered and ready
+setup_done = False                 # set to true if target is powered and ready
 
 vout_colors = viridis(len(VOUT_LIST))
 color_key_value_pairs = dict(zip(VOUT_LIST, vout_colors))

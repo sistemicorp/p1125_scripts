@@ -47,7 +47,7 @@ import time
 import logging
 import datetime
 
-from p1125api import P1125, P1125API
+from P1125 import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -67,8 +67,8 @@ if "p1125-####.local" in P1125_URL:
     exit(1)
 
 # Change these parameters to suit your needs:
-VOUT = 4000                   # mV, output voltage, 2000-8000 mV
-CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
+VOUT = 3000                   # mV, output voltage, 2000-8000 mV
+CONNECT_PROBE = True         # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
 TIME_TOTAL_RUN_S = 60 * 5     # seconds, total run time of the log
 LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
@@ -78,7 +78,7 @@ WAIT_POLLING_TIME_S = 0.5     # time to wait between polls whilst waiting for TI
 
 p1125 = P1125(url=URL, loggerIn=logger)
 filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".py"
-
+setup_done = False            # set flag if target is manually setup and ready to go
 
 def wait_for_measurement():
     """ helper function to log waiting around for data to be ready
@@ -231,32 +231,33 @@ def main():
     logger.info(status)
     if not success: return False
 
+    success = write_data_header(ping, status)
+    if not success: return False
+
     if status["aqc_in_progress"]:  # stop any previously running acquisition
         success, result = p1125.acquisition_stop()
         if not success: return False
 
-    success, result = p1125.probe(connect=False)
+    success, result = p1125.intcurr_set(time_stop_s=TIME_CAPTURE_WINDOW_S)
     logger.info(result)
     if not success: return False
+
+    if not setup_done:
+        success, result = p1125.probe(connect=False)
+        logger.info(result)
+        if not success: return False
 
     success, result = p1125.calibrate()
     logger.info(result)
     if not success: return False
 
     success, result = p1125.set_vout(VOUT)
-    logger.info(result)
-    if not success: return False
+        logger.info(result)
+        if not success: return False
 
-    success, result = p1125.intcurr_set(time_stop_s=TIME_CAPTURE_WINDOW_S)
-    logger.info(result)
-    if not success: return False
+        time.sleep(1)
 
-    success = write_data_header(ping, status)
-    if not success: return False
-
-    time.sleep(1)
-
-    # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
+        # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
 
     # connect probe - ! make sure VOUT is right !
     success, result = p1125.probe(connect=CONNECT_PROBE)
@@ -325,6 +326,10 @@ if __name__ == "__main__":
 
     try:
         success = main()
+
+        if success:
+            print("Please now run:")
+            print("bokeh serve --show p1125_example_mahrs_logging_plot.py --args -f {}".format(filename))
 
     # catch CTRL-C
     except Exception as e:
