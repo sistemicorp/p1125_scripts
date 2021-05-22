@@ -47,7 +47,7 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, WheelZoomTool
 
-from p1125api import P1125, P1125API
+from P1125 import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -155,9 +155,9 @@ def main():
     if not success: return False
 
     success, result = p1125.acquisition_get_data()
-    #logger.info(result)
+    #logger.info(result)  # a lot of data here, uncomment to explore
     if not success: return False
-    result.pop("success")
+    result.pop("success")  # bokeh requires dict to have all fields same length, 'success' is not part of data
     line = plot_add(result, "MyPlot", "blue")
 
     ht = HoverTool(

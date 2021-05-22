@@ -49,7 +49,7 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
 from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, ZoomInTool
 
-from p1125api import P1125, P1125API
+from P1125 import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

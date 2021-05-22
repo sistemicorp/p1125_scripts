@@ -31,8 +31,9 @@ This file should NOT BE ALTERED.
 The P1125API class is used by the example/demo scripts.
 """
 import requests
-import json
+from rapidjson import loads
 from time import sleep
+
 
 class MetaConst(type):
     def __getattr__(cls, key):
@@ -164,11 +165,14 @@ class P1125(object):
     RETRIES_ACQUISITION_COMPLETE = 10
     DELAY_WAIT_ACQUISITION_POLL_S = 0.5
 
+    REQUEST_ERRORS_MAX = 4
+
     def __init__(self, url="http://localhost/api/V1", loggerIn=None):
         if loggerIn: self.logger = loggerIn
         else: self.logger = StubLogger()
 
         self._url = url
+        self._count_request_errors = 0
 
     def _response(self, payload):
         """ helper to send json requests
@@ -177,14 +181,31 @@ class P1125(object):
         :return: success, result/error
                    where, success = True/False
         """
+        if self._url is None: return True, {}
+        if self._count_request_errors >= self.REQUEST_ERRORS_MAX:
+            # TODO: tell a10 to go into a a27 reconnect state
+            return False, {"error": "too many request errors"}
+
         _payload = {"jsonrpc": "2.0", "id": 0}
         _payload.update(payload)
-        response = requests.post(self._url, json=_payload).json()
-        if "error" in response:
-            self.logger.error("{} -> {}".format(_payload, response['error']))
-            return False, json.dumps(response['error'])
+        try:
+            response = requests.post(self._url, json=_payload).json()
+            self._count_request_errors = 0
+            if "error" in response:
+                self.logger.error("{} -> {}".format(_payload, response['error']))
+                return False, loads(response['error'])
 
-        d = json.loads(response['result'])
+        except requests.exceptions.ConnectionError:
+            self._count_request_errors += 1
+            self.logger.error("requests.exceptions.ConnectionError")
+            return False, {"error": "requests.exceptions.ConnectionError"}
+
+        except Exception as e:
+            self._count_request_errors += 1
+            self.logger.error(e)
+            return False, {"error": e}
+
+        d = loads(response['result'])
         return d['success'], d
 
     def ping(self):
