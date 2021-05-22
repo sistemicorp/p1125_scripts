@@ -33,7 +33,7 @@ Run this file,
 
 Requirements:
 1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
-2) Change line 47 to suit your environment.
+2) Change line 64 to suit your environment.
 3) Chrome browser.
 
 Notes:
@@ -106,23 +106,23 @@ data = {
 source = ColumnDataSource(data=data)
 
 VOUT = [1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000]
-#VOUT = [4000]
+#VOUT = [4000]  # for debugging
 
 SPAN = P1125API.TBASE_SPAN_500MS
 PLOT_CIRCLE_ERR = 10          # percent error as "green circle" reference on the plots
-CURRENT_MIN_UA  = 1.0
-CURRENT_MAX_UA  = 900000.0    # WARNING! Do not exceed 900mA or damage may occur!
-DELAY_VOUT_SETTLE_S = 0.5
+CURRENT_MIN_UA  = 1.0         # skip setups where the expected current is less than CURRENT_MIN_UA
 
-# loads to cycle thru
+# WARNING! Do not exceed 900mA or damage may occur!
+CURRENT_MAX_UA  = 900000.0    # skip setups where the expected current is more than CURRENT_MAX_UA
+
+#                   loads to cycle thru         Resistance
 LOADS_TO_PLOT = [([P1125API.DEMO_CAL_LOAD_2M],  2000000.0),
                  ([P1125API.DEMO_CAL_LOAD_200K], 200000.0),
                  ([P1125API.DEMO_CAL_LOAD_20K],   20000.0),
                  ([P1125API.DEMO_CAL_LOAD_2K],     2000.0),
                  ([P1125API.DEMO_CAL_LOAD_200],     200.0),
-                 ([P1125API.DEMO_CAL_LOAD_20],      (20.0 + 0.04)),  # + pcb resistance/NFET Vds
-                 ([P1125API.DEMO_CAL_LOAD_8],        (8.06 + 0.06)),
-                 ([P1125API.DEMO_CAL_LOAD_8, P1125API.DEMO_CAL_LOAD_20],  (1 / ((1/(8.06 + 0.06)) + (1/(20.0 + 0.04))))),
+                 ([P1125API.DEMO_CAL_LOAD_20],       20.0),
+                 ([P1125API.DEMO_CAL_LOAD_8],         8.06),
                  ]
 
 
@@ -167,7 +167,6 @@ def main():
         success, result = p1125.set_vout(vout)
         logger.info("set_vout: {}".format(result))
         if not success: return False
-        sleep(DELAY_VOUT_SETTLE_S)
 
         for load, resistance in LOADS_TO_PLOT:
             expected_i_ua = float(vout) / resistance * 1000.0
@@ -235,7 +234,7 @@ def main():
 
     _tooltips_peak = [("Error", "@errp{0.0} %"), ]
     dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, color="red", source=source)
-    plot_errp.circle(x="vout", y="exp", size=10, fill_alpha=0.2, line_width=0, color="green", source=source)
+    plot_errp.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
     htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
     plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
 
