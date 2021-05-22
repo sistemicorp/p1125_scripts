@@ -48,11 +48,11 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
 from bokeh.palettes import viridis
 
-from p1125api import P1125, P1125API
+from P1125 import P1125, P1125API
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-FORMAT = "%(asctime)s: %(filename)20s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
+FORMAT = "%(asctime)s: %(filename)25s: %(funcName)25s %(lineno)4s - %(levelname)-5.5s : %(message)s"
 formatter = logging.Formatter(FORMAT)
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(formatter)
@@ -67,19 +67,21 @@ if "p1125-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
-plot = figure(title="Coulombs vs Time")
+p1125 = P1125(url=URL, loggerIn=logger)
+
+plot = figure(title="Current vs Time")
 plot.xaxis.axis_label = "Time (sec)"
-plot.yaxis.axis_label = "Coulombs (uC)"
+plot.yaxis.axis_label = "Current (micro-Amps)"
 
 plot_mahr = figure(title="mAhr vs Supply Voltage")
 plot_mahr.xaxis.axis_label = "Supply (mV)"
-plot_mahr.yaxis.axis_label = "mAhr"
+plot_mahr.yaxis.axis_label = "Average mAhr"
 
 doc_layout = layout()
 
 VOUT_LIST = [3000, 3600, 4100]      # list of voltages over which to measure
 CONNECT_PROBE = False               # set to True to attach probe, !! Warning: check VOUT setting !!
-TIME_STOP_S = 60                    # seconds over which to measure the mAhr
+TIME_STOP_S = 30                    # seconds over which to measure the mAhr
 intcurr_results = []                # list of results for every VOUT
 
 vout_colors = viridis(len(VOUT_LIST))
@@ -128,8 +130,6 @@ def main():
     The target power system, if it has a switched mode buck/boost, will have different
     efficiency at different input voltages.  This test will quantify that efficiency.
     """
-    p1125 = P1125(url=URL, loggerIn=logger)
-
     # check if the P1125 is reachable
     success, result = p1125.ping()
     logger.info(result)
@@ -140,37 +140,30 @@ def main():
     if not success: return False
 
     success, result = p1125.probe(connect=False)
-    logger.info(result)
     if not success: return False
 
     success, result = p1125.calibrate()
-    logger.info(result)
     if not success: return False
 
     success, result = p1125.set_vout(VOUT_LIST[0])
-    logger.info(result)
     if not success: return False
 
     # connect probe
     success, result = p1125.probe(connect=CONNECT_PROBE)
-    logger.info(result)
     if not success: return False
-
-    # pause here to let system power up to a certain state, change to suit your need
-    time.sleep(1)
 
     # for every vout, measure the mAhrs
     for vout in VOUT_LIST:
         success, result = p1125.set_vout(vout)
-        logger.info(result)
         if not success: return False
 
+        # pause here to let system power up to a certain state, change to suit your need
+        time.sleep(1)
+
         success, result = p1125.intcurr_set(time_stop_s=TIME_STOP_S)
-        logger.info(result)
         if not success: return False
 
         success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_RUN)
-        logger.info(result)
         if not success: return False
 
         logger.info("Time until data is ready... {:4d} seconds".format(TIME_STOP_S))
@@ -196,7 +189,6 @@ def main():
             time.sleep(1)
 
         success, result = p1125.acquisition_stop()
-        logger.info(result)
         if not success: return False
 
         intcurr_result["vout"] = vout  # tag this result with the voltage used, helpful later
@@ -209,9 +201,9 @@ def main():
     mahrs = {"vout": [], "mahr": []}
     for intcurr_result in intcurr_results:
         vout = intcurr_result["vout"]
-        # only plotting coulombs for demo, can also plot D0/D1/Trig events
-        logger.info(intcurr_result["plot"]['t'][0:10])
-        logger.info(intcurr_result["plot"]['i'][0:10])
+        # only plotting current for demo, can also plot D0/D1/Trig events
+        logger.info("VOUT: {:4d} mV, t: {}".format(vout, intcurr_result["plot"]['t'][0:10]))
+        logger.info("               i: {}".format(intcurr_result["plot"]['i'][0:10]))
         plot_add(intcurr_result["plot"], "{}mV".format(vout), color=color_key_value_pairs[vout])
 
         mahrs["vout"].append(vout)
@@ -225,5 +217,16 @@ def main():
 
 
 if __name__ == "__main__":
-    success = main()
+    try:
+        success = main()
+
+    except Exception as e:
+        logger.error(e)
+        success = False
+
+    finally:
+        # turn off any loads
+        p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_NONE])
+        p1125.probe(connect=False)
+
     if not success: logger.error("failed")
