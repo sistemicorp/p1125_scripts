@@ -140,6 +140,11 @@ def main():
     logger.info(result)
     if not success: return False
 
+    success, result = p1125.intcurr_set(time_stop_s=TIME_STOP_S)
+    if not success:
+        logger.error(result)
+        return False
+
     if not setup_done:
         success, result = p1125.probe(connect=False)
         if not success: return False
@@ -163,11 +168,6 @@ def main():
 
         # pause here to let system power up to a certain state, change to suit your need
         time.sleep(1)
-
-        success, result = p1125.intcurr_set(time_stop_s=TIME_STOP_S)
-        if not success:
-            logger.error(result)
-            return False
 
         success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_RUN)
         if not success: return False
