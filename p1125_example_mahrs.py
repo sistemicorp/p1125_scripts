@@ -79,10 +79,11 @@ plot_mahr.yaxis.axis_label = "Average mAhr"
 
 doc_layout = layout()
 
-VOUT_LIST = [3000, 3600, 4100]      # list of voltages over which to measure
-CONNECT_PROBE = False               # set to True to attach probe, !! Warning: check VOUT setting !!
-TIME_STOP_S = 30                    # seconds over which to measure the mAhr
-intcurr_results = []                # list of results for every VOUT
+VOUT_LIST = [3000, 2800, 2600, 2400, 2200]      # list of voltages over which to measure
+CONNECT_PROBE = True               # set to True to attach probe, !! Warning: check VOUT setting !!
+TIME_STOP_S = 30                   # seconds over which to measure the mAhr
+intcurr_results = []               # list of results for every VOUT
+setup_done = True                  # set to true if target is powered and ready
 
 vout_colors = viridis(len(VOUT_LIST))
 color_key_value_pairs = dict(zip(VOUT_LIST, vout_colors))
@@ -139,18 +140,21 @@ def main():
     logger.info(result)
     if not success: return False
 
-    success, result = p1125.probe(connect=False)
-    if not success: return False
+    if not setup_done:
+        success, result = p1125.probe(connect=False)
+        if not success: return False
 
-    success, result = p1125.calibrate()
-    if not success: return False
+        success, result = p1125.calibrate()
+        if not success: return False
 
-    success, result = p1125.set_vout(VOUT_LIST[0])
-    if not success: return False
+        success, result = p1125.set_vout(VOUT_LIST[0])
+        if not success: return False
 
-    # connect probe
-    success, result = p1125.probe(connect=CONNECT_PROBE)
-    if not success: return False
+        # connect probe
+        success, result = p1125.probe(connect=CONNECT_PROBE)
+        if not success: return False
+
+        time.sleep(2)  # change as required...
 
     # for every vout, measure the mAhrs
     for vout in VOUT_LIST:
@@ -161,7 +165,9 @@ def main():
         time.sleep(1)
 
         success, result = p1125.intcurr_set(time_stop_s=TIME_STOP_S)
-        if not success: return False
+        if not success:
+            logger.error(result)
+            return False
 
         success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_RUN)
         if not success: return False

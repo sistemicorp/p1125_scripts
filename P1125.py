@@ -258,7 +258,7 @@ class P1125(object):
     def set_vout(self, value_mv=P1125API.VOUT_MIN_VAL):
         """ Set VOUT
 
-        :param value_mv: <1500-8000>
+        :param value_mv: <1800-8000>
         :return:  success <True/False>, result <json/None>
         """
         payload = {"method": "V1.vout", "params": {"value": value_mv}}  # in mV
