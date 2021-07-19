@@ -49,92 +49,92 @@ Unboxing
 Remote Connection
 #################
 
-.. figure:: _static/qs_hostname_01.jpg
-    :figwidth: 60%
-    :align: right
+The P1125 is meant to be used by a remote network connected computer running `Chrome`.  There are two ways
+to connect remotely to the P1125, wired ethernet and WiFi.
 
-The P1125 is meant to be used by a remote network connected computer running `Chrome`.
 
-There are two ways to connect remotely to the P1125, wired ethernet and WiFi.  Wired Ethernet
-is an easier setup to do.
+With either connection method, the P1125 hostname should be noted from the label on the bottom
+of the case.  This is how you will address the P1125.
 
-.. index:: hostname
+.. figure:: _static/PXL_20210719_label.jpg
+    :figwidth: 40%
 
-In either connection method used, the P1125 hostname should be noted from the label on the bottom
-of the case, as shown.
 
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
+LED Status
+----------
+
+.. index:: LED, status
+
+The Status of the P1125 is given by the LED on the top.
+
++------------+---------------------------------+
+| LED        | Meaning                         |
++============+=================================+
+| OFF        | Shutdown, Power can be removed  |
++------------+---------------------------------+
+| RED        | Booting Up, or otherwise BUSY.  |
+| Blink      | Attempt to connect via Browser  |
+|            | will fail                       |
++------------+---------------------------------+
+| Amber      | P1125 has entered HOTSPOT Mode. |
+| Blink      | Connect with Phone, PC, etc.    |
+|            | Select Network and enter        |
+|            | credentials.                    |
++------------+---------------------------------+
+| RED        | P1125 is Ready and Connected    |
+|            | to a network (either WiFi or    |
+|            | or wired)                       |
++------------+---------------------------------+
+
+
+.. note::
+
+    On Power Up, the P1125 can take up to 60 seconds to update the LED status.
+
+.. note::
+
+    The p1125 depends on mDNS support on the network.  Mac/Linux computers support mDNS
+    but Windows computers may not.  Consider installing "Bonjour for Windows" (Google it)
+    to use `hostname` lookup for the P1125 browser connection.
 
 
 Wired Ethernet
 --------------
 
-1. Insert the SD card into the P1125 SD slot.
-2. Simply connect an ethernet cable into the P1125.
-3. Attach the included power supply.
+1. Simply connect an ethernet cable into the P1125.
+2. Attach the included power supply.
+3. The LED will blink RED for ~60 seconds and eventually be solid RED.
+4. When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).
 
 
 WiFi
 ----
 
-A WiFi connection requires the network to be selected, and if required a password. The
-P1125 is based on a Raspberry Pi 4B and runs on the standard RPi OS.  A monitor/keyboard/mouse
-can be attached (temporarily) to the P1125 in order to use the RPi OS home screen to
-set up WiFi.
+.. note::
 
-.. figure:: _static/qs_rpi_wifi_01.png
-    :figwidth: 60%
-    :align: right
+    Due to the amount of data plotted, WiFi connections are not recommended.
 
-1. Insert the SD card into the P1125 SD slot.
-2. Before applying power, using the included micro HDMI cable, attach the P1125 to a monitor.
-3. Attach USB mouse and keyboard.
-4. Attach the included power supply.
-5. The RPi will take up to a minute to boot.
+1. Attach the WiFi antennae. Attach the included power supply.
+2. Nothing should be plugged into the wired ethernet port.  The P1125 will use the wired
+   connection first if its available.
+3. On first use, the P1125 does not know your WiFi name or credentials to log in.  Therefore
+   after the initial ~60secs while its booting up, the LED will start to blink Amber.
+4. Wait for the LED to blink AMBER.
+5. When the P1125 LED is blinking AMBER it has setup a HOTSPOT to get WiFi credentials. Use
+   your phone, PC, tablet, etc, to access the HOTSPOT.  The name of the HOTSPOT will be in the form
+   `p1125-####` and match the label on the bottom of the P1125.
+6. Using your phone, PC, etc, Connect to the HOTSOT and select your network and enter password and then CONNECT.
+7. The P1125 LED should change to solid RED after ~10 seconds of attempting to connect to the WiFi network.
+   If it goes back to HOSTPOT (Blinking AMBER) then retry, and be careful about entering the password.
+8. When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).
 
-.. figure:: _static/qs_rpi_reboot_01.png
-    :figwidth: 30%
-    :align: right
+The Next time you power up the P1125 it will know your network and you do not have to repeat the
+HOTSPOT setup.
 
-6. Right Click on the network icon (as shown in the picture) to access the WiFi settings.
-7. After the settings are set, you may reboot by accessing the strawberry in the upper left corner
-   and selecting LogOut,
-8. The monitor, mouse and keyboard may now be removed from the P1125.
 
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
+.. note::
+
+    WiFi credentials can be removed from the P1125 via the `Admin` menu.
 
 
 Browser
@@ -145,11 +145,14 @@ Browser
 1. Open a new tab and direct your `Chrome` browser to the hostname as written on the bottom of the P1125,
    for example,
 
-    http://p1125-f85e.local
+    * http://p1125-f85e.local or
+    * p1125-f85e.local/  or
+    * p1125-f85e/  (Windows only)
+
 
   .. note::
 
-    The LED must be a constant RED (or GREEN) in order for the browser to connect.  This can
+    The LED must be a constant RED in order for the browser to connect.  This can
     take up to a minute after power has been connected.
 
   .. note::
@@ -163,28 +166,57 @@ Browser
 
 2. If everything has gone well, the P1125 Start screen should appear,
 
-.. image:: _static/qs_p1125_start_01.png
-    :width: 500px
+.. figure:: _static/ksnip_20210719-StartPage.png
+    :figwidth: 100%
     :align: center
 
-
-3. Press the START button to enter the application.
-4. See :ref:`p1125_quick_overview`
-
-
-LED Status
-##########
-
-.. index:: LED, status
-
-* OFF: The P1125 power may be removed.
-* Blinking ORANGE: P1125 is booting up or shutting down.
-* Constant RED: P1125 is Ready.
-* Constant GREEN: P1125 Probe is attached to the DUT supplying power.
+3. Bookmark this page.
+4. Press the START button to enter the application.
+5. See :ref:`p1125_quick_overview`
 
 
+Connection Troubleshooting
+##########################
 
-* Other states:
+Opps, something went wrong.
 
-  * Blinking RED Fast: Firmware updating.
+
+.. code-block:: text
+
+    The status LED is solid RED, but browser cannot connect.
+
+* The P1125 is on a network, as indicated by the solid RED LED.  However, hostname lookup is not
+  working as expected, probably due to a failure of mDNS.
+* The workaround is to get the IP address of the P1125.  The P1125 itself does not have a display,
+  but it will write out the IP address that it has on a USB stick if one is inserted into it.
+* Insert a USB stick into the P1125 while it is powered up and the LED is solid RED.
+* After about 10 seconds, remove the USB stick and open it on another computer.  There will be a
+  `p1125` folder, and in that folder there will be a file with a name that is the IP address.
+* Use the found IP address in your browser.
+* Alternatively you can connect to your router and review the list of devices, and get the IP address from there.
+* Alternatively you can connect a monitor to the P1125, there is a troubleshooting HDMI cable in the kit,
+  also connect mouse/keyboard, and then power up the P1125.  The monitor must be connected before power
+  is connected.  Open a terminal, and issue command `ifconfig` to find the IP address
+
+
+.. code-block:: text
+
+    Hostname variations, that pesky backslash, and Windows
+
+* if the hostname is failing, it could be the format of the hostname entered in the browser.
+* You must either enter the prefix "`http://`" or, add the "`/`" to the end of the hostname.
+* On Windows, it sometimes works if you exclude "`.local`" in the hostname.
+
+
+.. code-block:: text
+
+    What is mDNS, and can I fix it?
+
+* mDNS is mobile DNS and its a service for finding devices on your network by their hostname.
+* mDNS can be running anywhere, on your router, on your PC, etc.
+* mDNS is sometimes called the "Bonjour" service from Apple, or "avahi" the open source service.
+* Mac and Linux computers by default support mDNS.
+* Windows may or may not have mDNS service, depending on installed programs.
+  * You can install "Bonjour services for Windows", with this link,
+  * https://support.apple.com/kb/dl999
 

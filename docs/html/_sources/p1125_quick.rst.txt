@@ -1,7 +1,7 @@
 .. _p1125_quick_overview:
 
-P1125 Quick Overview
-####################
+Quick Overview
+##############
 
 .. index:: Main Menu, controls
 

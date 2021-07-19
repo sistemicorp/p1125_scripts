@@ -16,7 +16,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="P1125 Quick Overview" href="p1125_quick.html" />
+    <link rel="next" title="Quick Overview" href="p1125_quick.html" />
     <link rel="prev" title="Welcome to P1125 Instruction Manual" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,7 +26,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="p1125_quick.html" title="P1125 Quick Overview"
+          <a href="p1125_quick.html" title="Quick Overview"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to P1125 Instruction Manual"
@@ -88,85 +88,96 @@
 </div>
 <div class="section" id="remote-connection">
 <h2>Remote Connection<a class="headerlink" href="#remote-connection" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-right" style="width: 60%">
-<img alt="_images/qs_hostname_01.jpg" src="_images/qs_hostname_01.jpg" />
+<p>The P1125 is meant to be used by a remote network connected computer running <cite>Chrome</cite>.  There are two ways
+to connect remotely to the P1125, wired ethernet and WiFi.</p>
+<p>With either connection method, the P1125 hostname should be noted from the label on the bottom
+of the case.  This is how you will address the P1125.</p>
+<div class="figure align-default" style="width: 40%">
+<img alt="_images/PXL_20210719_label.jpg" src="_images/PXL_20210719_label.jpg" />
 </div>
-<p>The P1125 is meant to be used by a remote network connected computer running <cite>Chrome</cite>.</p>
-<p>There are two ways to connect remotely to the P1125, wired ethernet and WiFi.  Wired Ethernet
-is an easier setup to do.</p>
-<p id="index-1">In either connection method used, the P1125 hostname should be noted from the label on the bottom
-of the case, as shown.</p>
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
+<div class="section" id="led-status">
+<h3>LED Status<a class="headerlink" href="#led-status" title="Permalink to this headline">¶</a></h3>
+<p id="index-1">The Status of the P1125 is given by the LED on the top.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>LED</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OFF</p></td>
+<td><p>Shutdown, Power can be removed</p></td>
+</tr>
+<tr class="row-odd"><td><p>RED
+Blink</p></td>
+<td><p>Booting Up, or otherwise BUSY.
+Attempt to connect via Browser
+will fail</p></td>
+</tr>
+<tr class="row-even"><td><p>Amber
+Blink</p></td>
+<td><p>P1125 has entered HOTSPOT Mode.
+Connect with Phone, PC, etc.
+Select Network and enter
+credentials.</p></td>
+</tr>
+<tr class="row-odd"><td><p>RED</p></td>
+<td><p>P1125 is Ready and Connected
+to a network (either WiFi or
+or wired)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Power Up, the P1125 can take up to 60 seconds to update the LED status.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The p1125 depends on mDNS support on the network.  Mac/Linux computers support mDNS
+but Windows computers may not.  Consider installing “Bonjour for Windows” (Google it)
+to use <cite>hostname</cite> lookup for the P1125 browser connection.</p>
+</div>
 </div>
 <div class="section" id="wired-ethernet">
 <h3>Wired Ethernet<a class="headerlink" href="#wired-ethernet" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>Insert the SD card into the P1125 SD slot.</p></li>
 <li><p>Simply connect an ethernet cable into the P1125.</p></li>
 <li><p>Attach the included power supply.</p></li>
+<li><p>The LED will blink RED for ~60 seconds and eventually be solid RED.</p></li>
+<li><p>When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).</p></li>
 </ol>
 </div>
 <div class="section" id="wifi">
 <h3>WiFi<a class="headerlink" href="#wifi" title="Permalink to this headline">¶</a></h3>
-<p>A WiFi connection requires the network to be selected, and if required a password. The
-P1125 is based on a Raspberry Pi 4B and runs on the standard RPi OS.  A monitor/keyboard/mouse
-can be attached (temporarily) to the P1125 in order to use the RPi OS home screen to
-set up WiFi.</p>
-<div class="figure align-right" style="width: 60%">
-<img alt="_images/qs_rpi_wifi_01.png" src="_images/qs_rpi_wifi_01.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to the amount of data plotted, WiFi connections are not recommended.</p>
 </div>
 <ol class="arabic simple">
-<li><p>Insert the SD card into the P1125 SD slot.</p></li>
-<li><p>Before applying power, using the included micro HDMI cable, attach the P1125 to a monitor.</p></li>
-<li><p>Attach USB mouse and keyboard.</p></li>
-<li><p>Attach the included power supply.</p></li>
-<li><p>The RPi will take up to a minute to boot.</p></li>
+<li><p>Attach the WiFi antennae. Attach the included power supply.</p></li>
+<li><p>Nothing should be plugged into the wired ethernet port.  The P1125 will use the wired
+connection first if its available.</p></li>
+<li><p>On first use, the P1125 does not know your WiFi name or credentials to log in.  Therefore
+after the initial ~60secs while its booting up, the LED will start to blink Amber.</p></li>
+<li><p>Wait for the LED to blink AMBER.</p></li>
+<li><p>When the P1125 LED is blinking AMBER it has setup a HOTSPOT to get WiFi credentials. Use
+your phone, PC, tablet, etc, to access the HOTSPOT.  The name of the HOTSPOT will be in the form
+<cite>p1125-####</cite> and match the label on the bottom of the P1125.</p></li>
+<li><p>Using your phone, PC, etc, Connect to the HOTSOT and select your network and enter password and then CONNECT.</p></li>
+<li><p>The P1125 LED should change to solid RED after ~10 seconds of attempting to connect to the WiFi network.
+If it goes back to HOSTPOT (Blinking AMBER) then retry, and be careful about entering the password.</p></li>
+<li><p>When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).</p></li>
 </ol>
-<div class="figure align-right" style="width: 30%">
-<img alt="_images/qs_rpi_reboot_01.png" src="_images/qs_rpi_reboot_01.png" />
-</div>
-<ol class="arabic simple" start="6">
-<li><p>Right Click on the network icon (as shown in the picture) to access the WiFi settings.</p></li>
-<li><p>After the settings are set, you may reboot by accessing the strawberry in the upper left corner
-and selecting LogOut,</p></li>
-<li><p>The monitor, mouse and keyboard may now be removed from the P1125.</p></li>
-</ol>
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
+<p>The Next time you power up the P1125 it will know your network and you do not have to repeat the
+HOTSPOT setup.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WiFi credentials can be removed from the P1125 via the <cite>Admin</cite> menu.</p>
 </div>
 </div>
 </div>
@@ -176,14 +187,18 @@ and selecting LogOut,</p></li>
 <li><p>Open a new tab and direct your <cite>Chrome</cite> browser to the hostname as written on the bottom of the P1125,
 for example,</p>
 <blockquote>
-<div><p><a class="reference external" href="http://p1125-f85e.local">http://p1125-f85e.local</a></p>
+<div><ul class="simple">
+<li><p><a class="reference external" href="http://p1125-f85e.local">http://p1125-f85e.local</a> or</p></li>
+<li><p>p1125-f85e.local/  or</p></li>
+<li><p>p1125-f85e/  (Windows only)</p></li>
+</ul>
 </div></blockquote>
 </li>
 </ol>
 <blockquote>
 <div><div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The LED must be a constant RED (or GREEN) in order for the browser to connect.  This can
+<p>The LED must be a constant RED in order for the browser to connect.  This can
 take up to a minute after power has been connected.</p>
 </div>
 <div class="admonition note">
@@ -198,24 +213,54 @@ take up to a minute after power has been connected.</p>
 <ol class="arabic simple" start="2">
 <li><p>If everything has gone well, the P1125 Start screen should appear,</p></li>
 </ol>
-<a class="reference internal image-reference" href="_images/qs_p1125_start_01.png"><img alt="_images/qs_p1125_start_01.png" class="align-center" src="_images/qs_p1125_start_01.png" style="width: 500px;" /></a>
+<div class="figure align-center" style="width: 100%">
+<img alt="_images/ksnip_20210719-StartPage.png" src="_images/ksnip_20210719-StartPage.png" />
+</div>
 <ol class="arabic simple" start="3">
+<li><p>Bookmark this page.</p></li>
 <li><p>Press the START button to enter the application.</p></li>
-<li><p>See <a class="reference internal" href="p1125_quick.html#p1125-quick-overview"><span class="std std-ref">P1125 Quick Overview</span></a></p></li>
+<li><p>See <a class="reference internal" href="p1125_quick.html#p1125-quick-overview"><span class="std std-ref">Quick Overview</span></a></p></li>
 </ol>
 </div>
-<div class="section" id="led-status">
-<h2>LED Status<a class="headerlink" href="#led-status" title="Permalink to this headline">¶</a></h2>
-<ul class="simple" id="index-3">
-<li><p>OFF: The P1125 power may be removed.</p></li>
-<li><p>Blinking ORANGE: P1125 is booting up or shutting down.</p></li>
-<li><p>Constant RED: P1125 is Ready.</p></li>
-<li><p>Constant GREEN: P1125 Probe is attached to the DUT supplying power.</p></li>
-<li><p>Other states:</p>
-<ul>
-<li><p>Blinking RED Fast: Firmware updating.</p></li>
+<div class="section" id="connection-troubleshooting">
+<h2>Connection Troubleshooting<a class="headerlink" href="#connection-troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>Opps, something went wrong.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The status LED is solid RED, but browser cannot connect.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The P1125 is on a network, as indicated by the solid RED LED.  However, hostname lookup is not
+working as expected, probably due to a failure of mDNS.</p></li>
+<li><p>The workaround is to get the IP address of the P1125.  The P1125 itself does not have a display,
+but it will write out the IP address that it has on a USB stick if one is inserted into it.</p></li>
+<li><p>Insert a USB stick into the P1125 while it is powered up and the LED is solid RED.</p></li>
+<li><p>After about 10 seconds, remove the USB stick and open it on another computer.  There will be a
+<cite>p1125</cite> folder, and in that folder there will be a file with a name that is the IP address.</p></li>
+<li><p>Use the found IP address in your browser.</p></li>
+<li><p>Alternatively you can connect to your router and review the list of devices, and get the IP address from there.</p></li>
+<li><p>Alternatively you can connect a monitor to the P1125, there is a troubleshooting HDMI cable in the kit,
+also connect mouse/keyboard, and then power up the P1125.  The monitor must be connected before power
+is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find the IP address</p></li>
 </ul>
-</li>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hostname variations, that pesky backslash, and Windows
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>if the hostname is failing, it could be the format of the hostname entered in the browser.</p></li>
+<li><p>You must either enter the prefix “<cite>http://</cite>” or, add the “<cite>/</cite>” to the end of the hostname.</p></li>
+<li><p>On Windows, it sometimes works if you exclude “<cite>.local</cite>” in the hostname.</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>What is mDNS, and can I fix it?
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>mDNS is mobile DNS and its a service for finding devices on your network by their hostname.</p></li>
+<li><p>mDNS can be running anywhere, on your router, on your PC, etc.</p></li>
+<li><p>mDNS is sometimes called the “Bonjour” service from Apple, or “avahi” the open source service.</p></li>
+<li><p>Mac and Linux computers by default support mDNS.</p></li>
+<li><p>Windows may or may not have mDNS service, depending on installed programs.
+* You can install “Bonjour services for Windows”, with this link,
+* <a class="reference external" href="https://support.apple.com/kb/dl999">https://support.apple.com/kb/dl999</a></p></li>
 </ul>
 </div>
 </div>
@@ -232,12 +277,13 @@ take up to a minute after power has been connected.</p>
 <li><a class="reference internal" href="#">Quick Start Guide</a><ul>
 <li><a class="reference internal" href="#unboxing">Unboxing</a></li>
 <li><a class="reference internal" href="#remote-connection">Remote Connection</a><ul>
+<li><a class="reference internal" href="#led-status">LED Status</a></li>
 <li><a class="reference internal" href="#wired-ethernet">Wired Ethernet</a></li>
 <li><a class="reference internal" href="#wifi">WiFi</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#browser">Browser</a></li>
-<li><a class="reference internal" href="#led-status">LED Status</a></li>
+<li><a class="reference internal" href="#connection-troubleshooting">Connection Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -247,7 +293,7 @@ take up to a minute after power has been connected.</p>
                         title="previous chapter">Welcome to P1125 Instruction Manual</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="p1125_quick.html"
-                        title="next chapter">P1125 Quick Overview</a></p>
+                        title="next chapter">Quick Overview</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -276,7 +322,7 @@ take up to a minute after power has been connected.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="p1125_quick.html" title="P1125 Quick Overview"
+          <a href="p1125_quick.html" title="Quick Overview"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to P1125 Instruction Manual"
