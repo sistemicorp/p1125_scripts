@@ -1,5 +1,13 @@
+# P1125 Online Help
+
+[P1125 Online Help](https://sistemicorp.github.io/p1125_scripts/html/index.html)
+
 # p1125_scripts
-P1125 Python REST API scripts, demos and examples.
+The P1125 can be automated using its JSON-RPC interface.  This repo shows Python
+examples of the JSON-RPC API.
+
+The example scripts use a Python class in `P1125.py` that makes it easy to use the JSON-RPC
+API, as if the API were just typical Python class function calls.
 
 Instillation
 ------------
@@ -13,32 +21,51 @@ Instillation
 
 Getting Started
 ---------------
-* The REST API depends on knowing the IP address, or hostname of the P1125.
+* The JSON_RPC API requires the IP address, or hostname of the P1125.
 * All the example scripts have a section that looks like this,
 
 
 ```python
     # NOTE: Change to P1125 IP address or hostname
-    P1125_URL = "p115-####.local"  # for example, p115-a12b.local, or 192.168.0.123
+    P1125_URL = "p1125-####.local"  # for example, p1125-a12b.local, or 192.168.0.123
     
-    if "p115-####.local" in P1125_URL:
+    if "p1125-####.local" in P1125_URL:
         logger.error("Please set P1125_URL with valid IP/Hostname")
         exit(1)
 ```
         
-* `p115-####.local` needs to be changed to reflect the P1125 IP address or hostname.
+* `p115-####.local` needs to be changed to reflect the P1125 IP address or hostname of your device.
 * The hostname of the P1125 is written on the bottom of the device, in the format `p1125-####.local`.
-  * If you cannot connect to the P1125, the most sure way is to find the IP address, either by 
-    accessing your router list of devices, or, connect a monitor/keyboard/mouse to the P1125,
-    open a terminal, and type command `ifconfig` which will list the network interfaces and
-    IP address being used.
-  * once the IP address is found, change the example scripts, for example,
+* Or if the IP address is known, that may be used.
   
 ```python
-    P1125_URL = "http://192.168.0.123/api/V1"
+    P1125_URL = "192.168.0.123"
 ```
+
+* Testing your P1125 connection
+  * Start with the `p1125_example_ping.py` script.  This script will simply ping your P1125.
+  * Update `P1125_URL` as described above.
+  * Example output,  
+
+        /usr/bin/python3.6 /home/martin/git/p1125_scripts/p1125_example_ping.py
+        2021-07-19 13:05:56,688:       ping  217 - INFO  : V1.ping http://192.168.86.24:6590/api/V1
+        2021-07-19 13:05:56,712:       main   73 - INFO  : {'success': True, 'version': 'Ver0.4-31', 'rpi_serial': '1000000062fc4808', 'url': 'p1125-419b', 'a10_serial': '2e0052000d50533742393220', 'a10_hw_ver': 2686519040, 'a10_bom': 4294967295, 'mac_eth0': 'dc:a6:32:6a:41:9b', 'mac_wlan0': 'dc:a6:32:6a:41:9c'}
+        2021-07-19 13:05:56,712:     status  222 - INFO  : V1.status
+        2021-07-19 13:05:56,727:       main   77 - INFO  : {'success': True, 'version': 'Ver0.4-31', 'cal_done': False, 'aqc_in_progress': False, 'temperature_degc': 34, 'error': [], 'error_action': []}
+        
+        Process finished with exit code 0
     
-* The first script to try, to confirm everything is working is `python3 p1125_example_plot_cal_loads.py`
+  * This confirms you can access the P1125 remoptely.
+
+* You may then try the other scripts, and/or copy one of them and modify for your use.
+  * `python3 p1125_example_plot_cal_loads.py`
+    * Example of how to pull real time plot data.
+    * The example uses the internal CAL loads, but can be modified to use target data.  
+  * `p1125_example_mahrs.py`
+    * Script that plots the mAhrs versus VOUT.
+    * This example shows how your target current changes with Battery voltage.  Battery
+      voltage changes as the battery is drained, and the efficiency of your target buck/boost
+      converters will change with changing input voltage.
 
 Plotting Results
 ----------------
