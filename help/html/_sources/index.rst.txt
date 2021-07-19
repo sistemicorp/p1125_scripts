@@ -1,0 +1,33 @@
+Welcome to P1125 Instruction Manual
+===================================
+
+Learning how to effectively use your P1125
+
+.. figure:: _static/sistemi_logo06.JPG
+    :figwidth: 50%
+    :align: right
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   quickStart
+   p1125_quick
+   p1125_mahr
+   p1125_config
+   p1125_other
+   faqs
+   troubleshooting
+
+|
+|
+|
+|
+|
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`

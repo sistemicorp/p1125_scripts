@@ -1,0 +1,148 @@
+.. _p1125_quick_overview:
+
+P1125 Quick Overview
+####################
+
+.. index:: Main Menu, controls
+
+.. figure:: _static/p1125_main_01.png
+    :figwidth: 70%
+    :align: right
+
+
+1. Main Menu
+2. Status
+3. Acquire Controls
+4. Output Controls
+5. Trigger Controls
+6. Display and Other Controls
+7. Plot Viewing Area
+8. Log, Linear and mAhr Plot Views
+
+|
+|
+|
+|
+|
+|
+|
+
+
+Acquire Controls
+----------------
+
+.. index:: Acquire
+
+.. figure:: _static/p1125_main_acq_01.png
+    :figwidth: 40%
+    :align: right
+
+1. RUN - Starts continuous acquisitions.
+2. SINGLE - Starts a single (one time) acquisition.
+3. CAL - Start Calibration.
+4. TIMESPAN - Select the desired time span of the acquisition.
+
+|
+|
+|
+|
+|
+|
+|
+|
+
+  .. note::
+
+    When P1125 session begins, the CAL button must be pressed before any
+    acquisitions can begin.
+
+
+
+  .. note::
+
+    Some long `Timespan` values only support `SINGLE` acquisition mode.
+
+
+Output Controls
+---------------
+
+.. index:: Output
+
+.. figure:: _static/p1125_main_out_01.png
+    :figwidth: 40%
+    :align: right
+
+1. Probe Connect/Disconnect - Connect or Disconnect from the DUT.
+   The probe must be connected to the P1125 for this button to be accessible.
+2. Voltage Slider - Slider to set the Output Voltage.
+3. Voltage Quick Sets - Shortcut buttons to adjust voltage up/dn or to a preset value.
+
+|
+|
+|
+|
+|
+
+Trigger Controls
+----------------
+
+.. figure:: _static/p1125_main_trig_01.png
+    :figwidth: 40%
+    :align: right
+
+1. Source - Selects the trigger source.
+2. Position - Set the time zero position on the plot.
+3. Slope - Set the slope of the source waveform which to trigger on.
+
+|
+|
+|
+|
+|
+|
+|
+
+  .. note::
+
+    Trigger Source will only show the enabled trigger sources.
+
+
+Display/Other Controls
+----------------------
+
+.. figure:: _static/p1125_main_disp_01.png
+    :figwidth: 40%
+    :align: right
+
+1. Max Y-Axis - Select maximum Y value for the Log/Lin plot areas.
+2. Min Y-Axis - Select minimum Y value for the Log/Lin plot areas.
+3. ExprtData - Export plot data to a file.  See TBD.
+4. ClrMarkers/ClrCursors - Clear Markers, Clear Cursors group.
+5. M0/M1/M3 - Memory Group.  Selecting a memory slot will copy the current
+   waveform into memory and keep it plotted to allow for comparison.
+6. D0/1 Vref - Digital input enable and voltage reference selection.
+7. A0 - Set the analog input channel mode.
+8. ISINK - Set whether to display sink current.
+
+|
+|
+|
+
+
+Plot Area
+---------
+
+.. figure:: _static/p1125_main_plot_01.png
+    :figwidth: 70%
+    :align: right
+
+|
+|
+
+1. Plot Tab - Log, Linear and mAhr plots.
+2. Plot Tools - various zoom, pan, hover and crosshair tools.
+
+|
+|
+|
+

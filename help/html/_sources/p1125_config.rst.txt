@@ -1,0 +1,95 @@
+Configuration
+#############
+
+Setting Presets
+---------------
+
+.. index:: presets, app_config.json
+
+.. figure:: _static/p1125_config_presets_01.png
+    :figwidth: 40%
+    :align: right
+
+
+Some controls of the P1125 have `preset` values that can be set to an alternate default value.
+Setting these `presets` may improve your efficiency with the P1125.
+
+1. Access the `Presets` page via the Menu->Presets.
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+.. figure:: _static/p1125_config_presets_02.png
+    :figwidth: 40%
+    :align: right
+
+2. The available `presets` will be shown with controls to adjust them.
+3. Press the `SUBMIT` button to store the results in the `app_config.json` file.
+4. To go back to the main page via `Menu->Main`.
+
+|
+|
+|
+|
+|
+|
+|
+|
+
+
+JSON Config File
+----------------
+Various aspects of the P1125 can be configured via the `app_config.json` file located in the `/home/user/pi`
+directory.
+
+Although these settings can be accessed through the `Presets` page, another way to alter the application
+configuration is to `ssh` into the P1125 and edit the `app_config.json` file with the `nano` editor.
+
+How to `ssh` into the P1125, the pi user password is `pi`,
+
+.. code-block:: bash
+
+    $ ssh pi@p1125-####.local
+
+
+.. note::
+
+    The P1125 `pi` user password is `pi`.
+
+
+.. note::
+
+    The hostname of your P1125 is written on the label on the bottom of the device.  Replace `####`
+    with your specific hostname.
+
+
+Then edit the file,
+
+.. code-block:: bash
+
+    $ nano app_config.json
+
+
+The `app_config.json` will look similar to this,
+
+  .. code-block:: json
+
+    {
+      "presets": {
+        "vout_0": 2900,
+        "vout_1": 3400,
+        "vout_2": 4700
+      }
+    }
+
+

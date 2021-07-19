@@ -1,0 +1,64 @@
+Frequently Asked Questions
+##########################
+
+
+.. code-block:: text
+
+    Why do I have to CAL (calibrate) the P1125?  What is calibration doing?
+
+.. index:: calibration
+
+* Calibration is applying known internal loads at each voltage in order to
+  cancel out any offset in the measurement paths.  These offsets are generally small
+  independent of temperature.
+
+
+.. code-block:: text
+
+    Can the P1125 measure in-rush current?
+
+.. index:: in-rush, soft start
+
+* No, not directly.  The P1125 employs a "soft start" feature which initially sets the output voltage
+  to its lowest value, connects to the DUT by switching a relay, and then steps the voltage
+  up in 100mV increments until the target voltage is reached.
+* You may have a downstream switch that connects the P1125 to your target device.  Note that
+  the P1125 will disconnect if the in-rush current exceeds ~1.4 Amps for >= ~5ms.
+
+
+.. code-block:: text
+
+    When I try to connect probe to the DUT, the P1125 reports a `ISOURCE2` error?
+
+* If the DUT has a high in-rush current, that peak current may trip the P1125
+  maximum current safety threshold.
+* Often this can be overcome by connecting the again quickly.  The in-rush may be reduced
+  from the first insertion.
+
+
+.. code-block:: text
+
+    How can I wipe WiFi networks and passwords from the P1125?
+
+.. index:: password, WiFi
+
+* Yes. Through the `Admin` menu.
+
+
+.. code-block:: text
+
+    Can I SSH or remote desktop into the P1125 Raspberry Pi?
+
+.. index:: ssh, remote
+
+* Yes, the P1125 `pi` user password is `pi`.
+
+
+.. code-block:: text
+
+    Can the p1125 be scripted?
+
+.. index:: scripting
+
+* Yes.
+* See `https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_

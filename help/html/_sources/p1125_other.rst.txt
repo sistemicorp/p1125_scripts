@@ -1,0 +1,97 @@
+##########
+Other/Misc
+##########
+
+*********
+Scripting
+*********
+
+* Coming soon.
+* See `https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_
+
+
+
+************
+Sending Logs
+************
+
+.. figure:: _static/p1125_misc_logs_01.png
+    :figwidth: 40%
+    :align: right
+
+
+.. index:: logs
+
+|
+|
+
+1. Logs are used to help diagnose problems.
+2. Access sending logs via `Menu->Send Logs`.
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+  .. note::
+
+      P1125 logs contain no user measurement data.  Only the state of the P1125 is reported in the logs.
+      The P1125 serial number and software version are recorded in the logs.
+
+
+  .. note::
+
+      P1125 logs are only sent by User action.
+
+
+Previewing Logs
+===============
+
+You may `ssh` into the P1125 to preview the logs that will be sent.  All of the files in the `log` folder
+will be sent in a zip file.
+
+  .. code-block:: bash
+
+    $ ssh pi@p1125.####.local
+    pi@p1125-####:~ $ ls -al log
+
+
+  .. note::
+
+    The P1125 `pi` user password is `pi`.
+
+
+  .. note::
+
+    The zip file is encrypted when it is sent to the Sistemi log server.
+
+
+*************
+Shutting Down
+*************
+
+.. figure:: _static/p1125_misc_shutdown_01.png
+    :figwidth: 40%
+    :align: right
+
+
+.. index:: shutdown
+
+
+The P1125 runs on a Raspberry Pi 4B running standard `Raspberry Pi OS <https://www.raspberrypi.org/software/>`_
+on an SD card.
+
+It is best practice to shutdown the OS via `Main->Shutdown`.

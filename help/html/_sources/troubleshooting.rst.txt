@@ -1,0 +1,18 @@
+Troubleshooting
+###############
+
+.. code-block:: text
+
+    The Chrome Browser is unable to connect
+
+
+* The P1125 LED must be solid RED in order for the browser to connect.
+* Is the LED on the P1125 blinking ORANGE?  If the blinking ORANGE does not stop after
+  about a minute from power up, a fatal error has occurred.  You may try and remove
+  power, wait 10seconds and then re-apply power.
+* Is the LED off? If so, remove power for 10seconds and then re-apply power.
+* Confirm the P1125 is connected to the same network as your remote computer.
+
+  * Try to `ping` the P1125
+
+

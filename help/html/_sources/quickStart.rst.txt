@@ -1,0 +1,190 @@
+Quick Start Guide
+=================
+
+.. index:: QuickStart
+
+Unboxing
+########
+
+.. figure:: _static/qs_unbox_01.jpg
+    :figwidth: 60%
+    :align: right
+
+1. The P1125.
+2. Safety and QuickStart written instructions.
+3. Power Supply.
+4. Probe.
+5. SD Card Holder.
+6. Pocket for other cables, Micro HDMI and D01/2, A0 header cable.
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+
+Remote Connection
+#################
+
+.. figure:: _static/qs_hostname_01.jpg
+    :figwidth: 60%
+    :align: right
+
+The P1125 is meant to be used by a remote network connected computer running `Chrome`.
+
+There are two ways to connect remotely to the P1125, wired ethernet and WiFi.  Wired Ethernet
+is an easier setup to do.
+
+.. index:: hostname
+
+In either connection method used, the P1125 hostname should be noted from the label on the bottom
+of the case, as shown.
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+
+Wired Ethernet
+--------------
+
+1. Insert the SD card into the P1125 SD slot.
+2. Simply connect an ethernet cable into the P1125.
+3. Attach the included power supply.
+
+
+WiFi
+----
+
+A WiFi connection requires the network to be selected, and if required a password. The
+P1125 is based on a Raspberry Pi 4B and runs on the standard RPi OS.  A monitor/keyboard/mouse
+can be attached (temporarily) to the P1125 in order to use the RPi OS home screen to
+set up WiFi.
+
+.. figure:: _static/qs_rpi_wifi_01.png
+    :figwidth: 60%
+    :align: right
+
+1. Insert the SD card into the P1125 SD slot.
+2. Before applying power, using the included micro HDMI cable, attach the P1125 to a monitor.
+3. Attach USB mouse and keyboard.
+4. Attach the included power supply.
+5. The RPi will take up to a minute to boot.
+
+.. figure:: _static/qs_rpi_reboot_01.png
+    :figwidth: 30%
+    :align: right
+
+6. Right Click on the network icon (as shown in the picture) to access the WiFi settings.
+7. After the settings are set, you may reboot by accessing the strawberry in the upper left corner
+   and selecting LogOut,
+8. The monitor, mouse and keyboard may now be removed from the P1125.
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+
+Browser
+#######
+
+.. index:: browser, connection, Chrome
+
+1. Open a new tab and direct your `Chrome` browser to the hostname as written on the bottom of the P1125,
+   for example,
+
+    http://p1125-f85e.local
+
+  .. note::
+
+    The LED must be a constant RED (or GREEN) in order for the browser to connect.  This can
+    take up to a minute after power has been connected.
+
+  .. note::
+
+    `f85e` will be different for your P1125, see the label on the bottom of the P1125.
+
+  .. note::
+
+    Only the Google Chrome browser is officially supported.
+
+
+2. If everything has gone well, the P1125 Start screen should appear,
+
+.. image:: _static/qs_p1125_start_01.png
+    :width: 500px
+    :align: center
+
+
+3. Press the START button to enter the application.
+4. See :ref:`p1125_quick_overview`
+
+
+LED Status
+##########
+
+.. index:: LED, status
+
+* OFF: The P1125 power may be removed.
+* Blinking ORANGE: P1125 is booting up or shutting down.
+* Constant RED: P1125 is Ready.
+* Constant GREEN: P1125 Probe is attached to the DUT supplying power.
+
+
+
+* Other states:
+
+  * Blinking RED Fast: Firmware updating.
+

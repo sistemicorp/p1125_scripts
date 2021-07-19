@@ -1,0 +1,69 @@
+mAhr Plot
+#########
+
+The P1125 `mAhr` plot is very useful for acquiring long running plots and estimating battery life.
+
+.. note::
+
+    For `very` long running acquisitions, scripts are recommended.
+
+
+.. index:: mahr
+
+
+.. figure:: _static/p1125_mahr_main_01.png
+    :figwidth: 100%
+    :align: center
+
+
+1. The mAhr plot is accessed via the plot tabs.
+
+  While an acquisition is running, the user may toggle between the plot tabs.
+
+2. The statistics from the acquisition will be shown here.
+3. The Stop Time for the mAhr plot is selected.
+
+.. note::
+
+    To get the most accurate estimation of your battery life, the Stop Time
+    should be set to a time that captures the "life cycle" of your target.
+    For example, if your target wakes up once a minute to "work", then perhaps
+    a Stop Time of 10min would capture enough life cycles to calculate a good
+    average current.
+
+
+4. The RUN command begins mAhr data acquisition.
+
+
+* The mAhr plot is always running as a background task.
+* If you are not interested in the mAhr plot, its best to set the Stop Time to 30 seconds.
+* While the mAhr acquisition is running the realtime Log/Lin plots will be running.
+  If you are not interested in the realtime plots, its best to keep the timespan setting small.
+
+
+Acquisition Details
+-------------------
+
+* The P1125 is ALWAYS sampling at one rate, that is `39063 Hertz`.
+* The current sampled at the sampling rate is integrated over ~400 samples, which is ~10.47ms.
+* Every sample on the mahr plot is the average current for that time period.
+* Therefore "fast" wakeup/radio events on the target device are captured in this average current.
+* The mAhr plot is updated ~200 samples of ~10.47ms, which is ~2.1 seconds.
+
+
+Battery Life
+------------
+
+An example mAhr plot is acquired with the `Demo` mode.
+
+.. figure:: _static/p1125_mahr_stats_01.png
+    :figwidth: 100%
+    :align: center
+
+1. At the end of 30 seconds, the mAhr statistics are shown.
+2. Here the mAhr calculation is `0.2 mAhr`.
+3. To estimate your battery life, divide your battery mAhr rating by `0.2`.
+
+
+
+
