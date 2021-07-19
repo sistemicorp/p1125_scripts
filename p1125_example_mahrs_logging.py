@@ -179,7 +179,7 @@ def write_data(intcurr_result):
                     intcurr_result["samples"]))
 
             if WRITE_PLOT_DATA:  # or if intcurr_result["iavg_max_ua"/"mahr"] > YOUR_THRESHOLD_HERE
-                f.write("'plot': {},".format(intcurr_result["plot"]))
+                f.write(f"'plot': {intcurr_result['plot']},")
 
                 # NOTE: plot data may be reduced, successive results with near same values removed, to save memory
 

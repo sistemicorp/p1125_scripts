@@ -66,7 +66,7 @@ class P1125API(Const):
     """
 
     VOUT_MIN_VAL = 1800
-    VOUT_MAX_VAL = 8000
+    VOUT_MAX_VAL = 8200
     VOUT_STEP_VALUE = 100
 
     ACQUIRE_MODE_RUN = "ACQUIRE_MODE_RUN"
@@ -214,7 +214,7 @@ class P1125(object):
         :return: success <True/False>, result <json/None>
         """
         payload = {"method": "V1.ping"}
-        self.logger.info(payload["method"])
+        self.logger.info("{} {}".format(payload["method"], self._url))
         return self._response(payload)
 
     def status(self):
