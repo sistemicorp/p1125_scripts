@@ -19,6 +19,7 @@ Instillation
 
     $ pip3 install -r requirements.txt
 
+
 Getting Started
 ---------------
 * The JSON_RPC API requires the IP address, or hostname of the P1125.
@@ -55,7 +56,7 @@ Getting Started
         
         Process finished with exit code 0
     
-  * This confirms you can access the P1125 remoptely.
+  * This confirms you can access the P1125 remotely.
 
 * You may then try the other scripts, and/or copy one of them and modify for your use.
   * `python3 p1125_example_plot_cal_loads.py`
