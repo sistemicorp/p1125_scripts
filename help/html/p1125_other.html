@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Other/Misc &#8212; P1125  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faqs.html" />
+    <link rel="prev" title="Configuration" href="p1125_config.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faqs.html" title="Frequently Asked Questions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="p1125_config.html" title="Configuration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Other/Misc</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="other-misc">
+<h1>Other/Misc<a class="headerlink" href="#other-misc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="scripting">
+<h2>Scripting<a class="headerlink" href="#scripting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Coming soon.</p></li>
+<li><p>See <a class="reference external" href="https://github.com/sistemicorp/p1125_scripts.git">https://github.com/sistemicorp/p1125_scripts.git</a></p></li>
+</ul>
+</div>
+<div class="section" id="sending-logs">
+<h2>Sending Logs<a class="headerlink" href="#sending-logs" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-right" style="width: 40%">
+<img alt="_images/p1125_misc_logs_01.png" src="_images/p1125_misc_logs_01.png" />
+</div>
+<div class="line-block" id="index-0">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple">
+<li><p>Logs are used to help diagnose problems.</p></li>
+<li><p>Access sending logs via <cite>Menu-&gt;Send Logs</cite>.</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>P1125 logs contain no user measurement data.  Only the state of the P1125 is reported in the logs.
+The P1125 serial number and software version are recorded in the logs.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>P1125 logs are only sent by User action.</p>
+</div>
+</div></blockquote>
+<div class="section" id="previewing-logs">
+<h3>Previewing Logs<a class="headerlink" href="#previewing-logs" title="Permalink to this headline">¶</a></h3>
+<p>You may <cite>ssh</cite> into the P1125 to preview the logs that will be sent.  All of the files in the <cite>log</cite> folder
+will be sent in a zip file.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh pi@p1125.####.local
+pi@p1125-####:~ $ ls -al log
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The P1125 <cite>pi</cite> user password is <cite>pi</cite>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The zip file is encrypted when it is sent to the Sistemi log server.</p>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="shutting-down">
+<h2>Shutting Down<a class="headerlink" href="#shutting-down" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-right" style="width: 40%">
+<img alt="_images/p1125_misc_shutdown_01.png" src="_images/p1125_misc_shutdown_01.png" />
+</div>
+<p id="index-1">The P1125 runs on a Raspberry Pi 4B running standard <a class="reference external" href="https://www.raspberrypi.org/software/">Raspberry Pi OS</a>
+on an SD card.</p>
+<p>It is best practice to shutdown the OS via <cite>Main-&gt;Shutdown</cite>.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Other/Misc</a><ul>
+<li><a class="reference internal" href="#scripting">Scripting</a></li>
+<li><a class="reference internal" href="#sending-logs">Sending Logs</a><ul>
+<li><a class="reference internal" href="#previewing-logs">Previewing Logs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shutting-down">Shutting Down</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="p1125_config.html"
+                        title="previous chapter">Configuration</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faqs.html"
+                        title="next chapter">Frequently Asked Questions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/p1125_other.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faqs.html" title="Frequently Asked Questions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="p1125_config.html" title="Configuration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Other/Misc</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020-2021, Sistemi Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>

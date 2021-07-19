@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration &#8212; P1125  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Other/Misc" href="p1125_other.html" />
+    <link rel="prev" title="mAhr Plot" href="p1125_mahr.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="p1125_other.html" title="Other/Misc"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="p1125_mahr.html" title="mAhr Plot"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setting-presets">
+<h2>Setting Presets<a class="headerlink" href="#setting-presets" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-right" id="index-0" style="width: 40%">
+<img alt="_images/p1125_config_presets_01.png" src="_images/p1125_config_presets_01.png" />
+</div>
+<p>Some controls of the P1125 have <cite>preset</cite> values that can be set to an alternate default value.
+Setting these <cite>presets</cite> may improve your efficiency with the P1125.</p>
+<ol class="arabic simple">
+<li><p>Access the <cite>Presets</cite> page via the Menu-&gt;Presets.</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="figure align-right" style="width: 40%">
+<img alt="_images/p1125_config_presets_02.png" src="_images/p1125_config_presets_02.png" />
+</div>
+<ol class="arabic simple" start="2">
+<li><p>The available <cite>presets</cite> will be shown with controls to adjust them.</p></li>
+<li><p>Press the <cite>SUBMIT</cite> button to store the results in the <cite>app_config.json</cite> file.</p></li>
+<li><p>To go back to the main page via <cite>Menu-&gt;Main</cite>.</p></li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="json-config-file">
+<h2>JSON Config File<a class="headerlink" href="#json-config-file" title="Permalink to this headline">¶</a></h2>
+<p>Various aspects of the P1125 can be configured via the <cite>app_config.json</cite> file located in the <cite>/home/user/pi</cite>
+directory.</p>
+<p>Although these settings can be accessed through the <cite>Presets</cite> page, another way to alter the application
+configuration is to <cite>ssh</cite> into the P1125 and edit the <cite>app_config.json</cite> file with the <cite>nano</cite> editor.</p>
+<p>How to <cite>ssh</cite> into the P1125, the pi user password is <cite>pi</cite>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh pi@p1125-####.local
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The P1125 <cite>pi</cite> user password is <cite>pi</cite>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The hostname of your P1125 is written on the label on the bottom of the device.  Replace <cite>####</cite>
+with your specific hostname.</p>
+</div>
+<p>Then edit the file,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ nano app_config.json
+</pre></div>
+</div>
+<p>The <cite>app_config.json</cite> will look similar to this,</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;presets&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;vout_0&quot;</span><span class="p">:</span> <span class="mi">2900</span><span class="p">,</span>
+    <span class="nt">&quot;vout_1&quot;</span><span class="p">:</span> <span class="mi">3400</span><span class="p">,</span>
+    <span class="nt">&quot;vout_2&quot;</span><span class="p">:</span> <span class="mi">4700</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configuration</a><ul>
+<li><a class="reference internal" href="#setting-presets">Setting Presets</a></li>
+<li><a class="reference internal" href="#json-config-file">JSON Config File</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="p1125_mahr.html"
+                        title="previous chapter">mAhr Plot</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="p1125_other.html"
+                        title="next chapter">Other/Misc</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/p1125_config.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="p1125_other.html" title="Other/Misc"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="p1125_mahr.html" title="mAhr Plot"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020-2021, Sistemi Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+    </div>
+  </body>
+</html>
