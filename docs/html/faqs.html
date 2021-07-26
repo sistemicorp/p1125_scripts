@@ -55,11 +55,12 @@ independent of temperature.</p></li>
 </pre></div>
 </div>
 <ul class="simple" id="index-1">
-<li><p>No, not directly.  The P1125 employs a “soft start” feature which initially sets the output voltage
+<li><p>The P1125 employs a “soft start” feature which initially sets the output voltage
 to its lowest value, connects to the DUT by switching a relay, and then steps the voltage
 up in 100mV increments until the target voltage is reached.</p></li>
+<li><p>You can enable Hard Connect which bypasses the soft start algorithm. See <a class="reference internal" href="p1125_quick.html#display-other-controls"><span class="std std-ref">Display/Other Controls</span></a></p></li>
 <li><p>You may have a downstream switch that connects the P1125 to your target device.  Note that
-the P1125 will disconnect if the in-rush current exceeds ~1.4 Amps for &gt;= ~5ms.</p></li>
+the P1125 will disconnect if the in-rush current exceeds ~3.2 Amps for &gt;= ~5ms.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>When I try to connect probe to the DUT, the P1125 reports a `ISOURCE2` error?
 </pre></div>

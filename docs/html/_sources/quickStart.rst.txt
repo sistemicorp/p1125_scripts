@@ -60,6 +60,12 @@ of the case.  This is how you will address the P1125.
     :figwidth: 40%
 
 
+**Windows** users will need to install "Bonjour Services for Windows" in order to use the hostname
+lookup that P1125 uses, from `Apple <http://support.apple.com/kb/dl999>`_.  Its possible you may
+not need this service installed based on already installed programs on your PC, or services provided by
+your router.
+
+
 LED Status
 ----------
 
@@ -105,6 +111,15 @@ Wired Ethernet
 2. Attach the included power supply.
 3. The LED will blink RED for ~60 seconds and eventually be solid RED.
 4. When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).
+
+
+Wired Ethernet via USB
+----------------------
+
+If you are using the included USB-Ethernet dongle, follow the instructions for `Wired Ethernet`_.
+Note however that devices connected this way **do not have access to the internet** UNLESS
+you have shared the PC's network connection with USB devices.  For the P1125, this means you will
+not be able to get updates (or send logs).
 
 
 WiFi
@@ -175,6 +190,23 @@ Browser
 5. See :ref:`p1125_quick_overview`
 
 
+P1125 IP Address
+################
+
+.. index:: address, IP
+
+If P1125 hostname look up is not working, you can fall back to use the P1125's IP address.
+
+There are two ways to get the P1125 IP address.  1) Use a USB Stick,  2) Navigate to your router devices list.
+
+1) The P1125 does not have a display, but it will write out the IP address that it has
+on a USB stick if one is inserted into it.  Insert USB stick, wait ~10 seconds, transfer the stick to
+another PC, open files/folder and observe the IP address written as a file.
+
+2) It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
+list.  Contact your IT support.
+
+
 Connection Troubleshooting
 ##########################
 
@@ -219,4 +251,13 @@ Opps, something went wrong.
 * Windows may or may not have mDNS service, depending on installed programs.
   * You can install "Bonjour services for Windows", with this link,
   * https://support.apple.com/kb/dl999
+
+
+.. code-block:: text
+
+    The P1125 IP address is 169.254.x.x
+
+* This address indicates the P1125 was not able to get an IP address from the network.
+* This can happen if you are using a USB-Ethernet dongle.
+* The address may work on the locally attached PC, but will not work from other PCs on the network.
 

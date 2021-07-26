@@ -157,9 +157,14 @@ The probe must be connected to the P1125 for this button to be accessible.</p></
 waveform into memory and keep it plotted to allow for comparison.</p></li>
 <li><p>D0/1 Vref - Digital input enable and voltage reference selection.</p></li>
 <li><p>A0 - Set the analog input channel mode.</p></li>
-<li><p>ISINK - Set whether to display sink current.</p></li>
+<li><p>ISINK - Set whether to display sink current.  The p1125 will always sink current, but
+plotting that current is optional with this control.</p></li>
+<li><p>HardConnect - When set, VOUT is applied when CONNECT to the target.  By default
+this setting is disabled and P1125 uses a soft start VOUT CONNECT to avoid high
+in-rush currents.
+<em>Warning that high in-rush currents are possible with this setting and may trigger source over current.</em></p></li>
 </ol>
-<div class="line-block">
+<div class="line-block" id="index-3">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 <div class="line"><br /></div>

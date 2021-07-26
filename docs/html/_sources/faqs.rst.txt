@@ -17,13 +17,14 @@ Frequently Asked Questions
 
     Can the P1125 measure in-rush current?
 
-.. index:: in-rush, soft start
+.. index:: in-rush, soft start, hard start
 
-* No, not directly.  The P1125 employs a "soft start" feature which initially sets the output voltage
+* The P1125 employs a "soft start" feature which initially sets the output voltage
   to its lowest value, connects to the DUT by switching a relay, and then steps the voltage
   up in 100mV increments until the target voltage is reached.
+* You can enable Hard Connect which bypasses the soft start algorithm. See :ref:`Display/Other Controls`
 * You may have a downstream switch that connects the P1125 to your target device.  Note that
-  the P1125 will disconnect if the in-rush current exceeds ~1.4 Amps for >= ~5ms.
+  the P1125 will disconnect if the in-rush current exceeds ~3.2 Amps for >= ~5ms.
 
 
 .. code-block:: text

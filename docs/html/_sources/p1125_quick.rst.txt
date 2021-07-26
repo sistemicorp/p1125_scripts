@@ -107,6 +107,7 @@ Trigger Controls
     Trigger Source will only show the enabled trigger sources.
 
 
+
 Display/Other Controls
 ----------------------
 
@@ -122,7 +123,14 @@ Display/Other Controls
    waveform into memory and keep it plotted to allow for comparison.
 6. D0/1 Vref - Digital input enable and voltage reference selection.
 7. A0 - Set the analog input channel mode.
-8. ISINK - Set whether to display sink current.
+8. ISINK - Set whether to display sink current.  The p1125 will always sink current, but
+   plotting that current is optional with this control.
+9. HardConnect - When set, VOUT is applied when CONNECT to the target.  By default
+   this setting is disabled and P1125 uses a soft start VOUT CONNECT to avoid high
+   in-rush currents.
+   *Warning that high in-rush currents are possible with this setting and may trigger source over current.*
+
+.. index:: Soft Start, Hard Start
 
 |
 |

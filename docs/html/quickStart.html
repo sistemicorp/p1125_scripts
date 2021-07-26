@@ -95,6 +95,10 @@ of the case.  This is how you will address the P1125.</p>
 <div class="figure align-default" style="width: 40%">
 <img alt="_images/PXL_20210719_label.jpg" src="_images/PXL_20210719_label.jpg" />
 </div>
+<p><strong>Windows</strong> users will need to install “Bonjour Services for Windows” in order to use the hostname
+lookup that P1125 uses, from <a class="reference external" href="http://support.apple.com/kb/dl999">Apple</a>.  Its possible you may
+not need this service installed based on already installed programs on your PC, or services provided by
+your router.</p>
 <div class="section" id="led-status">
 <h3>LED Status<a class="headerlink" href="#led-status" title="Permalink to this headline">¶</a></h3>
 <p id="index-1">The Status of the P1125 is given by the LED on the top.</p>
@@ -151,6 +155,13 @@ to use <cite>hostname</cite> lookup for the P1125 browser connection.</p>
 <li><p>The LED will blink RED for ~60 seconds and eventually be solid RED.</p></li>
 <li><p>When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).</p></li>
 </ol>
+</div>
+<div class="section" id="wired-ethernet-via-usb">
+<h3>Wired Ethernet via USB<a class="headerlink" href="#wired-ethernet-via-usb" title="Permalink to this headline">¶</a></h3>
+<p>If you are using the included USB-Ethernet dongle, follow the instructions for <a class="reference internal" href="#wired-ethernet">Wired Ethernet</a>.
+Note however that devices connected this way <strong>do not have access to the internet</strong> UNLESS
+you have shared the PC’s network connection with USB devices.  For the P1125, this means you will
+not be able to get updates (or send logs).</p>
 </div>
 <div class="section" id="wifi">
 <h3>WiFi<a class="headerlink" href="#wifi" title="Permalink to this headline">¶</a></h3>
@@ -222,6 +233,16 @@ take up to a minute after power has been connected.</p>
 <li><p>See <a class="reference internal" href="p1125_quick.html#p1125-quick-overview"><span class="std std-ref">Quick Overview</span></a></p></li>
 </ol>
 </div>
+<div class="section" id="p1125-ip-address">
+<h2>P1125 IP Address<a class="headerlink" href="#p1125-ip-address" title="Permalink to this headline">¶</a></h2>
+<p id="index-3">If P1125 hostname look up is not working, you can fall back to use the P1125’s IP address.</p>
+<p>There are two ways to get the P1125 IP address.  1) Use a USB Stick,  2) Navigate to your router devices list.</p>
+<p>1) The P1125 does not have a display, but it will write out the IP address that it has
+on a USB stick if one is inserted into it.  Insert USB stick, wait ~10 seconds, transfer the stick to
+another PC, open files/folder and observe the IP address written as a file.</p>
+<p>2) It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
+list.  Contact your IT support.</p>
+</div>
 <div class="section" id="connection-troubleshooting">
 <h2>Connection Troubleshooting<a class="headerlink" href="#connection-troubleshooting" title="Permalink to this headline">¶</a></h2>
 <p>Opps, something went wrong.</p>
@@ -262,6 +283,14 @@ is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find 
 * You can install “Bonjour services for Windows”, with this link,
 * <a class="reference external" href="https://support.apple.com/kb/dl999">https://support.apple.com/kb/dl999</a></p></li>
 </ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The P1125 IP address is 169.254.x.x
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This address indicates the P1125 was not able to get an IP address from the network.</p></li>
+<li><p>This can happen if you are using a USB-Ethernet dongle.</p></li>
+<li><p>The address may work on the locally attached PC, but will not work from other PCs on the network.</p></li>
+</ul>
 </div>
 </div>
 
@@ -279,10 +308,12 @@ is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find 
 <li><a class="reference internal" href="#remote-connection">Remote Connection</a><ul>
 <li><a class="reference internal" href="#led-status">LED Status</a></li>
 <li><a class="reference internal" href="#wired-ethernet">Wired Ethernet</a></li>
+<li><a class="reference internal" href="#wired-ethernet-via-usb">Wired Ethernet via USB</a></li>
 <li><a class="reference internal" href="#wifi">WiFi</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#browser">Browser</a></li>
+<li><a class="reference internal" href="#p1125-ip-address">P1125 IP Address</a></li>
 <li><a class="reference internal" href="#connection-troubleshooting">Connection Troubleshooting</a></li>
 </ul>
 </li>
