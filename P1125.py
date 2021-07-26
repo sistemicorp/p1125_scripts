@@ -373,16 +373,19 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def probe(self, connect=True):
+    def probe(self, connect=True, hard_connect=False):
         """ Set Probe Connect
 
         If the probe is not connected, connecting will fail.  The P1125 can detect
         whether the probe is connected or not.  See probe_status()
 
+        Setting hard_connect will bypass the soft start feature.
+
         :param connect: <True/False>
+        :param hard_connect: <True/False>
         :return: success <True/False>, result <json/None>
         """
-        payload = {"method": "V1.probe_connect", "params": {"value": connect}}
+        payload = {"method": "V1.probe_connect", "params": {"value": connect, "hard_connect": hard_connect}}
         self.logger.info("{} params: {}".format(payload["method"], payload["params"]))
         return self._response(payload)
 
