@@ -9,8 +9,9 @@ Frequently Asked Questions
 .. index:: calibration
 
 * Calibration is applying known internal loads at each voltage in order to
-  cancel out any offset in the measurement paths.  These offsets are generally small
+  cancel out any offset in the (current) measurement paths.  These offsets are generally small and
   independent of temperature.
+* VOUT is also being calibrated.
 
 
 .. code-block:: text
@@ -33,8 +34,8 @@ Frequently Asked Questions
 
 * If the DUT has a high in-rush current, that peak current may trip the P1125
   maximum current safety threshold.
-* Often this can be overcome by connecting the again quickly.  The in-rush may be reduced
-  from the first insertion.
+* Often this can be overcome by connecting again quickly.  The in-rush may be reduced
+  from the first connection, allowing a subsequent conenction attempt to work.
 
 
 .. code-block:: text
@@ -61,5 +62,21 @@ Frequently Asked Questions
 
 .. index:: scripting
 
-* Yes.
+* Yes.  It uses JSON-RPC.  The JSON-RPC API may be accessed via the Main menu.
 * See `https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_
+
+
+.. code-block:: text
+
+    Why can't I use a local monitor, mouse, and keyboard to operate the P1125?
+
+.. index:: scripting
+
+.. index:: local monitor
+
+* Technically you can.  However the user experience is not great.
+* The issue is that the internal Raspberry Pi 4B is not powerful enough to run
+  `Chromium`, and the UI is sluggish.
+* If a fast, compatible browser is ever released for RPi, using a local setup may become an option.
+* Until such a time, the local connection setup should only be used for troubleshooting.  For example,
+  to find the IP address of the device, or to manually "reset" the SD card.

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Start Guide &#8212; P1125  documentation</title>
+    <title>Setup &#8212; P1125  documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -16,7 +16,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quick Overview" href="p1125_quick.html" />
+    <link rel="next" title="Whats in the Kit" href="kit.html" />
     <link rel="prev" title="Welcome to P1125 Instruction Manual" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,13 +26,13 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="p1125_quick.html" title="Quick Overview"
+          <a href="kit.html" title="Whats in the Kit"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to P1125 Instruction Manual"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Quick Start Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Setup</a></li> 
       </ul>
     </div>  
 
@@ -41,67 +41,30 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="quick-start-guide">
-<h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="unboxing">
-<span id="index-0"></span><h2>Unboxing<a class="headerlink" href="#unboxing" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-right" style="width: 60%">
-<img alt="_images/qs_unbox_01.jpg" src="_images/qs_unbox_01.jpg" />
-</div>
-<ol class="arabic simple">
-<li><p>The P1125.</p></li>
-<li><p>Safety and QuickStart written instructions.</p></li>
-<li><p>Power Supply.</p></li>
-<li><p>Probe.</p></li>
-<li><p>SD Card Holder.</p></li>
-<li><p>Pocket for other cables, Micro HDMI and D01/2, A0 header cable.</p></li>
-</ol>
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="section" id="remote-connection">
-<h2>Remote Connection<a class="headerlink" href="#remote-connection" title="Permalink to this headline">¶</a></h2>
-<p>The P1125 is meant to be used by a remote network connected computer running <cite>Chrome</cite>.  There are two ways
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">The P1125 is meant to be used by a remote network connected computer running <cite>Chrome</cite>.  There are two ways
 to connect remotely to the P1125, wired ethernet and WiFi.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do NOT use the included HDMI cable to use the P1125.  Local monitor/mouse/keyboard setup
+is for troubleshooting only.</p>
+</div>
+<p><strong>Windows</strong> users will need to install “Bonjour Services for Windows” in order to use the hostname
+lookup that P1125 uses, from <a class="reference external" href="http://support.apple.com/kb/dl999">Apple Bonjour (Download)</a>.  Its possible you may
+not need this service installed based on already installed programs on your PC, or services provided by
+your router.  Alternatively you can use P1125 IP Address, which will require some extra steps.</p>
+<div class="section" id="hostname">
+<h2>Hostname<a class="headerlink" href="#hostname" title="Permalink to this headline">¶</a></h2>
 <p>With either connection method, the P1125 hostname should be noted from the label on the bottom
 of the case.  This is how you will address the P1125.</p>
 <div class="figure align-default" style="width: 40%">
 <img alt="_images/PXL_20210719_label.jpg" src="_images/PXL_20210719_label.jpg" />
 </div>
-<p><strong>Windows</strong> users will need to install “Bonjour Services for Windows” in order to use the hostname
-lookup that P1125 uses, from <a class="reference external" href="http://support.apple.com/kb/dl999">Apple</a>.  Its possible you may
-not need this service installed based on already installed programs on your PC, or services provided by
-your router.</p>
 <div class="section" id="led-status">
 <h3>LED Status<a class="headerlink" href="#led-status" title="Permalink to this headline">¶</a></h3>
-<p id="index-1">The Status of the P1125 is given by the LED on the top.</p>
+<p id="index-1">The Status of the P1125 is given by the LED on the top.  When the Wall Adapter is
+plugged in, the LED will be RED-blinking and may take up to 60s to get to the next state.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 27%" />
@@ -136,16 +99,6 @@ or wired)</p></td>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>On Power Up, the P1125 can take up to 60 seconds to update the LED status.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The p1125 depends on mDNS support on the network.  Mac/Linux computers support mDNS
-but Windows computers may not.  Consider installing “Bonjour for Windows” (Google it)
-to use <cite>hostname</cite> lookup for the P1125 browser connection.</p>
-</div>
 </div>
 <div class="section" id="wired-ethernet">
 <h3>Wired Ethernet<a class="headerlink" href="#wired-ethernet" title="Permalink to this headline">¶</a></h3>
@@ -155,13 +108,6 @@ to use <cite>hostname</cite> lookup for the P1125 browser connection.</p>
 <li><p>The LED will blink RED for ~60 seconds and eventually be solid RED.</p></li>
 <li><p>When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).</p></li>
 </ol>
-</div>
-<div class="section" id="wired-ethernet-via-usb">
-<h3>Wired Ethernet via USB<a class="headerlink" href="#wired-ethernet-via-usb" title="Permalink to this headline">¶</a></h3>
-<p>If you are using the included USB-Ethernet dongle, follow the instructions for <a class="reference internal" href="#wired-ethernet">Wired Ethernet</a>.
-Note however that devices connected this way <strong>do not have access to the internet</strong> UNLESS
-you have shared the PC’s network connection with USB devices.  For the P1125, this means you will
-not be able to get updates (or send logs).</p>
 </div>
 <div class="section" id="wifi">
 <h3>WiFi<a class="headerlink" href="#wifi" title="Permalink to this headline">¶</a></h3>
@@ -218,7 +164,7 @@ take up to a minute after power has been connected.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Only the Google Chrome browser is officially supported.</p>
+<p>Only the Google Chrome browser is officially supported.  However <cite>FireFox</cite> is also known to work.</p>
 </div>
 </div></blockquote>
 <ol class="arabic simple" start="2">
@@ -236,12 +182,31 @@ take up to a minute after power has been connected.</p>
 <div class="section" id="p1125-ip-address">
 <h2>P1125 IP Address<a class="headerlink" href="#p1125-ip-address" title="Permalink to this headline">¶</a></h2>
 <p id="index-3">If P1125 hostname look up is not working, you can fall back to use the P1125’s IP address.</p>
-<p>There are two ways to get the P1125 IP address.  1) Use a USB Stick,  2) Navigate to your router devices list.</p>
-<p>1) The P1125 does not have a display, but it will write out the IP address that it has
-on a USB stick if one is inserted into it.  Insert USB stick, wait ~10 seconds, transfer the stick to
-another PC, open files/folder and observe the IP address written as a file.</p>
-<p>2) It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
-list.  Contact your IT support.</p>
+<p>There are two ways to get the P1125 IP address,</p>
+<ul class="simple">
+<li><p>Use included USB Stick,</p>
+<ol class="arabic simple">
+<li><p>The P1125 does not have a display, but it will write out the IP address that it has
+on a USB stick if one is inserted into it.</p></li>
+<li><p>Insert USB stick, wait ~10 seconds, transfer the stick to
+another PC, open files/folder and observe the IP address written as a file.</p></li>
+</ol>
+</li>
+<li><p>Navigate to your router devices list,</p>
+<ol class="arabic simple">
+<li><p>It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
+list.</p></li>
+<li><p>Contact your IT support.</p></li>
+</ol>
+</li>
+</ul>
+<div class="section" id="wired-ethernet-via-usb">
+<h3>Wired Ethernet via USB<a class="headerlink" href="#wired-ethernet-via-usb" title="Permalink to this headline">¶</a></h3>
+<p id="index-4">If you are using a USB-Ethernet dongle, follow the instructions for <a class="reference internal" href="#wired-ethernet">Wired Ethernet</a>.
+Note however that devices connected this way <strong>do not have access to the internet</strong> UNLESS
+you have shared the PC’s network connection with USB devices.  For the P1125, this means you will
+not be able to get updates (or send logs).</p>
+</div>
 </div>
 <div class="section" id="connection-troubleshooting">
 <h2>Connection Troubleshooting<a class="headerlink" href="#connection-troubleshooting" title="Permalink to this headline">¶</a></h2>
@@ -303,17 +268,18 @@ is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find 
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Quick Start Guide</a><ul>
-<li><a class="reference internal" href="#unboxing">Unboxing</a></li>
-<li><a class="reference internal" href="#remote-connection">Remote Connection</a><ul>
+<li><a class="reference internal" href="#">Setup</a><ul>
+<li><a class="reference internal" href="#hostname">Hostname</a><ul>
 <li><a class="reference internal" href="#led-status">LED Status</a></li>
 <li><a class="reference internal" href="#wired-ethernet">Wired Ethernet</a></li>
-<li><a class="reference internal" href="#wired-ethernet-via-usb">Wired Ethernet via USB</a></li>
 <li><a class="reference internal" href="#wifi">WiFi</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#browser">Browser</a></li>
-<li><a class="reference internal" href="#p1125-ip-address">P1125 IP Address</a></li>
+<li><a class="reference internal" href="#p1125-ip-address">P1125 IP Address</a><ul>
+<li><a class="reference internal" href="#wired-ethernet-via-usb">Wired Ethernet via USB</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#connection-troubleshooting">Connection Troubleshooting</a></li>
 </ul>
 </li>
@@ -323,8 +289,8 @@ is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find 
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to P1125 Instruction Manual</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="p1125_quick.html"
-                        title="next chapter">Quick Overview</a></p>
+  <p class="topless"><a href="kit.html"
+                        title="next chapter">Whats in the Kit</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -353,13 +319,13 @@ is connected.  Open a terminal, and issue command <cite>ifconfig</cite> to find 
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="p1125_quick.html" title="Quick Overview"
+          <a href="kit.html" title="Whats in the Kit"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to P1125 Instruction Manual"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">P1125  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Quick Start Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Setup</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

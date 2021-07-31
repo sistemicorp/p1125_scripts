@@ -80,12 +80,17 @@ If you are not interested in the realtime plots, its best to keep the timespan s
 </ul>
 <div class="section" id="acquisition-details">
 <h2>Acquisition Details<a class="headerlink" href="#acquisition-details" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" style="width: 100%">
+<img alt="_images/mAhr_11.png" src="_images/mAhr_11.png" />
+</div>
 <ul class="simple">
-<li><p>The P1125 is ALWAYS sampling at one rate, that is <cite>39063 Hertz</cite>.</p></li>
-<li><p>The current sampled at the sampling rate is integrated over ~400 samples, which is ~10.47ms.</p></li>
-<li><p>Every sample on the mahr plot is the average current for that time period.</p></li>
-<li><p>Therefore “fast” wakeup/radio events on the target device are captured in this average current.</p></li>
-<li><p>The mAhr plot is updated ~200 samples of ~10.47ms, which is ~2.1 seconds.</p></li>
+<li><p>The P1125 is ALWAYS sampling at one rate, that is <cite>48000 Hertz</cite>.</p></li>
+<li><p>mAhr (average) samples are integrated over 480 samples, which is 10.0ms.</p></li>
+<li><p>Thus “fast” wakeup/radio events on the target device are captured in this average current, because the
+sampling rate remains the same.</p></li>
+<li><p>Over the 480 samples, the peak current sample is noted, and then plotted as a peak at
+the same sample time as the average.  Therefore if an unexpected peak current occurs
+it can be seen, aiding in debugging.</p></li>
 </ul>
 </div>
 <div class="section" id="battery-life">

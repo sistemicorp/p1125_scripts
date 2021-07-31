@@ -1,0 +1,78 @@
+Whats in the Kit
+================
+
+.. index:: kit
+
+Guided tour of what to expect in the P1125 kit.
+
+.. figure:: _static/kit_01.jpg
+    :figwidth: 60%
+    :align: center
+
+
+Wall Adapter
+------------
+
+.. index:: Wall Adapter
+
+Note the wall adapter specifications if its lost or otherwise damaged and needs replacement.
+Contact Sistemi for official replacement.
+
+.. figure:: _static/kit_11.jpg
+    :figwidth: 60%
+    :align: center
+
+
+Probes
+------
+
+.. index:: Probes, analog input, A0, D0, D1, digital input, auxillary inputs
+
+There are two types of probes included.
+
+.. figure:: _static/kit_21.jpg
+    :figwidth: 60%
+    :align: center
+
+
+1. VOUT Probe.  This probe connects the P1125 power supply to the target.
+2. Header Cable.  This cable plugs into the P1125 auxillary inputs, to connect
+   A0 (analog input) and D0/1 (digital input).
+
+
+.. note::
+
+    The Header cable input on the P1125 can also use standard 0.1" header wires.
+    The included Header cable can lock into the P1125 auxillary input port, but its not required.
+    If you want to make your own header cable, the relevant part numbers are, 50-57-9704,
+    16-02-0069, ZW-FF-20.
+
+
+Extras
+------
+
+.. index:: WiFi, antenna, USB Stick, Logs, IP Address, HDMI
+
+Included extras.
+
+.. figure:: _static/kit_31.jpg
+    :figwidth: 60%
+    :align: center
+
+
+* WiFi Antenna
+
+  * Although not recommended, the P1125 can use WiFi for PC connection.
+
+* USB Stick
+
+  * Comes loaded with a backup SD Card image which can be used to re-flash the
+    SD card in case its lost or damaged.
+  * Note that the backup image will be a previous version and will need an update.
+  * The USB stick can also be used to get logs and IP address from the P1125 by sticking
+    it into the P1125 USB port.  Other USB sticks may fail to mount.
+
+* HDMI Micro Cable
+
+  * Not normally used, but can be useful in the case of customer support
+

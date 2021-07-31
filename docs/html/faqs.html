@@ -48,8 +48,9 @@
 </div>
 <ul class="simple" id="index-0">
 <li><p>Calibration is applying known internal loads at each voltage in order to
-cancel out any offset in the measurement paths.  These offsets are generally small
+cancel out any offset in the (current) measurement paths.  These offsets are generally small and
 independent of temperature.</p></li>
+<li><p>VOUT is also being calibrated.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Can the P1125 measure in-rush current?
 </pre></div>
@@ -68,8 +69,8 @@ the P1125 will disconnect if the in-rush current exceeds ~3.2 Amps for &gt;= ~5m
 <ul class="simple">
 <li><p>If the DUT has a high in-rush current, that peak current may trip the P1125
 maximum current safety threshold.</p></li>
-<li><p>Often this can be overcome by connecting the again quickly.  The in-rush may be reduced
-from the first insertion.</p></li>
+<li><p>Often this can be overcome by connecting again quickly.  The in-rush may be reduced
+from the first connection, allowing a subsequent conenction attempt to work.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>How can I wipe WiFi networks and passwords from the P1125?
 </pre></div>
@@ -87,8 +88,19 @@ from the first insertion.</p></li>
 </pre></div>
 </div>
 <ul class="simple" id="index-4">
-<li><p>Yes.</p></li>
+<li><p>Yes.  It uses JSON-RPC.  The JSON-RPC API may be accessed via the Main menu.</p></li>
 <li><p>See <a class="reference external" href="https://github.com/sistemicorp/p1125_scripts.git">https://github.com/sistemicorp/p1125_scripts.git</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Why can&#39;t I use a local monitor, mouse, and keyboard to operate the P1125?
+</pre></div>
+</div>
+<span class="target" id="index-5"></span><ul class="simple" id="index-6">
+<li><p>Technically you can.  However the user experience is not great.</p></li>
+<li><p>The issue is that the internal Raspberry Pi 4B is not powerful enough to run
+<cite>Chromium</cite>, and the UI is sluggish.</p></li>
+<li><p>If a fast, compatible browser is ever released for RPi, using a local setup may become an option.</p></li>
+<li><p>Until such a time, the local connection setup should only be used for troubleshooting.  For example,
+to find the IP address of the device, or to manually “reset” the SD card.</p></li>
 </ul>
 </div>
 

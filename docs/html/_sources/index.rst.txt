@@ -1,17 +1,14 @@
 Welcome to P1125 Instruction Manual
 ===================================
 
-Learning how to effectively use your P1125
-
-.. figure:: _static/assembly23updatedBox_render_02.png
-    :figwidth: 70%
-    :align: right
+Learning how to effectively use your P1125.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    quickStart
+   kit
    p1125_quick
    p1125_mahr
    p1125_config

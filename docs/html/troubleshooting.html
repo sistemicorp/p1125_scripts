@@ -50,7 +50,29 @@ power, wait 10seconds and then re-apply power.</p></li>
 <li><p>Is the LED off? If so, remove power for 10seconds and then re-apply power.</p></li>
 <li><p>Confirm the P1125 is connected to the same network as your remote computer.</p>
 <ul>
-<li><p>Try to <cite>ping</cite> the P1125</p></li>
+<li><p>Try to <cite>ping</cite> the P1125 from a terminal</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Resetting the P1125 SD card software manually
+</pre></div>
+</div>
+<ul>
+<li><p>A terminal to the P1125 is required, which can be done via <cite>ssh</cite> or with a local setup.</p></li>
+<li><p>For <cite>ssh</cite> connections,</p>
+<ul>
+<li><p>the username is <cite>pi</cite> and the password is <cite>pi</cite></p></li>
+<li><p>the hostname or the IP address of the device needs to be known. See <a class="reference internal" href="quickStart.html#p1125-ip-address"><span class="std std-ref">P1125 IP Address</span></a></p></li>
+<li><p>the IP address is a more reliable method</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$ssh</span> pi@192.168.0.23
+... enter password
+pi@p1125-f85e:~ $ sudo ./update.sh
+... ignore any output, including errors and warnings
+pi@p1125-f85e:~ $ sudo ./restart.sh
+... ignore any output, including errors and warnings
+</pre></div>
+</div>
+</li>
 </ul>
 </li>
 </ul>

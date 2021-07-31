@@ -86,6 +86,9 @@ Output Controls
 Trigger Controls
 ----------------
 
+.. index:: trigger, D0, D1, A0
+
+
 .. figure:: _static/p1125_main_trig_01.png
     :figwidth: 40%
     :align: right
@@ -102,10 +105,8 @@ Trigger Controls
 |
 |
 
-  .. note::
-
-    Trigger Source will only show the enabled trigger sources.
-
+Trigger Source will only show the enabled trigger sources, therefore in order to select
+auxillary input triggers, A0, D0, or D1, they must first be enabled.
 
 
 Display/Other Controls

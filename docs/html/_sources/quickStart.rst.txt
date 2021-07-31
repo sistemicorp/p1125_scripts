@@ -1,57 +1,25 @@
-Quick Start Guide
-=================
+Setup
+=====
 
-.. index:: QuickStart
+.. index:: Setup
 
-Unboxing
-########
-
-.. figure:: _static/qs_unbox_01.jpg
-    :figwidth: 60%
-    :align: right
-
-1. The P1125.
-2. Safety and QuickStart written instructions.
-3. Power Supply.
-4. Probe.
-5. SD Card Holder.
-6. Pocket for other cables, Micro HDMI and D01/2, A0 header cable.
-
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-|
-
-
-Remote Connection
-#################
 
 The P1125 is meant to be used by a remote network connected computer running `Chrome`.  There are two ways
 to connect remotely to the P1125, wired ethernet and WiFi.
 
+.. note::
+
+    Do NOT use the included HDMI cable to use the P1125.  Local monitor/mouse/keyboard setup
+    is for troubleshooting only.
+
+**Windows** users will need to install "Bonjour Services for Windows" in order to use the hostname
+lookup that P1125 uses, from `Apple Bonjour (Download) <http://support.apple.com/kb/dl999>`_.  Its possible you may
+not need this service installed based on already installed programs on your PC, or services provided by
+your router.  Alternatively you can use P1125 IP Address, which will require some extra steps.
+
+
+Hostname
+########
 
 With either connection method, the P1125 hostname should be noted from the label on the bottom
 of the case.  This is how you will address the P1125.
@@ -60,18 +28,14 @@ of the case.  This is how you will address the P1125.
     :figwidth: 40%
 
 
-**Windows** users will need to install "Bonjour Services for Windows" in order to use the hostname
-lookup that P1125 uses, from `Apple <http://support.apple.com/kb/dl999>`_.  Its possible you may
-not need this service installed based on already installed programs on your PC, or services provided by
-your router.
-
 
 LED Status
 ----------
 
 .. index:: LED, status
 
-The Status of the P1125 is given by the LED on the top.
+The Status of the P1125 is given by the LED on the top.  When the Wall Adapter is
+plugged in, the LED will be RED-blinking and may take up to 60s to get to the next state.
 
 +------------+---------------------------------+
 | LED        | Meaning                         |
@@ -93,16 +57,6 @@ The Status of the P1125 is given by the LED on the top.
 +------------+---------------------------------+
 
 
-.. note::
-
-    On Power Up, the P1125 can take up to 60 seconds to update the LED status.
-
-.. note::
-
-    The p1125 depends on mDNS support on the network.  Mac/Linux computers support mDNS
-    but Windows computers may not.  Consider installing "Bonjour for Windows" (Google it)
-    to use `hostname` lookup for the P1125 browser connection.
-
 
 Wired Ethernet
 --------------
@@ -111,15 +65,6 @@ Wired Ethernet
 2. Attach the included power supply.
 3. The LED will blink RED for ~60 seconds and eventually be solid RED.
 4. When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).
-
-
-Wired Ethernet via USB
-----------------------
-
-If you are using the included USB-Ethernet dongle, follow the instructions for `Wired Ethernet`_.
-Note however that devices connected this way **do not have access to the internet** UNLESS
-you have shared the PC's network connection with USB devices.  For the P1125, this means you will
-not be able to get updates (or send logs).
 
 
 WiFi
@@ -176,7 +121,7 @@ Browser
 
   .. note::
 
-    Only the Google Chrome browser is officially supported.
+    Only the Google Chrome browser is officially supported.  However `FireFox` is also known to work.
 
 
 2. If everything has gone well, the P1125 Start screen should appear,
@@ -193,18 +138,35 @@ Browser
 P1125 IP Address
 ################
 
-.. index:: address, IP
+.. index:: address, IP, ip address
 
 If P1125 hostname look up is not working, you can fall back to use the P1125's IP address.
 
-There are two ways to get the P1125 IP address.  1) Use a USB Stick,  2) Navigate to your router devices list.
+There are two ways to get the P1125 IP address,
 
-1) The P1125 does not have a display, but it will write out the IP address that it has
-on a USB stick if one is inserted into it.  Insert USB stick, wait ~10 seconds, transfer the stick to
-another PC, open files/folder and observe the IP address written as a file.
+* Use included USB Stick,
 
-2) It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
-list.  Contact your IT support.
+  1. The P1125 does not have a display, but it will write out the IP address that it has
+     on a USB stick if one is inserted into it.
+  2. Insert USB stick, wait ~10 seconds, transfer the stick to
+     another PC, open files/folder and observe the IP address written as a file.
+
+* Navigate to your router devices list,
+
+  1. It is beyond the scope of this help to detail how to access your router and find the P1125 in its devices
+     list.
+  2. Contact your IT support.
+
+
+Wired Ethernet via USB
+----------------------
+
+.. index:: dongle, USB-Ethernet
+
+If you are using a USB-Ethernet dongle, follow the instructions for `Wired Ethernet`_.
+Note however that devices connected this way **do not have access to the internet** UNLESS
+you have shared the PC's network connection with USB devices.  For the P1125, this means you will
+not be able to get updates (or send logs).
 
 
 Connection Troubleshooting

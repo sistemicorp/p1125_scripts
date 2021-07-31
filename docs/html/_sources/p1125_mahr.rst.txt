@@ -44,11 +44,18 @@ The P1125 `mAhr` plot is very useful for acquiring long running plots and estima
 Acquisition Details
 -------------------
 
-* The P1125 is ALWAYS sampling at one rate, that is `39063 Hertz`.
-* The current sampled at the sampling rate is integrated over ~400 samples, which is ~10.47ms.
-* Every sample on the mahr plot is the average current for that time period.
-* Therefore "fast" wakeup/radio events on the target device are captured in this average current.
-* The mAhr plot is updated ~200 samples of ~10.47ms, which is ~2.1 seconds.
+.. figure:: _static/mAhr_11.png
+    :figwidth: 100%
+    :align: center
+
+* The P1125 is ALWAYS sampling at one rate, that is `48000 Hertz`.
+* mAhr (average) samples are integrated over 480 samples, which is 10.0ms.
+* Thus "fast" wakeup/radio events on the target device are captured in this average current, because the
+  sampling rate remains the same.
+* Over the 480 samples, the peak current sample is noted, and then plotted as a peak at
+  the same sample time as the average.  Therefore if an unexpected peak current occurs
+  it can be seen, aiding in debugging.
+
 
 
 Battery Life
