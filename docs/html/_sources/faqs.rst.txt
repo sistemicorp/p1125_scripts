@@ -70,8 +70,6 @@ Frequently Asked Questions
 
     Why can't I use a local monitor, mouse, and keyboard to operate the P1125?
 
-.. index:: scripting
-
 .. index:: local monitor
 
 * Technically you can.  However the user experience is not great.
@@ -80,3 +78,19 @@ Frequently Asked Questions
 * If a fast, compatible browser is ever released for RPi, using a local setup may become an option.
 * Until such a time, the local connection setup should only be used for troubleshooting.  For example,
   to find the IP address of the device, or to manually "reset" the SD card.
+
+
+.. code-block:: text
+
+    Do I have to Shutdown the P1125, or can I just remove power?
+
+.. index:: shutdown
+
+* You should always Shutdown, one of two ways, and remeber to *wait* until the LED is OFF.
+
+  * Press the OFF button on the side of the P1125
+  * `Menu->Shutdown`
+
+* **Without shutting down you risk corrupting the SD Card.**
+
+

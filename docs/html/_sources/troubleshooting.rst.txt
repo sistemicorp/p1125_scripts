@@ -3,22 +3,6 @@ Troubleshooting
 
 .. code-block:: text
 
-    The Chrome Browser is unable to connect
-
-
-* The P1125 LED must be solid RED in order for the browser to connect.
-* Is the LED on the P1125 blinking ORANGE?  If the blinking ORANGE does not stop after
-  about a minute from power up, a fatal error has occurred.  You may try and remove
-  power, wait 10seconds and then re-apply power.
-* Is the LED off? If so, remove power for 10seconds and then re-apply power.
-* Confirm the P1125 is connected to the same network as your remote computer.
-
-  * Try to `ping` the P1125 from a terminal
-
-
-
-.. code-block:: text
-
     Resetting the P1125 SD card software manually
 
 * A terminal to the P1125 is required, which can be done via `ssh` or with a local setup.
@@ -36,3 +20,36 @@ Troubleshooting
         ... ignore any output, including errors and warnings
         pi@p1125-f85e:~ $ sudo ./restart.sh
         ... ignore any output, including errors and warnings
+
+
+  * after ~60 seconds the LED should be solid RED indicating P1125 is ready to be accessed.
+
+.. code-block:: text
+
+    P1125 does not start, the LED blinks RED forever.
+
+* If this occurs it means the application was not able to talk successfully to the hardware.
+
+  * Note that blinking AMBER is okay and means the P1125 has entered hotspot mode.
+    See :ref:`LED Status`
+
+* Getting logs is the best way to get help.  Insert a USB stick into the P1125 and see if a
+  `p1125` folder is created and contains logs. It may be wise to remove an existing folder first,
+  to make sure the created folder is current.  Send those logs to `p1125@sistemi.ca`.
+
+  * Included in the case is a USB stick that can be used to get P1125 logs.  Most USB
+    sticks will work, but some users have had trouble with some brands of USB sticks.
+
+* Try to reset the SD manually by following the `ssh` steps above.
+
+
+.. code-block:: text
+
+    How can I create a fresh SD Card image?
+
+.. index:: SD Card
+
+* The USB stick included in the case includes a backup SD card image.  You will need a (fast) SD
+  card (try SanDisk premium cards) or you can overwrite your current SD card.  Using Windows
+  `Win32DiskImager <https://sourceforge.net/projects/win32diskimager/>`_ you can write the image.
+

@@ -39,21 +39,6 @@
             
   <div class="section" id="troubleshooting">
 <h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>The Chrome Browser is unable to connect
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>The P1125 LED must be solid RED in order for the browser to connect.</p></li>
-<li><p>Is the LED on the P1125 blinking ORANGE?  If the blinking ORANGE does not stop after
-about a minute from power up, a fatal error has occurred.  You may try and remove
-power, wait 10seconds and then re-apply power.</p></li>
-<li><p>Is the LED off? If so, remove power for 10seconds and then re-apply power.</p></li>
-<li><p>Confirm the P1125 is connected to the same network as your remote computer.</p>
-<ul>
-<li><p>Try to <cite>ping</cite> the P1125 from a terminal</p></li>
-</ul>
-</li>
-</ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Resetting the P1125 SD card software manually
 </pre></div>
 </div>
@@ -73,8 +58,37 @@ pi@p1125-f85e:~ $ sudo ./restart.sh
 </pre></div>
 </div>
 </li>
+<li><p>after ~60 seconds the LED should be solid RED indicating P1125 is ready to be accessed.</p></li>
 </ul>
 </li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>P1125 does not start, the LED blinks RED forever.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>If this occurs it means the application was not able to talk successfully to the hardware.</p>
+<ul>
+<li><p>Note that blinking AMBER is okay and means the P1125 has entered hotspot mode.
+See <a class="reference internal" href="quickStart.html#led-status"><span class="std std-ref">LED Status</span></a></p></li>
+</ul>
+</li>
+<li><p>Getting logs is the best way to get help.  Insert a USB stick into the P1125 and see if a
+<cite>p1125</cite> folder is created and contains logs. It may be wise to remove an existing folder first,
+to make sure the created folder is current.  Send those logs to <cite>p1125&#64;sistemi.ca</cite>.</p>
+<ul>
+<li><p>Included in the case is a USB stick that can be used to get P1125 logs.  Most USB
+sticks will work, but some users have had trouble with some brands of USB sticks.</p></li>
+</ul>
+</li>
+<li><p>Try to reset the SD manually by following the <cite>ssh</cite> steps above.</p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>How can I create a fresh SD Card image?
+</pre></div>
+</div>
+<ul class="simple" id="index-0">
+<li><p>The USB stick included in the case includes a backup SD card image.  You will need a (fast) SD
+card (try SanDisk premium cards) or you can overwrite your current SD card.  Using Windows
+<a class="reference external" href="https://sourceforge.net/projects/win32diskimager/">Win32DiskImager</a> you can write the image.</p></li>
 </ul>
 </div>
 

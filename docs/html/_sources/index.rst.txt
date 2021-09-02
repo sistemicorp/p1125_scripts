@@ -13,6 +13,7 @@ Learning how to effectively use your P1125.
    p1125_mahr
    p1125_config
    p1125_other
+   scripting
    faqs
    troubleshooting
 

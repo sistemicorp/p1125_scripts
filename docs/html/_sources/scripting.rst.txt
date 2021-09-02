@@ -1,0 +1,20 @@
+##########
+Scripting
+##########
+
+The P1125 uses JSON Remote Procedure Call (JSON-RPC). This public GitHub repo contains a P1125 helper Class and
+examples the demonstrate how to script the P1125.
+
+`https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_
+
+
+The JSON-RPC API can be browsed from your browser by accessing `Menu->JSON-RPC API`,
+
+
+.. figure:: _static/menu_jsonrpc.png
+
+
+The GitHub repo is intended for you to fork it, that way you can pull updates to the files.
+
+Select one of the scripts to get started with and rename it.  Then you may edit it for your application.
+

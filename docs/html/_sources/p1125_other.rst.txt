@@ -2,14 +2,6 @@
 Other/Misc
 ##########
 
-*********
-Scripting
-*********
-
-* Coming soon.
-* See `https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_
-
-
 
 ************
 Sending Logs
