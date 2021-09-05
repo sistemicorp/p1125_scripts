@@ -78,14 +78,16 @@ The (example) script `p1125_example_mahrs_logging.py` is provided as an example 
  (hours, days, etc) measurement logs.  The companion script `p1125_example_mahrs_logging_plot.py` plots the data.
  
 The measurement data for long time logs comes from the "mAhr" data stream of the P1125.  This stream is
-averaged measurement data from the real time P1125 data acquisition path.  The P1125 sampling rate is always 39kHz
-(25.6 usec).  The "mAhr" stream takes these samples and integrates them over a ~10ms window to determine
-the average for that window.  Fast events within the ~10ms window are of course included in this average.
-This averaging is done to reduce the amount of data to process when dealing with long time plots/logs. 
+averaged measurement data from the real time P1125 data acquisition path.  The P1125 sampling rate is always 48kHz
+(20.83 usec).  The "mAhr" stream takes these samples and integrates them over a 10ms window (480 samples) to determine
+the average for that window.  Fast events within the 10ms window are of course included in this average Because the
+sample rate is maintained at 48KHz. This averaging is done to reduce the amount of data to process when dealing
+with long time plots/logs.  Also, the peak current within the 10ms window is also recorded and is plotted in
+the example script.
 
 There are two main parameters to set up for a long term log,
 * `TIME_CAPTURE_WINDOW_S`
-  * This represents the total time to take ~10ms samples.
+  * This represents the total time to take 10ms samples.
   * A resonable value for this is `60` (seconds).  This will result in up to ~4k samples per capture window.
 * `TIME_TOTAL_RUN_S`
   * This sets the total run time.
@@ -94,10 +96,10 @@ These, and other, parameters are set at the top of the script,
 
 ```python
 # Change these parameters to suit your needs:
-VOUT = 1500                   # mV, output voltage, 1500-4500 mV
+VOUT = 3000                   # mV, output voltage, 1800-4500 mV
 CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
-TIME_TOTAL_RUN_S = 300        # 3600 * 6   # seconds, total run time of the log
+TIME_TOTAL_RUN_S = TIME_CAPTURE_WINDOW_S * 5   # seconds, total run time of the log
 LOG_FILE_PATH = "./"          # path to output file (filename is generated)
 ```
 
@@ -112,11 +114,11 @@ p1125_status = {'success': True, 'version': 'Ver0.3-250', 'cal_done': True, 'aqc
 p1125_settings = {'VOUT': 1500, 'TIME_CAPTURE_WINDOW_S': 60, 'TIME_TOTAL_RUN_S': 300, 'CONNECT_PROBE': False}                                                                                                          
 # NOTE: Might have to add missing last ']' if program was interrupted                                                                                                                                                  
 p1125_data = [                                                                                                                                                                                                         
-{'datetime': '20201116-135501', 'time_s': 63.24122, 'mAhr': 0.7496259, 'iavg_max_ua': 753.5487, 'samples': 40,'plot': {'t': [0, 5.640928, 5.654016, 5.667104, 5.680192, 5.69328, 5.706368, 5.745632, 5.75872, 5.771808, ...
-{'datetime': '20201116-135605', 'time_s': 63.24122, 'mAhr': 0.7488481, 'iavg_max_ua': 751.5684, 'samples': 36,'plot': {'t': [0, 1.989376, 2.002464, 2.015552, 2.15952, 2.172608, 2.185696, 2.198784, 2.211872, 2.264224, ...
-{'datetime': '20201116-135708', 'time_s': 63.24122, 'mAhr': 0.7486486, 'iavg_max_ua': 751.399, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
-{'datetime': '20201116-135811', 'time_s': 63.24122, 'mAhr': 0.7484611, 'iavg_max_ua': 751.2046, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
-{'datetime': '20201116-135915', 'time_s': 63.24122, 'mAhr': 0.748446, 'iavg_max_ua': 751.0996, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443,  ...
+{'datetime': '20201116-135501', 'time_s': 63.24122, 'mAhr': 0.7496259, 'samples': 40,'plot': {'t': [0, 5.640928, 5.654016, 5.667104, 5.680192, 5.69328, 5.706368, 5.745632, 5.75872, 5.771808, ...
+{'datetime': '20201116-135605', 'time_s': 63.24122, 'mAhr': 0.7488481, 'samples': 36,'plot': {'t': [0, 1.989376, 2.002464, 2.015552, 2.15952, 2.172608, 2.185696, 2.198784, 2.211872, 2.264224, ...
+{'datetime': '20201116-135708', 'time_s': 63.24122, 'mAhr': 0.7486486, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
+{'datetime': '20201116-135811', 'time_s': 63.24122, 'mAhr': 0.7484611, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443, ...
+{'datetime': '20201116-135915', 'time_s': 63.24122, 'mAhr': 0.748446, 'samples': 26,'plot': {'t': [0, 15.78413, 15.8103, 19.7367, 19.76288, 23.68928, 23.71546, 27.64186, 27.66803, 31.59443,  ...
 ]                                                                                                                                                                                                                                                                                                                                                                                                                                             
 ```
 The example script sets up a 2K Ohm load at 3000mV VOUT, so the expected current is ~750uA.  Because this test load is constant, there
