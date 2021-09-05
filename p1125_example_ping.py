@@ -25,15 +25,15 @@ SOFTWARE.
 
 The P1125 GUI can be open during the running of this script.
 
-The complete JSON REST API is viewable from the Main menu, or
+The complete JSON-RPC API is viewable from the Main menu, or
 http://p1125_hostname/api/V1/browse
 
 Run this file,
     $python3 p1125_example_ping.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
-2) Change line 61 to suit your environment.
+1) Python 3.6+.
+2) Change line 55 to suit your environment.
 3) Chrome browser.
 
 --- !!! WARNING !!! ---

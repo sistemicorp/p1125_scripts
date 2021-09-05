@@ -32,7 +32,7 @@ Run this file,
     $python3 p1125_example_mahrs.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
+1) Python 3.6+ and bokeh 2.3.0 (pip3 install bokeh) or greater installed.
 2) Change line 46 to suit your environment.
 3) Chrome browser.
 

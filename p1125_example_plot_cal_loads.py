@@ -25,14 +25,14 @@ SOFTWARE.
 
 The P1125 GUI can be open during the running of this script.
 
-The complete JSON REST API is viewable from the Main menu, or
+The complete JSON-RPC API is viewable from the Main menu, or
 http://IP_ADDRESS_OR_HOSTNAME/api/V1/browse
 
 Run this file,
     $python3 p1125_example_plot_cal_loads.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
+1) Python 3.6+ and bokeh 2.3.0 (pip3 install bokeh) or greater installed.
 2) Change line 64 to suit your environment.
 3) Chrome browser.
 
