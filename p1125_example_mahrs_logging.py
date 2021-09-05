@@ -291,10 +291,7 @@ def main():
             success, intcurr_result = p1125.intcurr_data()
             if not success: return False
 
-            success, result = p1125.acquisition_stop()
-            if not success: return False
-
-            # restart the acquisition NOW, to miss as little as possible,
+            # restart the acquisition within 1s, to catch next integrated current update
             # write the data out below, while next acquisition is running
             duration = datetime.datetime.now() - start_time
             if duration.total_seconds() < TIME_TOTAL_RUN_S:
