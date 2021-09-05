@@ -364,8 +364,40 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
+    def intcurr_complete(self):
+        """ Get Integrated Current Acquisition is Complete
+
+        :return: success <True/False>, result <json/None>
+        """
+        payload = {"method": "V1.intcurr_complete"}
+        self.logger.info(payload["method"])
+        return self._response(payload)
+
     def intcurr_data(self):
         """ Get Integrated Current Data
+
+        - (JSON)Result Dictionary Keys:
+            'success': <True|False>
+            'time_s': <acquisition_time_seconds>
+            'time_stop_s': <acquisition_stop_time_seconds>,
+            'ucoulombs': <total_micro_coulombs>,
+            'samples': <number_of_samples>,
+            'mahr': <mAhr>,
+            'plot': <'t': [...],         # time, seconds
+                     'i': [...],         # current, micro-amps
+                     'i_max': [...]>     # max current, micro-amps
+                     'plot_d0': {        # D0 events
+                         't': [...]      # time, seconds
+                         'd0: [...] },   # d0 value
+                     'plot_d1': {        # D1 events
+                         't': [...]      # time, seconds
+                         'd1: [...] },   # d1 value
+                     'plot_trig': {      # trigger events
+                         't': [...]      # time, seconds
+                         'trig: [...] }, # trigger value
+
+        - the integrated current acquisition is complete when time_s > time_stop_s.
+        - use intcurr_complete() to poll for acquisition is complete
 
         :return: success <True/False>, result <json/None>
         """

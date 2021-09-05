@@ -34,12 +34,12 @@ Run this file,
     $python3 p1125_example_mahrs_logging.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
-2) Change line 46 to suit your environment.
+1) Python 3.6+ and bokeh 2.3.0 (pip3 install bokeh) or greater installed.
+2) Change line 61 to suit your environment.
 3) Chrome browser.
 
 --- !!! WARNING !!! ---
-if CONNECT_PROBE is True, this example connects the PROBE at 1500 (VOUT) mV
+if CONNECT_PROBE is True, this example connects the PROBE at VOUT mV
 
 """
 import os
@@ -68,9 +68,9 @@ if "p1125-####.local" in P1125_URL:
 
 # Change these parameters to suit your needs:
 VOUT = 3000                   # mV, output voltage, 2000-8000 mV
-CONNECT_PROBE = True         # set to True to attach probe, !! Warning: check VOUT setting !!
-TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
-TIME_TOTAL_RUN_S = 60 * 5     # seconds, total run time of the log
+CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
+TIME_CAPTURE_WINDOW_S = 30    # seconds over which to measure the AVERAGE mAhr
+TIME_TOTAL_RUN_S = 30 * 2     # seconds, total run time of the log
 LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
 
 WRITE_PLOT_DATA = True        # flag for write_data()
@@ -100,15 +100,16 @@ def wait_for_measurement():
 
     # almost time, poll to check and see if Integrated Current is complete
     while True:  # TODO: add infinite loop protection...
-        success, intcurr_result = p1125.intcurr_data()
-        logger.info("{}, data collection time: {} / {}".format(intcurr_result["success"],
-                                                               intcurr_result["time_s"],
-                                                               intcurr_result["time_stop_s"]))
+        success, intcurr_complete = p1125.intcurr_complete()
+        logger.info("{}, data collection time: {} / {} ({})".format(intcurr_complete["success"],
+                                                               intcurr_complete["time_s"],
+                                                               intcurr_complete["time_stop_s"],
+                                                               intcurr_complete["complete"]))
         if not success: return False
 
-        if intcurr_result["time_s"] >= intcurr_result["time_stop_s"]:
+        if intcurr_complete["complete"]:
             # the waiting loop is stopped here, TIME_CAPTURE_WINDOW_S has completed...
-            return True, intcurr_result
+            return True
 
         logger.info("Time until data is ready... extra {:6.1f} seconds".format(count_one_second))
         count_one_second += WAIT_POLLING_TIME_S
@@ -153,14 +154,14 @@ def write_data(intcurr_result):
      'ucoulombs': 2517.936,
      'samples': 1424,
      'mahr': 0.0815407,
-     'iavg_max_ua': 344.7518,  # the MAX current seen within TIME_CAPTURE_WINDOW_S
-     'iavg_min_ua': 1.191092,  # the MIN current seen within TIME_CAPTURE_WINDOW_S
-     'plot': {'t': [0, 0.01278125, 0.0255625, ... ], 'i': [54.54963, 319.9456, 26.60415, ...]},
+     'plot': {'t': [0, 0.01278125, 0.0255625, ... ],
+              'i': [54.54963, 319.9456, 26.60415, ...],
+              'i_max': [64.54963, 419.9456, 36.60415, ...]},
      'plot_d0': {'t': [], 'd0': []},
      'plot_d1': {'t': [], 'd1': []},
      'plot_trig': {'t': [], 'trig': []}
     }
-    - use the intcurr_result fields to save only the data you need...
+    - save only the data you need...
 
     :param intcurr_result: dict of data
     :return: success <True/False>
@@ -168,14 +169,16 @@ def write_data(intcurr_result):
     # uncomment this to see what fields are available
     # logger.info(intcurr_result)
 
+    max_window_current_ua = max(intcurr_result["plot"]["i_max"])
+
     try:
         with open(os.path.join(LOG_FILE_PATH, filename), "a+") as f:
             dt = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-            f.write("{{'datetime': '{}', 'time_s': {}, 'mAhr': {}, 'iavg_max_ua': {}, 'samples': {},".format(
+            f.write("{{'datetime': '{}', 'time_s': {}, 'mAhr': {}, 'i_max_ua': {}, 'samples': {},".format(
                     dt,
                     intcurr_result["time_s"],
                     intcurr_result["mahr"],
-                    intcurr_result["iavg_max_ua"],
+                    max_window_current_ua,
                     intcurr_result["samples"]))
 
             if WRITE_PLOT_DATA:  # or if intcurr_result["iavg_max_ua"/"mahr"] > YOUR_THRESHOLD_HERE
@@ -238,6 +241,10 @@ def main():
         success, result = p1125.acquisition_stop()
         if not success: return False
 
+    success, result = p1125.calibrate()
+    logger.info(result)
+    if not success: return False
+
     success, result = p1125.intcurr_set(time_stop_s=TIME_CAPTURE_WINDOW_S)
     logger.info(result)
     if not success: return False
@@ -247,13 +254,9 @@ def main():
         logger.info(result)
         if not success: return False
 
-    success, result = p1125.calibrate()
+    success, result = p1125.set_vout(VOUT)
     logger.info(result)
     if not success: return False
-
-    success, result = p1125.set_vout(VOUT)
-        logger.info(result)
-        if not success: return False
 
         time.sleep(1)
 
@@ -282,7 +285,10 @@ def main():
         if not success: return False
 
         while True:
-            success, intcurr_result = wait_for_measurement()
+            success = wait_for_measurement()
+            if not success: return False
+
+            success, intcurr_result = p1125.intcurr_data()
             if not success: return False
 
             success, result = p1125.acquisition_stop()

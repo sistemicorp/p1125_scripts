@@ -3,7 +3,7 @@
 """
 MIT License
 
-Copyright (c) 2020 sistemicorp
+Copyright (c) 2020-2021, sistemicorp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ Run this file,
 Where: <MAHR_LOGGING_FILE> is file created with p1125_example_mahrs_logging.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.2.0 (pip3 install bokeh) or greater installed.
+1) Python 3.6+ and bokeh 2.3.0 (pip3 install bokeh) or greater installed.
 2) Chrome browser.
 
 Notes:
@@ -97,7 +97,7 @@ def cb_plot(event):
         sel_dt = datetime.datetime.strptime(item[1], '%Y%m%d-%H%M%S')
         if sel_dt > dt: break  # found closest data point
 
-    if item:  # only allos items with plot data
+    if item:  # only allows items with plot data
         key = int(item[0])
         source_rt.data = G['d'].p1125_data[key]['plot']
         source_sel.data = {'t': [sel_dt, sel_dt], 'y': [PLOT_MIN, PLOT_MAX]}
@@ -108,7 +108,8 @@ plot.on_event(DoubleTap, cb_plot)
 # this plot for the realtime data, if available
 plot_rt = figure(toolbar_location="above", y_range=(PLOT_MIN, PLOT_MAX), y_axis_type="log", width=800)
 source_rt = ColumnDataSource(data=dict(x=[], y=[]))
-l = plot_rt.line(x="t", y="i", line_width=2, source=source_rt,  legend_label="Current (uA)")
+l = plot_rt.line(x="t", y="i", line_width=2, source=source_rt, legend_label="Current (uA)")
+plot_rt.line(x="t", y="i_max", line_width=2, source=source_rt, legend_label="Peak Current (uA)", color="red")
 plot_rt.xaxis.axis_label = "Time (S)"
 
 ht = HoverTool(
@@ -219,17 +220,17 @@ def main():
     logger.info(G['d'].p1125_settings)
     #logger.info(G['d'].p1125_data)  # uncomment to see imported fields/data
 
-    plot_data = extract_data(G['d'].p1125_data, ['mAhr', 'iavg_max_ua'])
+    plot_data = extract_data(G['d'].p1125_data, ['mAhr', 'i_max_ua'])
     if plot_data is not None:
         source = ColumnDataSource(data=plot_data)
         plot.circle(x="t", y="mAhr", size=5, source=source, color="green", legend_label='mAhr')
         l = plot.line(x="t", y="mAhr", line_width=2, source=source, color="green", legend_label='mAhr')
 
-        plot.circle(x="t", y='iavg_max_ua', size=5, source=source, color="red", legend_label="Max uA")
-        plot.line(x="t", y='iavg_max_ua', line_width=2, source=source, color="red", legend_label="Max uA")
+        plot.circle(x="t", y='i_max_ua', size=5, source=source, color="red", legend_label="Max uA")
+        plot.line(x="t", y='i_max_ua', line_width=2, source=source, color="red", legend_label="Max uA")
 
         ht = HoverTool(
-            tooltips=[("mAhr", "@mAhr{0.00}"), ("Max", "@iavg_max_ua{0.00} uA"), ("Time", "@t{%m/%d %H:%M}") ],
+            tooltips=[("mAhr", "@mAhr{0.00}"), ("Max", "@i_max_ua{0.00} uA"), ("Time", "@t{%m/%d %H:%M}") ],
             mode='vline',  # display a tooltip whenever the cursor is vertically in line with a glyph
             formatters={'@t': 'datetime', },
             show_arrow=True,
