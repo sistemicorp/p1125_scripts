@@ -80,6 +80,7 @@ p1125 = P1125(url=URL, loggerIn=logger)
 filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".py"
 setup_done = False            # set flag if target is manually setup and ready to go
 
+
 def wait_for_measurement():
     """ helper function to log waiting around for data to be ready
     - a combination of waiting and polling
@@ -116,7 +117,7 @@ def wait_for_measurement():
         time.sleep(WAIT_POLLING_TIME_S)
 
     logger.error("should never get here")
-    return False, None
+    return False
 
 
 def write_data_header(ping, status):
@@ -258,9 +259,10 @@ def main():
     logger.info(result)
     if not success: return False
 
-        time.sleep(1)
+    time.sleep(1)
 
-        # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
+    # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
+    # setup
 
     # connect probe - ! make sure VOUT is right !
     success, result = p1125.probe(connect=CONNECT_PROBE)
@@ -313,7 +315,16 @@ def main():
     except Exception as e:
         logger.error(e)
 
-    #success, result = p1125.set_cal_load(loads=[])  # reset
+    success, result = p1125.acquisition_stop()
+    if not success: return False
+
+    # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
+    # teardown
+
+    success, result = p1125.set_cal_load(loads=[])  # reset
+    if not success: return False
+
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     success, result = p1125.probe(connect=False)
     logger.info(result)
