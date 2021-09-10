@@ -137,9 +137,10 @@ def write_data_header(ping, status):
             f.write("# {}\n".format(filename))
             f.write("# p1125_ping = {}\n".format(ping))
             f.write("# p1125_status = {}\n".format(status))
-            f.write("# p1125_settings = {{'VOUT': {}, 'TIME_CAPTURE_WINDOW_S': {}, 'TIME_TOTAL_RUN_S': {}, 'CONNECT_PROBE': {}}}\n".format(VOUT,
-                    TIME_CAPTURE_WINDOW_S, TIME_TOTAL_RUN_S, CONNECT_PROBE))
-            f.write("# time, mA, Max mA\n")
+            f.write("# p1125_settings = {{'VOUT': {}, 'TIME_CAPTURE_WINDOW_S': {}, 'TIME_TOTAL_RUN_S': {}, "
+                            "'CONNECT_PROBE': {}, 'DOWN_SAMPLE_FACTOR': {}}}\n".format(VOUT,
+                    TIME_CAPTURE_WINDOW_S, TIME_TOTAL_RUN_S, CONNECT_PROBE, DOWN_SAMPLE_FACTOR))
+            f.write("# time, uA, Max uA\n")
 
     except Exception as e:
         logger.error(e)
