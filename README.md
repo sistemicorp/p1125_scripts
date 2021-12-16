@@ -125,7 +125,7 @@ p1125_data = [
 The example script sets up a 2K Ohm load at 3000mV VOUT, so the expected current is ~750uA.  Because this test load is constant, there
 isn't much interesting to see, and note the number of samples is greatly reduced because the load was static.
 
-The plotting tool is executed thru the `bokeh server` because it is an interactive tool.  The plotting script is executed in this way,
+The plotting tool is executed through the `bokeh server` because it is an interactive tool.  The plotting script is executed in this way,
 from a command prompt,
 
 ```bash
