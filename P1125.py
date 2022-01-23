@@ -3,7 +3,7 @@
 """
 MIT License
 
-Copyright (c) 2020-2021 sistemicorp
+Copyright (c) 2020-2022 sistemicorp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -68,6 +68,8 @@ class P1125API(Const):
     VOUT_MIN_VAL = 1800
     VOUT_MAX_VAL = 8200
     VOUT_STEP_VALUE = 100
+
+    MAHR_SAMPLE_TIME_S = 0.01  # mAhr sampling time, seconds
 
     ACQUIRE_MODE_RUN = "ACQUIRE_MODE_RUN"
     ACQUIRE_MODE_SINGLE = "ACQUIRE_MODE_SINGLE"
