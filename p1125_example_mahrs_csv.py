@@ -3,7 +3,7 @@
 """
 MIT License
 
-Copyright (c) 2020-2021 sistemicorp
+Copyright (c) 2020-2022 sistemicorp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -72,12 +72,11 @@ VOUT = 3000                   # mV, output voltage, 2000-8000 mV
 CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_CAPTURE_WINDOW_S = 60    # seconds over which to measure the AVERAGE mAhr
 TIME_TOTAL_RUN_S = TIME_CAPTURE_WINDOW_S * 2  # seconds, total run time of the log
-CSV_FILE_PATH = "./"          # path to output file, use USB stick if possible
+CSV_FILE_PATH = "./"          # path to output file
 
 WAIT_POLLING_TIME_S = 0.5     # time to wait between polls whilst waiting for TIME_CAPTURE_WINDOW_S to complete
-SAMPLE_TIME_S = 0.01          # mAhr sampling time
 time_accumulator = 0.0        # track time over TIME_CAPTURE_WINDOW_S's
-DOWN_SAMPLE_FACTOR = 1        # number of samples of 10ms to average over, >=1
+DOWN_SAMPLE_FACTOR = 1        # number of samples of 10ms to average over, >=1, ex 10 -> 100ms samples
 down_sample_leftover = {}
 
 p1125 = P1125(url=URL, loggerIn=logger)
@@ -188,7 +187,7 @@ def write_data(intcurr_result):
 
             i = sum(_i) / DOWN_SAMPLE_FACTOR
             i_max = sum(_i_max) / DOWN_SAMPLE_FACTOR
-            time_accumulator += DOWN_SAMPLE_FACTOR * SAMPLE_TIME_S
+            time_accumulator += DOWN_SAMPLE_FACTOR * P1125API.MAHR_SAMPLE_TIME_S
             f.write("{:.3f}, {:.3f}, {:.3f}\n".format(time_accumulator, i, i_max))
 
             down_sample_leftover = {}
@@ -199,7 +198,7 @@ def write_data(intcurr_result):
 
             i = sum(_i) / DOWN_SAMPLE_FACTOR
             i_max = sum(_i_max) / DOWN_SAMPLE_FACTOR
-            time_accumulator += DOWN_SAMPLE_FACTOR * SAMPLE_TIME_S
+            time_accumulator += DOWN_SAMPLE_FACTOR * P1125API.MAHR_SAMPLE_TIME_S
             f.write("{:.3f}, {:.3f}, {:.3f}\n".format(time_accumulator, i, i_max))
 
     # if there is any data left, cache it for the next incoming
@@ -216,6 +215,8 @@ def main():
 
     This script example creates a csv file of the time, current, and max_current
     from "mAhr" (intcurr) measurements.
+
+    The data can be further reduced by setting DOWN_SAMPLE_FACTOR.
     """
     # check if the P1125 is reachable
     success, ping = p1125.ping()
