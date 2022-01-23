@@ -3,7 +3,7 @@
 """
 MIT License
 
-Copyright (c) 2020-2021 sistemicorp
+Copyright (c) 2020-2022 sistemicorp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ Requirements:
 
 --- !!! WARNING !!! ---
 if CONNECT_PROBE is True, this example connects the PROBE at VOUT_LIST mV
+Please check the Voltages to be safe for your DUT!
 
 """
 import time
@@ -80,10 +81,11 @@ plot_mahr.yaxis.axis_label = "Average mAhr"
 doc_layout = layout()
 
 VOUT_LIST = [3000, 2800, 2600, 2400, 2200]      # list of voltages over which to measure
-CONNECT_PROBE = True               # set to True to attach probe, !! Warning: check VOUT setting !!
+CONNECT_PROBE = False              # set to True to attach probe, !! Warning: check VOUT setting !!
 TIME_STOP_S = 30                   # seconds over which to measure the mAhr
 intcurr_results = []               # list of results for every VOUT
-setup_done = False                 # set to true if target is powered and ready
+do_dut_setup = False               # set to true if target setup is done by this script,
+                                   #   otherwise it is assumed the target is setup manually before running
 
 vout_colors = viridis(len(VOUT_LIST))
 color_key_value_pairs = dict(zip(VOUT_LIST, vout_colors))
@@ -140,16 +142,16 @@ def main():
     logger.info(result)
     if not success: return False
 
+    success, result = p1125.calibrate()
+    if not success: return False
+
     success, result = p1125.intcurr_set(time_stop_s=TIME_STOP_S)
     if not success:
         logger.error(result)
         return False
 
-    if not setup_done:
+    if do_dut_setup:
         success, result = p1125.probe(connect=False)
-        if not success: return False
-
-        success, result = p1125.calibrate()
         if not success: return False
 
         success, result = p1125.set_vout(VOUT_LIST[0])
@@ -159,7 +161,9 @@ def main():
         success, result = p1125.probe(connect=CONNECT_PROBE)
         if not success: return False
 
-        time.sleep(2)  # change as required...
+        # here, add/do anything required to put your DUT into the required state
+        # for example, probe has just been connected, wait here for DUT to boot up
+        time.sleep(2)  # change as required... this sleep is just a placeholder
 
     # for every vout, measure the mAhrs
     for vout in VOUT_LIST:
