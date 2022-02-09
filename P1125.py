@@ -176,7 +176,7 @@ class P1125(object):
         self._url = url
         self._count_request_errors = 0
 
-    def _response(self, payload):
+    def _response(self, payload: dict) -> (bool, dict):
         """ helper to send json requests
 
         :param payload: { "method": <"V1.method_to_call">, ["params": {"name": <value>}]}
@@ -210,7 +210,7 @@ class P1125(object):
         d = loads(response['result'])
         return d['success'], d
 
-    def ping(self):
+    def ping(self) -> (bool, dict):
         """ Ping the P1125 and get identifiction and version information
 
         :return: success <True/False>, result <json/None>
@@ -219,12 +219,12 @@ class P1125(object):
         self.logger.info("{} {}".format(payload["method"], self._url))
         return self._response(payload)
 
-    def status(self):
+    def status(self) -> (bool, dict):
         payload = {"method": "V1.status"}
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def calibrate(self, force=False):
+    def calibrate(self, force: bool=False) -> (bool, dict):
         """ Calibrate (blocking, this can take 30-60 seconds)
 
         :return: success <True/False>
@@ -257,7 +257,7 @@ class P1125(object):
 
         return True, result
 
-    def set_vout(self, value_mv=P1125API.VOUT_MIN_VAL):
+    def set_vout(self, value_mv: int=P1125API.VOUT_MIN_VAL) -> (bool, dict):
         """ Set VOUT
 
         :param value_mv: <1800-8000>
@@ -267,7 +267,7 @@ class P1125(object):
         self.logger.info("{} params: {}".format(payload["method"], payload["params"]))
         return self._response(payload)
 
-    def set_timebase(self, span):
+    def set_timebase(self, span: str) -> (bool, dict):
         """ Set Timebase
 
         :param span: <one of TBASE_SPAN_LIST>
@@ -277,10 +277,10 @@ class P1125(object):
         return self._response(payload)
 
     def set_trigger(self,
-                    src=P1125API.TRIG_SRC_NONE,
-                    pos=P1125API.TRIG_POS_LEFT,
-                    slope=P1125API.TRIG_SLOPE_RISE,
-                    level=1.0):
+                    src: str=P1125API.TRIG_SRC_NONE,
+                    pos: str=P1125API.TRIG_POS_LEFT,
+                    slope: str=P1125API.TRIG_SLOPE_RISE,
+                    level: float=1.0) -> (bool, dict):
         """ Set Trigger
 
         :param src: <P1125API.TRIG_SRC_*>
@@ -293,7 +293,7 @@ class P1125(object):
         self.logger.info("{} params: {}".format(payload["method"], payload["params"]))
         return self._response(payload)
 
-    def set_cal_load(self, loads=[P1125API.DEMO_CAL_LOAD_NONE]):
+    def set_cal_load(self, loads: list=[P1125API.DEMO_CAL_LOAD_NONE]) -> (bool, dict):
         """ Set Calibration Load
 
         - more than one load can be specified where the resultant loads are in parallel
@@ -305,7 +305,7 @@ class P1125(object):
         self.logger.info("{} params: {}".format(payload["method"], payload["params"]))
         return self._response(payload)
 
-    def acquisition_start(self, mode):
+    def acquisition_start(self, mode: str) -> (bool, dict):
         """ Start Acquisition (Single mode)
 
         :param mode: <P1125API.ACQUIRE_MODE_*>
@@ -324,7 +324,7 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def acquisition_complete(self, retries=RETRIES_ACQUISITION_COMPLETE):
+    def acquisition_complete(self, retries: int=RETRIES_ACQUISITION_COMPLETE) -> (bool, dict):
         """ Poll Acquisistion Complete
 
         :param retries: number of polling retries
@@ -345,7 +345,7 @@ class P1125(object):
 
         return triggered, result
 
-    def acquisition_get_data(self):
+    def acquisition_get_data(self) -> (bool, dict):
         """ Get Acquisition Data
 
         :return: success <True/False>, result <json/None>
@@ -354,20 +354,24 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def intcurr_set(self, time_stop_s):
+    def intcurr_set(self, time_stop_s: int) -> (bool, dict):
         """ Set Integrated Current settings
-        - note that integrated current measurement is limited internally to a maximum
-          number of samples.  Data collection will stop when that limit is reached.
+        - Set the time of the mAhr acquisition
+        - A good value is ~10x the product life cycle, for example if the device
+          wakes up every minute, then 10min, or 600s
 
         :param time_stop_s: stop time in seconds, example 3600 for 1 hour
+                            Minimum of 10s, Maximum of 7200s
         :return: success <True/False>, result <json/None>
         """
         payload = {"method": "V1.intcurr_set", "params": {"time_stop_s": time_stop_s}}
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def intcurr_complete(self):
+    def intcurr_complete(self) -> (bool, dict):
         """ Get Integrated Current Acquisition is Complete
+        - returns (True) if the time_stop_s set by intcurr_set() has expired
+          and the data is ready to be retrieved by intcurr_data()
 
         :return: success <True/False>, result <json/None>
         """
@@ -375,7 +379,7 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def intcurr_data(self):
+    def intcurr_data(self) -> (bool, dict):
         """ Get Integrated Current Data
 
         - (JSON)Result Dictionary Keys:
@@ -407,7 +411,7 @@ class P1125(object):
         self.logger.info(payload["method"])
         return self._response(payload)
 
-    def probe(self, connect=True, hard_connect=False):
+    def probe(self, connect: bool=True, hard_connect: bool=False) -> (bool, dict):
         """ Set Probe Connect
 
         If the probe is not connected, connecting will fail.  The P1125 can detect
@@ -423,7 +427,7 @@ class P1125(object):
         self.logger.info("{} params: {}".format(payload["method"], payload["params"]))
         return self._response(payload)
 
-    def probe_status(self):
+    def probe_status(self) -> (bool, dict):
         """ Get Probe Status
 
         :return: success <True/False>, result <json/None>
@@ -432,7 +436,7 @@ class P1125(object):
         self.logger.info("{}".format(payload["method"]))
         return self._response(payload)
 
-    def shutdown(self, restart=False):
+    def shutdown(self, restart: bool=False) -> (bool, dict):
         """ Shutdown P1125
 
         :param restart: <True/False>, if set the P1125 will reboot/restart
