@@ -67,11 +67,11 @@ if "p1125-####.local" in P1125_URL:
     exit(1)
 
 # Change these parameters to suit your needs:
-VOUT = 3000                   # mV, output voltage, 2000-8000 mV
+VOUT = 4000                   # mV, output voltage, 1800-8200 mV
 CONNECT_PROBE = False         # set to True to attach probe, !! Warning: check VOUT setting !!
-TIME_CAPTURE_WINDOW_S = 30    # seconds over which to measure the AVERAGE mAhr
+TIME_CAPTURE_WINDOW_S = 30    # seconds over which to measure the AVERAGE mAhr, 10-7200s
 TIME_TOTAL_RUN_S = 30 * 2     # seconds, total run time of the log
-LOG_FILE_PATH = "./"          # path to output file, use USB stick if possible
+LOG_FILE_PATH = "./"          # path to output file
 
 WRITE_PLOT_DATA = True        # flag for write_data()
 WAIT_POLLING_TIME_S = 0.5     # time to wait between polls whilst waiting for TIME_CAPTURE_WINDOW_S to complete
@@ -251,33 +251,40 @@ def main():
     if not success: return False
 
     if not setup_done:
+        # setup of the DUT is not done, and will be done here,
+        # - disconnect the probe, in case it is connected from a previous run
+        # - set VOUT
+        # - wait, and do any other steps to set up the DUT
+
         success, result = p1125.probe(connect=False)
         logger.info(result)
         if not success: return False
 
     success, result = p1125.set_vout(VOUT)
-    logger.info(result)
-    if not success: return False
+        logger.info(result)
+        if not success: return False
 
-    time.sleep(1)
+        # connect probe - ! make sure VOUT is right !
+        success, result = p1125.probe(connect=CONNECT_PROBE)
+        logger.info(result)
+        if not success: return False
 
-    # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
-    # setup
+        time.sleep(1)
 
-    # connect probe - ! make sure VOUT is right !
-    success, result = p1125.probe(connect=CONNECT_PROBE)
-    logger.info(result)
-    if not success: return False
+        # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
+        # setup
 
-    # test load, use when CONNECT_PROBE=False, remember to clear this load, see below
-    success, result = p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_2K])  # change load to experiment
-    logger.info("set_cal_load: {}".format(result))
-    if not success: return False
+        # test load (NO DUT), CONNECT_PROBE=False, remember to clear this load, see below
+        # REMOVE THIS FOR YOUR DUT
+        success, result = p1125.set_cal_load(loads=[P1125API.DEMO_CAL_LOAD_2K])  # change load to experiment
+        logger.info("set_cal_load: {}".format(result))
+        if not success: return False
 
     # pause here to let system power up to a certain state, change to suit your need
-    time.sleep(1)
+        time.sleep(1)
 
-    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        logger.info("DUT has been set up")
 
     start_time = datetime.datetime.now()
 
@@ -321,6 +328,8 @@ def main():
     # !!!!!!!!!!!! CHANGE THIS SECTION TO SUIT YOUR TARGET !!!!!!!!!!!!!!!!!!!
     # teardown
 
+    # test load (NO DUT), CONNECT_PROBE=False,
+    # REMOVE THIS FOR YOUR DUT
     success, result = p1125.set_cal_load(loads=[])  # reset
     if not success: return False
 
