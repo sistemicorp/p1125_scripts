@@ -82,7 +82,7 @@ doc_layout = layout()
 
 VOUT_LIST = [3000, 2800, 2600, 2400, 2200]      # list of voltages over which to measure
 CONNECT_PROBE = False              # set to True to attach probe, !! Warning: check VOUT setting !!
-TIME_STOP_S = 30                   # seconds over which to measure the mAhr
+TIME_STOP_S = 30                   # seconds over which to measure the mAhr, 10-7200s
 intcurr_results = []               # list of results for every VOUT
 do_dut_setup = False               # set to true if target setup is done by this script,
                                    #   otherwise it is assumed the target is setup manually before running
