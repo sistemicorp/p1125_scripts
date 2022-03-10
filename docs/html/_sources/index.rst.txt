@@ -9,6 +9,7 @@ Learning how to effectively use your P1125.
 
    quickStart
    kit
+   safety
    p1125_quick
    p1125_mahr
    p1125_config

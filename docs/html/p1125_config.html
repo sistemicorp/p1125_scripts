@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Configuration &#8212; P1125  documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -41,17 +42,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="configuration">
+  <section id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="setting-presets">
+<section id="setting-presets">
 <h2>Setting Presets<a class="headerlink" href="#setting-presets" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-right" id="index-0" style="width: 40%">
+<figure class="align-right" id="index-0" style="width: 40%">
 <img alt="_images/p1125_config_presets_01.png" src="_images/p1125_config_presets_01.png" />
-</div>
+</figure>
 <p>Some controls of the P1125 have <cite>preset</cite> values that can be set to an alternate default value.
 Setting these <cite>presets</cite> may improve your efficiency with the P1125.</p>
 <ol class="arabic simple">
-<li><p>Access the <cite>Presets</cite> page via the Menu-&gt;Presets.</p></li>
+<li><p>Access the <cite>Preferences</cite> page via the Menu-&gt;Preferences.</p></li>
 </ol>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -67,9 +68,9 @@ Setting these <cite>presets</cite> may improve your efficiency with the P1125.</
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<div class="figure align-right" style="width: 40%">
+<figure class="align-right" style="width: 40%">
 <img alt="_images/p1125_config_presets_02.png" src="_images/p1125_config_presets_02.png" />
-</div>
+</figure>
 <ol class="arabic simple" start="2">
 <li><p>The available <cite>presets</cite> will be shown with controls to adjust them.</p></li>
 <li><p>Press the <cite>SUBMIT</cite> button to store the results in the <cite>app_config.json</cite> file.</p></li>
@@ -85,44 +86,8 @@ Setting these <cite>presets</cite> may improve your efficiency with the P1125.</
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-</div>
-<div class="section" id="json-config-file">
-<h2>JSON Config File<a class="headerlink" href="#json-config-file" title="Permalink to this headline">¶</a></h2>
-<p>Various aspects of the P1125 can be configured via the <cite>app_config.json</cite> file located in the <cite>/home/user/pi</cite>
-directory.</p>
-<p>Although these settings can be accessed through the <cite>Presets</cite> page, another way to alter the application
-configuration is to <cite>ssh</cite> into the P1125 and edit the <cite>app_config.json</cite> file with the <cite>nano</cite> editor.</p>
-<p>How to <cite>ssh</cite> into the P1125, the pi user password is <cite>pi</cite>,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh pi@p1125-####.local
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The P1125 <cite>pi</cite> user password is <cite>pi</cite>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The hostname of your P1125 is written on the label on the bottom of the device.  Replace <cite>####</cite>
-with your specific hostname.</p>
-</div>
-<p>Then edit the file,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ nano app_config.json
-</pre></div>
-</div>
-<p>The <cite>app_config.json</cite> will look similar to this,</p>
-<blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;presets&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;vout_0&quot;</span><span class="p">:</span> <span class="mi">2900</span><span class="p">,</span>
-    <span class="nt">&quot;vout_1&quot;</span><span class="p">:</span> <span class="mi">3400</span><span class="p">,</span>
-    <span class="nt">&quot;vout_2&quot;</span><span class="p">:</span> <span class="mi">4700</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div></blockquote>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -131,21 +96,26 @@ with your specific hostname.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Configuration</a><ul>
 <li><a class="reference internal" href="#setting-presets">Setting Presets</a></li>
-<li><a class="reference internal" href="#json-config-file">JSON Config File</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="p1125_mahr.html"
-                        title="previous chapter">mAhr Plot</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="p1125_other.html"
-                        title="next chapter">Other/Misc</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="p1125_mahr.html"
+                          title="previous chapter">mAhr Plot</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="p1125_other.html"
+                          title="next chapter">Other/Misc</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -157,7 +127,7 @@ with your specific hostname.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -185,7 +155,7 @@ with your specific hostname.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020-2021, Sistemi Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

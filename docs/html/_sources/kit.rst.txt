@@ -51,13 +51,9 @@ There are two types of probes included.
 Extras
 ------
 
-.. index:: WiFi, antenna, USB Stick, Logs, IP Address, HDMI
+.. index:: WiFi, antenna, USB Stick, Logs, IP Address
 
 Included extras.
-
-.. figure:: _static/kit_31.jpg
-    :figwidth: 60%
-    :align: center
 
 
 * WiFi Antenna
@@ -72,7 +68,4 @@ Included extras.
   * The USB stick can also be used to get logs and IP address from the P1125 by sticking
     it into the P1125 USB port.  Other USB sticks may fail to mount.
 
-* HDMI Micro Cable
-
-  * Not normally used, but can be useful in the case of customer support
 

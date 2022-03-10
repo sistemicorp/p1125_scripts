@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Other/Misc &#8212; P1125  documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -41,13 +42,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="other-misc">
+  <section id="other-misc">
 <h1>Other/Misc<a class="headerlink" href="#other-misc" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="sending-logs">
+<section id="sending-logs">
 <h2>Sending Logs<a class="headerlink" href="#sending-logs" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-right" style="width: 40%">
+<figure class="align-right" style="width: 40%">
 <img alt="_images/p1125_misc_logs_01.png" src="_images/p1125_misc_logs_01.png" />
-</div>
+</figure>
 <div class="line-block" id="index-0">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -86,36 +87,26 @@ The P1125 serial number and software version are recorded in the logs.</p>
 <p>P1125 logs are only sent by User action.</p>
 </div>
 </div></blockquote>
-<div class="section" id="previewing-logs">
+<section id="previewing-logs">
 <h3>Previewing Logs<a class="headerlink" href="#previewing-logs" title="Permalink to this headline">¶</a></h3>
-<p>You may <cite>ssh</cite> into the P1125 to preview the logs that will be sent.  All of the files in the <cite>log</cite> folder
-will be sent in a zip file.</p>
-<blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh pi@p1125.####.local
-pi@p1125-####:~ $ ls -al log
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The P1125 <cite>pi</cite> user password is <cite>pi</cite>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The zip file is encrypted when it is sent to the Sistemi log server.</p>
-</div>
-</div></blockquote>
-</div>
-</div>
-<div class="section" id="shutting-down">
+<p>Logs can be retrieved, when the device is powered, by inserting a USB stick into the P1125.
+After inserting the USB stick, wait ~5s and then remove the USB stick and transfer to another PC.
+There will be a <cite>p1125</cite> folder on the stick with several logs.</p>
+<p>Note that one of the log files is a file with that is the IP address of the P1125.
+Using a USB stick to retrieve the logs is one way to find the P1125 IP address.
+See also</p>
+</section>
+</section>
+<section id="shutting-down">
 <h2>Shutting Down<a class="headerlink" href="#shutting-down" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-right" style="width: 40%">
+<figure class="align-right" style="width: 40%">
 <img alt="_images/p1125_misc_shutdown_01.png" src="_images/p1125_misc_shutdown_01.png" />
-</div>
-<p id="index-1">The P1125 runs on a Raspberry Pi 4B running standard <a class="reference external" href="https://www.raspberrypi.org/software/">Raspberry Pi OS</a>
+</figure>
+<p id="index-1">The P1125 runs on a Raspberry Pi 4B running standard <a class="reference external" href="https://www.raspberrypi.org/software/">Dietpi OS</a>
 on an SD card.</p>
 <p>It is best practice to shutdown the OS via <cite>Main-&gt;Shutdown</cite>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -124,8 +115,9 @@ on an SD card.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Other/Misc</a><ul>
 <li><a class="reference internal" href="#sending-logs">Sending Logs</a><ul>
 <li><a class="reference internal" href="#previewing-logs">Previewing Logs</a></li>
@@ -136,12 +128,17 @@ on an SD card.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="p1125_config.html"
-                        title="previous chapter">Configuration</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="scripting.html"
-                        title="next chapter">Scripting</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="p1125_config.html"
+                          title="previous chapter">Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scripting.html"
+                          title="next chapter">Scripting</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -153,7 +150,7 @@ on an SD card.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -181,7 +178,7 @@ on an SD card.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020-2021, Sistemi Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

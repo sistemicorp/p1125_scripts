@@ -35,7 +35,7 @@ Frequently Asked Questions
 * If the DUT has a high in-rush current, that peak current may trip the P1125
   maximum current safety threshold.
 * Often this can be overcome by connecting again quickly.  The in-rush may be reduced
-  from the first connection, allowing a subsequent conenction attempt to work.
+  from the first connection, allowing a subsequent connection attempt to work.
 
 
 .. code-block:: text
@@ -53,7 +53,7 @@ Frequently Asked Questions
 
 .. index:: ssh, remote
 
-* Yes, the P1125 `pi` user password is `pi`.
+* No, all user accounts are disabled, and there is no ssh service running.
 
 
 .. code-block:: text
@@ -62,22 +62,17 @@ Frequently Asked Questions
 
 .. index:: scripting
 
-* Yes.  It uses JSON-RPC.  The JSON-RPC API may be accessed via the Main menu.
+* Yes.  It uses JSON-RPC.  The JSON-RPC API documentation may be accessed via the Main menu.
 * See `https://github.com/sistemicorp/p1125_scripts.git <https://github.com/sistemicorp/p1125_scripts.git>`_
 
 
 .. code-block:: text
 
-    Why can't I use a local monitor, mouse, and keyboard to operate the P1125?
+    Can a local monitor, mouse, and keyboard to operate the P1125?
 
 .. index:: local monitor
 
-* Technically you can.  However the user experience is not great.
-* The issue is that the internal Raspberry Pi 4B is not powerful enough to run
-  `Chromium`, and the UI is sluggish.
-* If a fast, compatible browser is ever released for RPi, using a local setup may become an option.
-* Until such a time, the local connection setup should only be used for troubleshooting.  For example,
-  to find the IP address of the device, or to manually "reset" the SD card.
+* No.
 
 
 .. code-block:: text
@@ -86,11 +81,23 @@ Frequently Asked Questions
 
 .. index:: shutdown
 
-* You should always Shutdown, one of two ways, and remeber to *wait* until the LED is OFF.
+* You should always Shutdown, one of two ways, and remember to *wait* until the LED is OFF (stops blinking).
 
   * Press the OFF button on the side of the P1125
   * `Menu->Shutdown`
 
 * **Without shutting down you risk corrupting the SD Card.**
 
+
+.. code-block:: text
+
+    Can a direct ethernet connection to PC be used?
+
+.. index:: local monitor
+
+* Yes.
+* A crossover cable can be used to directly connect the P1125 to a PC over their wired ethernet ports.
+* In order for this to work, the PC networking service needs to bridge the ethernet network.  It is
+  beyond this Help scope to detail the steps required.  One may search the internet on how to directly
+  connect a Raspberry Pi 4B in this way and find useful tips.
 

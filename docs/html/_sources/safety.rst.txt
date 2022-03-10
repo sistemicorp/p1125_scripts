@@ -1,0 +1,33 @@
+Safety Instructions
+===================
+
+* **The P1125 is NOT a battery charger**
+
+  * Never connect the probe terminals to a battery.
+  * Never connect to a target device if a battery is installed.
+  * Remove any battery from the target device before using P1125.
+
+* Never push objects of any kind through the P1125 slots. Never spill liquid of any kind into the P1125.
+* Never block or obstruct P1125 ventilation.
+
+  * Do not use or store P1125 in a hot location, such as near a heater, in direct sunlight, or in a closed space.
+
+* Do not attempt to service this product yourself.
+
+* Discharge static electricity from your body before handling the product.
+
+  * In addition, avoid packaging or covering the product with materials which generate
+    static electricity. Contact with static electricity may result in product failure and/or damage.
+
+* Use on the the supplied power supply to power the P1125.
+* Do not leave the P1125 unattended.
+
+
+Best Practices
+==============
+
+* Shutdown the P1125 via the OFF button, or thru the user interface **BEFORE** removing power.
+
+  * When shutdown is started, the LED will blink RED for ~10s and then turn off.
+  * When the LED is off, you may disconnect power.
+

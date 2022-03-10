@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Frequently Asked Questions &#8212; P1125  documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -41,7 +42,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="frequently-asked-questions">
+  <section id="frequently-asked-questions">
 <h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Why do I have to CAL (calibrate) the P1125?  What is calibration doing?
 </pre></div>
@@ -70,7 +71,7 @@ the P1125 will disconnect if the in-rush current exceeds ~3.2 Amps for &gt;= ~5m
 <li><p>If the DUT has a high in-rush current, that peak current may trip the P1125
 maximum current safety threshold.</p></li>
 <li><p>Often this can be overcome by connecting again quickly.  The in-rush may be reduced
-from the first connection, allowing a subsequent conenction attempt to work.</p></li>
+from the first connection, allowing a subsequent connection attempt to work.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>How can I wipe WiFi networks and passwords from the P1125?
 </pre></div>
@@ -82,31 +83,26 @@ from the first connection, allowing a subsequent conenction attempt to work.</p>
 </pre></div>
 </div>
 <ul class="simple" id="index-3">
-<li><p>Yes, the P1125 <cite>pi</cite> user password is <cite>pi</cite>.</p></li>
+<li><p>No, all user accounts are disabled, and there is no ssh service running.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Can the p1125 be scripted?
 </pre></div>
 </div>
 <ul class="simple" id="index-4">
-<li><p>Yes.  It uses JSON-RPC.  The JSON-RPC API may be accessed via the Main menu.</p></li>
+<li><p>Yes.  It uses JSON-RPC.  The JSON-RPC API documentation may be accessed via the Main menu.</p></li>
 <li><p>See <a class="reference external" href="https://github.com/sistemicorp/p1125_scripts.git">https://github.com/sistemicorp/p1125_scripts.git</a></p></li>
 </ul>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Why can&#39;t I use a local monitor, mouse, and keyboard to operate the P1125?
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Can a local monitor, mouse, and keyboard to operate the P1125?
 </pre></div>
 </div>
 <ul class="simple" id="index-5">
-<li><p>Technically you can.  However the user experience is not great.</p></li>
-<li><p>The issue is that the internal Raspberry Pi 4B is not powerful enough to run
-<cite>Chromium</cite>, and the UI is sluggish.</p></li>
-<li><p>If a fast, compatible browser is ever released for RPi, using a local setup may become an option.</p></li>
-<li><p>Until such a time, the local connection setup should only be used for troubleshooting.  For example,
-to find the IP address of the device, or to manually “reset” the SD card.</p></li>
+<li><p>No.</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Do I have to Shutdown the P1125, or can I just remove power?
 </pre></div>
 </div>
 <ul class="simple" id="index-6">
-<li><p>You should always Shutdown, one of two ways, and remeber to <em>wait</em> until the LED is OFF.</p>
+<li><p>You should always Shutdown, one of two ways, and remember to <em>wait</em> until the LED is OFF (stops blinking).</p>
 <ul>
 <li><p>Press the OFF button on the side of the P1125</p></li>
 <li><p><cite>Menu-&gt;Shutdown</cite></p></li>
@@ -114,7 +110,17 @@ to find the IP address of the device, or to manually “reset” the SD card.</p
 </li>
 <li><p><strong>Without shutting down you risk corrupting the SD Card.</strong></p></li>
 </ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Can a direct ethernet connection to PC be used?
+</pre></div>
 </div>
+<ul class="simple" id="index-7">
+<li><p>Yes.</p></li>
+<li><p>A crossover cable can be used to directly connect the P1125 to a PC over their wired ethernet ports.</p></li>
+<li><p>In order for this to work, the PC networking service needs to bridge the ethernet network.  It is
+beyond this Help scope to detail the steps required.  One may search the internet on how to directly
+connect a Raspberry Pi 4B in this way and find useful tips.</p></li>
+</ul>
+</section>
 
 
             <div class="clearer"></div>
@@ -123,12 +129,16 @@ to find the IP address of the device, or to manually “reset” the SD card.</p
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="scripting.html"
-                        title="previous chapter">Scripting</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="troubleshooting.html"
-                        title="next chapter">Troubleshooting</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="scripting.html"
+                          title="previous chapter">Scripting</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="troubleshooting.html"
+                          title="next chapter">Troubleshooting</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -140,7 +150,7 @@ to find the IP address of the device, or to manually “reset” the SD card.</p
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -168,7 +178,7 @@ to find the IP address of the device, or to manually “reset” the SD card.</p
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020-2021, Sistemi Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

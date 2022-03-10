@@ -12,7 +12,7 @@ to connect remotely to the P1125, wired ethernet and WiFi.
     Do NOT use the included HDMI cable to use the P1125.  Local monitor/mouse/keyboard setup
     is for troubleshooting only.
 
-**Windows** users will need to install "Bonjour Services for Windows" in order to use the hostname
+**Windows** users may need to install "Bonjour Services for Windows" in order to use the hostname
 lookup that P1125 uses, from `Apple Bonjour (Download) <http://support.apple.com/kb/dl999>`_.  Its possible you may
 not need this service installed based on already installed programs on your PC, or services provided by
 your router.  Alternatively you can use P1125 IP Address, which will require some extra steps.
@@ -180,37 +180,46 @@ Opps, something went wrong.
     The status LED is solid RED, but browser cannot connect.
 
 * The P1125 is on a network, as indicated by the solid RED LED.  However, hostname lookup is not
-  working as expected, probably due to a failure of mDNS.
-* The workaround is to get the IP address of the P1125.  The P1125 itself does not have a display,
-  but it will write out the IP address that it has on a USB stick if one is inserted into it.
-* Insert a USB stick into the P1125 while it is powered up and the LED is solid RED.
-* After about 10 seconds, remove the USB stick and open it on another computer.  There will be a
-  `p1125` folder, and in that folder there will be a file with a name that is the IP address.
-* Use the found IP address in your browser.
-* Alternatively you can connect to your router and review the list of devices, and get the IP address from there.
-* Alternatively you can connect a monitor to the P1125, there is a troubleshooting HDMI cable in the kit,
-  also connect mouse/keyboard, and then power up the P1125.  The monitor must be connected before power
-  is connected.  Open a terminal, and issue command `ifconfig` to find the IP address
+  working as expected.
+* Confirm your PC and the P1125 are on the same network.
+* One workaround is to get the IP address of the P1125.
+
+  * The P1125 itself does not have a display, but it will write out the IP address that it has on a
+    USB stick if one is inserted into it.
+
+
+    * Insert a USB stick into the P1125 while it is powered up and the LED is solid RED.
+    * After about 10 seconds, remove the USB stick and open it on another computer.  There will be a
+      `p1125` folder, and in that folder there will be a file with a name that is the IP address.
+    * Use the found IP address in your browser.
+
+  * Alternatively you can connect to your router and review the list of devices, and get the IP address from there.
 
 
 .. code-block:: text
 
     Hostname variations, that pesky backslash, and Windows
 
-* if the hostname is failing, it could be the format of the hostname entered in the browser.
-* You must either enter the prefix "`http://`" or, add the "`/`" to the end of the hostname.
-* On Windows, it sometimes works if you exclude "`.local`" in the hostname.
+* Confirm the proper format of the hostname was entered in the browser,
+
+  * You must either enter the prefix "`http://`" or, add the "`/`" to the end of the hostname.
+
+  * example, `p1125-abcd.local/`
+
+  * On Windows, it sometimes works if you exclude "`.local`" in the hostname.
 
 
 .. code-block:: text
 
-    What is mDNS, and can I fix it?
+    What is mDNS?
 
 * mDNS is mobile DNS and its a service for finding devices on your network by their hostname.
 * mDNS can be running anywhere, on your router, on your PC, etc.
+* Some networks may have mDNS blocked for security reasons.  Ask your IT department.
 * mDNS is sometimes called the "Bonjour" service from Apple, or "avahi" the open source service.
 * Mac and Linux computers by default support mDNS.
 * Windows may or may not have mDNS service, depending on installed programs.
+
   * You can install "Bonjour services for Windows", with this link,
   * https://support.apple.com/kb/dl999
 

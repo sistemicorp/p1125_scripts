@@ -4,12 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>mAhr Plot &#8212; P1125  documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -41,16 +42,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="mahr-plot">
+  <section id="mahr-plot">
 <h1>mAhr Plot<a class="headerlink" href="#mahr-plot" title="Permalink to this headline">¶</a></h1>
 <p>The P1125 <cite>mAhr</cite> plot is very useful for acquiring long running plots and estimating battery life.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For <cite>very</cite> long running acquisitions, scripts are recommended.</p>
+<p>For <cite>very</cite> long running acquisitions, <a class="reference internal" href="scripting.html#scripting"><span class="std std-ref">Scripting</span></a> is recommended.</p>
 </div>
-<div class="figure align-center" id="index-0" style="width: 100%">
+<figure class="align-center" id="index-0" style="width: 100%">
 <img alt="_images/p1125_mahr_main_01.png" src="_images/p1125_mahr_main_01.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p>The mAhr plot is accessed via the plot tabs.</p></li>
 </ol>
@@ -58,19 +59,23 @@
 <div><p>While an acquisition is running, the user may toggle between the plot tabs.</p>
 </div></blockquote>
 <ol class="arabic simple" start="2">
-<li><p>The statistics from the acquisition will be shown here.</p></li>
+<li><p>The statistics of the mAhr plotted.  The last item is the percent complete of the set Stop time.</p></li>
 <li><p>The Stop Time for the mAhr plot is selected.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To get the most accurate estimation of your battery life, the Stop Time
-should be set to a time that captures the “life cycle” of your target.
+should be set to a time that captures &gt;10 “life cycles” of your target.
 For example, if your target wakes up once a minute to “work”, then perhaps
 a Stop Time of 10min would capture enough life cycles to calculate a good
 average current.</p>
 </div>
 <ol class="arabic simple" start="4">
-<li><p>The RUN command begins mAhr data acquisition.</p></li>
+<li><p>Y-scale data source.</p></li>
+<li><p>The RUN command begins mAhr data acquisition.  To restart the acquisition, press STOP, and then RUN.
+The mAhr plot does not run in SINGLE mode.</p></li>
+<li><p>Peak current measured during 480 samples (explained below).</p></li>
+<li><p>Average current measured and calculated during 480 samples (explained below).</p></li>
 </ol>
 <ul class="simple">
 <li><p>The mAhr plot is always running as a background task.</p></li>
@@ -78,11 +83,11 @@ average current.</p>
 <li><p>While the mAhr acquisition is running the realtime Log/Lin plots will be running.
 If you are not interested in the realtime plots, its best to keep the timespan setting small.</p></li>
 </ul>
-<div class="section" id="acquisition-details">
+<section id="acquisition-details">
 <h2>Acquisition Details<a class="headerlink" href="#acquisition-details" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-center" style="width: 100%">
+<figure class="align-center" style="width: 100%">
 <img alt="_images/mAhr_11.png" src="_images/mAhr_11.png" />
-</div>
+</figure>
 <ul class="simple">
 <li><p>The P1125 is ALWAYS sampling at one rate, that is <cite>48000 Hertz</cite>.</p></li>
 <li><p>mAhr (average) samples are integrated over 480 samples, which is 10.0ms.</p></li>
@@ -92,20 +97,41 @@ sampling rate remains the same.</p></li>
 the same sample time as the average.  Therefore if an unexpected peak current occurs
 it can be seen, aiding in debugging.</p></li>
 </ul>
-</div>
-<div class="section" id="battery-life">
+</section>
+<section id="battery-life">
 <h2>Battery Life<a class="headerlink" href="#battery-life" title="Permalink to this headline">¶</a></h2>
 <p>An example mAhr plot is acquired with the <cite>Demo</cite> mode.</p>
-<div class="figure align-center" style="width: 100%">
+<figure class="align-center" style="width: 100%">
 <img alt="_images/p1125_mahr_stats_01.png" src="_images/p1125_mahr_stats_01.png" />
-</div>
+</figure>
 <ol class="arabic simple">
-<li><p>At the end of 30 seconds, the mAhr statistics are shown.</p></li>
-<li><p>Here the mAhr calculation is <cite>0.2 mAhr</cite>.</p></li>
-<li><p>To estimate your battery life, divide your battery mAhr rating by <cite>0.2</cite>.</p></li>
+<li><p>At the end of 30 seconds, the mAhr statistics are shown. Here the mAhr calculation is <cite>0.10391 mAhr</cite>.</p></li>
+<li><p>To estimate your battery life, divide your battery mAhr rating by <cite>0.10391</cite>.</p></li>
 </ol>
+</section>
+<section id="crosshair-stats">
+<h2>Crosshair Stats<a class="headerlink" href="#crosshair-stats" title="Permalink to this headline">¶</a></h2>
+<p>Similar to other plots, the crosshair tool can be used to get stats over a specific region of the mAhr plot.</p>
+<figure class="align-center" style="width: 100%">
+<img alt="_images/p1125_mahr_cross_01.png" src="_images/p1125_mahr_cross_01.png" />
+</figure>
+<ol class="arabic simple">
+<li><p>Select the crosshair tool.</p></li>
+<li><p>Select a starting point in the plotted area.  Next select an ending point.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While the crosshair tool is selected, every click on the plotted area will move the starting/ending
+point, in this way one can zero in on the specific area of interest.  When the desired area is highlighted,
+select the crosshair tool to disable the crosshair mode.</p>
 </div>
-</div>
+<ol class="arabic simple" start="3">
+<li><p>The stats for the selected area are shown.  These stats, specifically the Coulombs,
+can be used for battery life modelling.</p></li>
+<li><p>When finished, clear the crosshair cursors.</p></li>
+</ol>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -114,21 +140,28 @@ it can be seen, aiding in debugging.</p></li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">mAhr Plot</a><ul>
 <li><a class="reference internal" href="#acquisition-details">Acquisition Details</a></li>
 <li><a class="reference internal" href="#battery-life">Battery Life</a></li>
+<li><a class="reference internal" href="#crosshair-stats">Crosshair Stats</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="p1125_quick.html"
-                        title="previous chapter">Quick Overview</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="p1125_config.html"
-                        title="next chapter">Configuration</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="p1125_quick.html"
+                          title="previous chapter">Quick Overview</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="p1125_config.html"
+                          title="next chapter">Configuration</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -140,7 +173,7 @@ it can be seen, aiding in debugging.</p></li>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -168,7 +201,7 @@ it can be seen, aiding in debugging.</p></li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020-2021, Sistemi Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>
