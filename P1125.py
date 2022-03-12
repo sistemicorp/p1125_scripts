@@ -280,13 +280,13 @@ class P1125(object):
                     src: str=P1125API.TRIG_SRC_NONE,
                     pos: str=P1125API.TRIG_POS_LEFT,
                     slope: str=P1125API.TRIG_SLOPE_RISE,
-                    level: float=1.0) -> (bool, dict):
+                    level: int=1) -> (bool, dict):
         """ Set Trigger
 
         :param src: <P1125API.TRIG_SRC_*>
         :param pos: <P1125API.TRIG_POS_*>
         :param slope: <P1125API.TRIG_SLOPE_*>
-        :param level: <float in mV or uA>
+        :param level: <int in mV or uA>
         :return: success <True/False>, result <json/None>
         """
         payload = {"method": "V1.trigger", "params": {"source": src, "position": pos, "slope": slope, "level": level}}

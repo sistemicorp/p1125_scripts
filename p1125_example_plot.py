@@ -133,7 +133,7 @@ def main():
     success, result = p1125.set_trigger(src=P1125API.TRIG_SRC_NONE,
                                         pos=P1125API.TRIG_POS_LEFT,
                                         slope=P1125API.TRIG_SLOPE_RISE,
-                                        level=1.0)
+                                        level=1)
     logger.info(result)
     if not success: return False
 
