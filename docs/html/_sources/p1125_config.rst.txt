@@ -34,7 +34,7 @@ Setting these `presets` may improve your efficiency with the P1125.
     :align: right
 
 2. The available `presets` will be shown with controls to adjust them.
-3. Press the `SUBMIT` button to store the results in the `app_config.json` file.
+3. Press the `SUBMIT` button to save the settings.
 4. To go back to the main page via `Menu->Main`.
 
 |

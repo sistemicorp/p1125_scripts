@@ -4,13 +4,18 @@ Setup
 .. index:: Setup
 
 
-The P1125 is meant to be used by a remote network connected computer running `Chrome`.  There are two ways
-to connect remotely to the P1125, wired ethernet and WiFi.
+The P1125 is a `network applicance`.  The P1125 is meant to be used by a remote network connected
+computer running `Chrome`.  There are two ways to connect remotely to the P1125, wired ethernet and WiFi.
 
 .. note::
 
     Do NOT use the included HDMI cable to use the P1125.  Local monitor/mouse/keyboard setup
     is for troubleshooting only.
+
+.. note::
+
+    P1125 is not a USB device.
+
 
 **Windows** users may need to install "Bonjour Services for Windows" in order to use the hostname
 lookup that P1125 uses, from `Apple Bonjour (Download) <http://support.apple.com/kb/dl999>`_.  Its possible you may
@@ -83,9 +88,9 @@ WiFi
 5. When the P1125 LED is blinking AMBER it has setup a HOTSPOT to get WiFi credentials. Use
    your phone, PC, tablet, etc, to access the HOTSPOT.  The name of the HOTSPOT will be in the form
    `p1125-####` and match the label on the bottom of the P1125.
-6. Using your phone, PC, etc, Connect to the HOTSOT and select your network and enter password and then CONNECT.
+6. Using your phone, PC, etc, Connect to the HOTSPOT and select your network and enter password and then CONNECT.
 7. The P1125 LED should change to solid RED after ~10 seconds of attempting to connect to the WiFi network.
-   If it goes back to HOSTPOT (Blinking AMBER) then retry, and be careful about entering the password.
+   If it goes back to HOTSPOT (Blinking AMBER) then retry, and be careful about entering the password.
 8. When the LED is solid RED, the P1125 is ready to be accessed by your browser (see below).
 
 The Next time you power up the P1125 it will know your network and you do not have to repeat the

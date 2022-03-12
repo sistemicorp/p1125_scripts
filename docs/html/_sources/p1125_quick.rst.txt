@@ -11,21 +11,24 @@ Quick Overview
 
 
 1. Main Menu
-2. Status
-3. Acquire Controls
-4. Output Controls
-5. Trigger Controls
-6. Display and Other Controls
-7. Plot Viewing Area
-8. Log, Linear and mAhr Plot Views
+2. Ammeter - Shows the average current for the last ~1s.
+3. Plotted Stats - Shows stats for the currently plotted waveform.
+4. Status
+5. Plot Tabs - Select to view plot.
+6. Plot Controls - Select tools as required, Reset to original Zoom.
+7. Analog Input A0 Y-Axis
+8. Current Y-Axis
+9. Aquire Controls
+10. Output Controls
+11. Trigger Controls
+12. Display and Other Controls
 
 |
-|
-|
-|
-|
-|
-|
+
+  .. note::
+
+    If the left side control panels do not fit the browser window, press CTRL-/+ to
+    adjust the Zoom level of the browser window.
 
 
 Acquire Controls
@@ -89,6 +92,10 @@ Trigger Controls
 .. index:: trigger, D0, D1, A0
 
 
+Arming the Trigger only affects the (realtime) Log/Lin plots.  Trigger does not
+affect the mAhr plot.  Regardless of a trigger, the mAhr plot will always plot.
+
+
 .. figure:: _static/p1125_main_trig_01.png
     :figwidth: 40%
     :align: right
@@ -96,17 +103,19 @@ Trigger Controls
 1. Source - Selects the trigger source.
 2. Position - Set the time zero position on the plot.
 3. Slope - Set the slope of the source waveform which to trigger on.
+4. Slider - Adjust the trigger level.  For Log plots the adjustment is within a decade.
+5. Left/Right Arrows - Fine level adjustment.
+6. Manual Trigger - Press to cause a manual trigger.  This is useful to locate the signal.
+7. Text Entry - Enter the trigger level in mAmps.
 
 |
 |
 |
-|
-|
-|
-|
 
-Trigger Source will only show the enabled trigger sources, therefore in order to select
-auxillary input triggers, A0, D0, or D1, they must first be enabled.
+  .. note::
+
+    Trigger Source will only show the enabled trigger sources, therefore in order to select
+    auxiliary input triggers, A0, D0, or D1, they must first be enabled.
 
 
 Display/Other Controls
@@ -148,8 +157,10 @@ Plot Area
 |
 |
 
-1. Plot Tab - Log, Linear and mAhr plots.
-2. Plot Tools - various zoom, pan, hover and crosshair tools.
+1. Plot Tabs - Log, Linear and mAhr plots.
+2. Analog A0 Y-Axis.
+3. Set Current Trigger Level Area - When Trigger Source is Current, clicking this area will set the trigger level.
+4. Plot Tools - various zoom, pan, hover and crosshair tools.
 
 |
 |

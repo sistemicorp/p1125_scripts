@@ -49,23 +49,28 @@
 </figure>
 <ol class="arabic simple">
 <li><p>Main Menu</p></li>
+<li><p>Ammeter - Shows the average current for the last ~1s.</p></li>
+<li><p>Plotted Stats - Shows stats for the currently plotted waveform.</p></li>
 <li><p>Status</p></li>
-<li><p>Acquire Controls</p></li>
+<li><p>Plot Tabs - Select to view plot.</p></li>
+<li><p>Plot Controls - Select tools as required, Reset to original Zoom.</p></li>
+<li><p>Analog Input A0 Y-Axis</p></li>
+<li><p>Current Y-Axis</p></li>
+<li><p>Aquire Controls</p></li>
 <li><p>Output Controls</p></li>
 <li><p>Trigger Controls</p></li>
 <li><p>Display and Other Controls</p></li>
-<li><p>Plot Viewing Area</p></li>
-<li><p>Log, Linear and mAhr Plot Views</p></li>
 </ol>
 <div class="line-block">
 <div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
 </div>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the left side control panels do not fit the browser window, press CTRL-/+ to
+adjust the Zoom level of the browser window.</p>
+</div>
+</div></blockquote>
 <section id="acquire-controls">
 <h2>Acquire Controls<a class="headerlink" href="#acquire-controls" title="Permalink to this headline">¶</a></h2>
 <figure class="align-right" id="index-1" style="width: 40%">
@@ -120,25 +125,32 @@ The probe must be connected to the P1125 for this button to be accessible.</p></
 </section>
 <section id="trigger-controls">
 <h2>Trigger Controls<a class="headerlink" href="#trigger-controls" title="Permalink to this headline">¶</a></h2>
-<figure class="align-right" id="index-3" style="width: 40%">
+<p id="index-3">Arming the Trigger only affects the (realtime) Log/Lin plots.  Trigger does not
+affect the mAhr plot.  Regardless of a trigger, the mAhr plot will always plot.</p>
+<figure class="align-right" style="width: 40%">
 <img alt="_images/p1125_main_trig_01.png" src="_images/p1125_main_trig_01.png" />
 </figure>
 <ol class="arabic simple">
 <li><p>Source - Selects the trigger source.</p></li>
 <li><p>Position - Set the time zero position on the plot.</p></li>
 <li><p>Slope - Set the slope of the source waveform which to trigger on.</p></li>
+<li><p>Slider - Adjust the trigger level.  For Log plots the adjustment is within a decade.</p></li>
+<li><p>Left/Right Arrows - Fine level adjustment.</p></li>
+<li><p>Manual Trigger - Press to cause a manual trigger.  This is useful to locate the signal.</p></li>
+<li><p>Text Entry - Enter the trigger level in mAmps.</p></li>
 </ol>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
 </div>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Trigger Source will only show the enabled trigger sources, therefore in order to select
-auxillary input triggers, A0, D0, or D1, they must first be enabled.</p>
+auxiliary input triggers, A0, D0, or D1, they must first be enabled.</p>
+</div>
+</div></blockquote>
 </section>
 <section id="display-other-controls">
 <h2>Display/Other Controls<a class="headerlink" href="#display-other-controls" title="Permalink to this headline">¶</a></h2>
@@ -177,7 +189,9 @@ in-rush currents.
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple">
-<li><p>Plot Tab - Log, Linear and mAhr plots.</p></li>
+<li><p>Plot Tabs - Log, Linear and mAhr plots.</p></li>
+<li><p>Analog A0 Y-Axis.</p></li>
+<li><p>Set Current Trigger Level Area - When Trigger Source is Current, clicking this area will set the trigger level.</p></li>
 <li><p>Plot Tools - various zoom, pan, hover and crosshair tools.</p></li>
 </ol>
 <div class="line-block">
@@ -257,7 +271,7 @@ in-rush currents.
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2020-2021, Sistemi Corporation.
+        &#169; Copyright 2020-2022, Sistemi Corporation.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
