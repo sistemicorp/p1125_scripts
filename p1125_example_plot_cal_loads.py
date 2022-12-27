@@ -103,14 +103,12 @@ if PLOT_RESULTS:
 
 VOUT = [1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8200]
 
-SPAN = P1125API.TBASE_SPAN_500MS  # 24k samples
-ERROR_CURRENT_THRESHOLD_UA = 10  # threshold for different specs
-ERROR_PERCENT_GT_THRES = 5       # % sigma error tolerance for GT (greater than) ERROR_CURRENT_THRESHOLD_UA
-ERROR_PERCENT_LT_THRES = 20      # % sigma error tolerance for LT (greater than) ERROR_CURRENT_THRESHOLD_UA
-ERROR_SIGMA = 1
-ERROR_SIGMA_PRCNT = 1
-ERROR_AVG_UA = 1                 # avg error absolute magnitude
-ERROR_AVG_PRCNT = 0.05           # avg error percent of expected, AVG error is max(ERROR_AVG_UA, ERROR_AVG_PRCNT)
+SPAN = P1125API.TBASE_SPAN_500MS  # 24k samples for RMS noise calculations
+AVG_NUM_SAMPLES = 480     # Number sames to calculate avg current, should match mAhr timebase (10ms -> 480 samples)
+ERROR_SIGMA_UA = 1.0      # RMS (sigma) Noise max, absolute
+ERROR_SIGMA_PRCNT = 2.0   # RMS (sigma) Noise max  percentage, RMS noise is max(ERROR_SIGMA_UA, ERROR_SIGMA_PRCNT)
+ERROR_AVG_UA = 0.5        # avg error absolute magnitude
+ERROR_AVG_PRCNT = 5.0     # avg error percent of expected, AVG error is max(ERROR_AVG_UA, ERROR_AVG_PRCNT)
 
 CURRENT_MIN_UA = 1.0           # skip setups where the expected current is less than CURRENT_MIN_UA
 # WARNING! Do not exceed 1100mA continuously or damage may occur!
@@ -140,13 +138,15 @@ def main():
     logger.info("ping: {}".format(p1125_details))
     if not success: return False
 
-    title = f"P1125: Serial Num: {p1125_details['rpi_serial']}, HWVer: {p1125_details['a10_hw_ver']:x}, BOM: {p1125_details['a10_bom']:x}"
+    title = f"P1125: Serial: {p1125_details['rpi_serial']}, HWVer: {p1125_details['a10_hw_ver']:x}, " \
+            f"SW Ver: {p1125_details['version']}"
+
     if WRITE_CVS:
         csv_filename = f"p1125_{p1125_details['rpi_serial']}"
         try:
             f_csv = open(csv_filename, "w")
             f_csv.write(f"{title}\n")
-            f_csv.write("vout, resistance, expected_i_ua, avg, err%, sigma%, #samples, pass/fail\n")
+            f_csv.write("vout, resistance, expected_i_ua, avg, err%/limit%, sigma%/limit%, pass/fail\n")
 
         except Exception as e:
             logger.error(e)
@@ -211,7 +211,7 @@ def main():
             data["vout"].append(vout)
             data["min"].append(min(result["i"]))
             data["max"].append(max(result["i"]))
-            data["avg"].append(sum(result["i"]) / samples)
+            data["avg"].append(sum(result["i"][0:AVG_NUM_SAMPLES]) / AVG_NUM_SAMPLES)
             data["exp"].append(expected_i_ua)
             data["res"].append(resistance)
 
@@ -221,27 +221,24 @@ def main():
             data["sigma_percent"].append(sigma_as_percent)
 
             pass_or_fail = "Pass"
-            avg_error_allowed = max(ERROR_AVG_UA, expected_i_ua * ERROR_AVG_PRCNT)
-            avg_error = abs(data["avg"][-1] - expected_i_ua)
-            avg_error_percent = avg_error / expected_i_ua * 100.0
-            if avg_error > avg_error_allowed:
-                pass_or_fail = "FAIL_abs_error"
+            avg_error_allowed_percent = max(ERROR_AVG_UA / expected_i_ua * 100.0, ERROR_AVG_PRCNT)
+            avg_error_percent = abs(data["avg"][-1] - expected_i_ua) / expected_i_ua * 100.0
+            if avg_error_percent > avg_error_allowed_percent:
+                pass_or_fail = f"FAIL_avg_error, {avg_error_percent}% > {avg_error_allowed_percent}%"
 
             else:
-                if expected_i_ua >= ERROR_CURRENT_THRESHOLD_UA:
-                    data["sigma_pass_circle"].append(ERROR_PERCENT_GT_THRES)
-                    if data["sigma_percent"][-1] > ERROR_PERCENT_GT_THRES: pass_or_fail = "FAIL_sigma_gt"
-                else:
-                    data["sigma_pass_circle"].append(ERROR_PERCENT_LT_THRES)
-                    if data["sigma_percent"][-1] > ERROR_PERCENT_LT_THRES: pass_or_fail = "FAIL_sigma_lt"
+                sigma_error_allowed_prcnt = max(ERROR_SIGMA_UA / expected_i_ua * 100.0, ERROR_SIGMA_PRCNT)
+                if data['sigma_percent'][-1] > sigma_error_allowed_prcnt:
+                    pass_or_fail = f"FAIL_sigma_percent, {data['sigma_percent'][-1]}% > {sigma_error_allowed_prcnt}%"
 
             logger.info(f"""VOUT {data["vout"][-1]} mV, Expected {data["exp"][-1]:9.2f} uA, """ 
                         f"""min/avg/max: {data["min"][-1]:9.2f} {data["avg"][-1]:9.2f} {data["max"][-1]:9.2f} uA, """ 
                         f"""sigma {sigma:8.3f} ({sigma_as_percent:3.1}%), {samples} samples, {pass_or_fail}""")
 
             if WRITE_CVS:
-                f_csv.write(f"{vout:4}, {resistance:9.1f}, {expected_i_ua:9.1f}, {data['avg'][-1]:10.1f}, {avg_error_percent:4.1f}% "
-                            f"{data['sigma_percent'][-1]:4.1f}%, {samples}, {pass_or_fail}\n")
+                f_csv.write(f"{vout:4}, {resistance:9.1f}, {expected_i_ua:9.1f}, {data['avg'][-1]:10.1f}, " 
+                            f"{avg_error_percent:4.1f}%/{avg_error_allowed_percent:4.1f}% "
+                            f"{data['sigma_percent'][-1]:4.1f}%/{sigma_error_allowed_prcnt:4.1f}%, {pass_or_fail}\n")
 
     if PLOT_RESULTS:
         plot.cross(x="vout", y="avg", size=10, color="blue", source=source)
