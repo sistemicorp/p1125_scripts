@@ -146,7 +146,7 @@ def main():
         try:
             f_csv = open(csv_filename, "w")
             f_csv.write(f"{title}\n")
-            f_csv.write("vout, resistance, expected_i_ua, avg, err%/limit%, sigma%/limit%, pass/fail\n")
+            f_csv.write("vout, resistance, expected_i_ua, avg, err%/limit%, RMSNoise%/limit%, pass/fail\n")
 
         except Exception as e:
             logger.error(e)
