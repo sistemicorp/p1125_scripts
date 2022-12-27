@@ -43,7 +43,7 @@ Notes:
 """
 import traceback
 from time import sleep
-import numpy as np
+import statistics
 import logging
 
 PLOT_RESULTS = False
@@ -215,7 +215,7 @@ def main():
             data["exp"].append(expected_i_ua)
             data["res"].append(resistance)
 
-            sigma = np.std(result["i"])
+            sigma = statistics.pstdev(result["i"])
             data["sigma"].append(sigma)
             sigma_as_percent = sigma * 100.0 / expected_i_ua
             data["sigma_percent"].append(sigma_as_percent)
