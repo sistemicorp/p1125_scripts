@@ -32,22 +32,27 @@ Run this file,
     $python3 p1125_example_plot_cal_loads.py
 
 Requirements:
-1) Python 3.6+ and bokeh 2.3.0 (pip3 install bokeh) or greater installed.
+1) Python 3.6+ and bokeh 2.4.3 (pip3 install bokeh) or greater installed.
 2) Change line 64 to suit your environment.
 3) Chrome browser.
 
 Notes:
-1) Calibration loads are only attached to the supply when the probe is DISCONNECTED.
+1) Sigma Plot green and red circle are correlated in size, but are not
+   sized according to the x/y axis.
 
 """
+import traceback
 from time import sleep
-import numpy as np
+import statistics
 import logging
-from bokeh.layouts import layout, row
-from bokeh.io import show
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource
-from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, ZoomInTool
+
+PLOT_RESULTS = False
+if PLOT_RESULTS:
+    from bokeh.layouts import layout, row
+    from bokeh.io import show
+    from bokeh.plotting import figure
+    from bokeh.models import ColumnDataSource, Div
+    from bokeh.models import HoverTool, BoxZoomTool, ResetTool, UndoTool, PanTool, ZoomInTool
 
 from P1125 import P1125, P1125API
 
@@ -64,55 +69,49 @@ logger.addHandler(consoleHandler)
 P1125_URL = "p1125-####.local"  # for example, p115-a12b.local, or 192.168.0.123
 P1125_API = "/api/V1"
 URL = "http://" + P1125_URL + P1125_API
+WRITE_CVS = True
 
 if "p1125-####.local" in P1125_URL:
     logger.error("Please set P1125_URL with valid IP/Hostname")
     exit(1)
 
 p1125 = P1125(url=URL, loggerIn=logger)
+data = {"vout": [], "min": [], "max": [], "avg": [], "exp": [], "res": [], "sigma": [], "sigma_percent": [],
+        "sigma_pass_circle": []}  # global dict to hold plotting vectors
 
-# bokeh plot setup
-PLOT_WIDTH = 600
-PLOT_HEIGHT = 800
-plot = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
-              y_axis_type="log", title="Current Min/Avg/Max/Expected vs VOUT")
-plot.xaxis.axis_label = "VOUT (mV)"
-plot.yaxis.axis_label = "Current (uA)"
+if PLOT_RESULTS:
+    # bokeh plot setup
+    PLOT_WIDTH = 600
+    PLOT_HEIGHT = 800
+    plot = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+                  y_axis_type="log", title="Current Min/Avg/Max/Expected vs VOUT")
+    plot.xaxis.axis_label = "VOUT (mV)"
+    plot.yaxis.axis_label = "Current (uA)"
 
-plot_sigma = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
-                    y_axis_type="log", title="RMS Noise (as % of Expected) vs VOUT")
-plot_sigma.xaxis.axis_label = "VOUT (mV)"
-plot_sigma.yaxis.axis_label = "Current (uA)"
+    plot_sigma = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+                        y_axis_type="log", title="RMS Noise (as % of Expected) vs VOUT")
+    plot_sigma.xaxis.axis_label = "VOUT (mV)"
+    plot_sigma.yaxis.axis_label = "Current (uA)"
 
-plot_errp = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
-                   y_axis_type="log", title="Peak Error (as % of Expected) vs VOUT")
-plot_errp.xaxis.axis_label = "VOUT (mV)"
-plot_errp.yaxis.axis_label = "Current (uA)"
+    plot_errp = figure(toolbar_location="above", width=PLOT_WIDTH, height=PLOT_HEIGHT, y_range=(1, 2000000),
+                       y_axis_type="log", title="Peak Error (as % of Expected) vs VOUT")
+    plot_errp.xaxis.axis_label = "VOUT (mV)"
+    plot_errp.yaxis.axis_label = "Current (uA)"
 
-doc_layout = layout()
-
-data = {
-    "vout": [],
-    "min": [],
-    "max": [],
-    "avg": [],
-    "exp": [],
-    "err": [],
-    "errp": [],  # peak error
-    "res": [],
-    "sigma": [],
-    "sigma_percent": [],
-}  # global dict to hold plotting vectors
-source = ColumnDataSource(data=data)
+    doc_layout = layout()
+    source = ColumnDataSource(data=data)
 
 VOUT = [1800, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8200]
-#VOUT = [4000]  # for debugging
 
-SPAN = P1125API.TBASE_SPAN_500MS
-PLOT_CIRCLE_ERR = 10          # percent error as "green circle" reference on the plots
-CURRENT_MIN_UA  = 1.0         # skip setups where the expected current is less than CURRENT_MIN_UA
+SPAN = P1125API.TBASE_SPAN_500MS  # 24k samples for RMS noise calculations
+AVG_NUM_SAMPLES = 480     # Number sames to calculate avg current, should match mAhr timebase (10ms -> 480 samples)
+ERROR_SIGMA_UA = 1.0      # RMS (sigma) Noise max, absolute
+ERROR_SIGMA_PRCNT = 2.0   # RMS (sigma) Noise max  percentage, RMS noise is max(ERROR_SIGMA_UA, ERROR_SIGMA_PRCNT)
+ERROR_AVG_UA = 0.5        # avg error absolute magnitude
+ERROR_AVG_PRCNT = 5.0     # avg error percent of expected, AVG error is max(ERROR_AVG_UA, ERROR_AVG_PRCNT)
 
-# WARNING! Do not exceed 900mA or damage may occur!
+CURRENT_MIN_UA = 1.0           # skip setups where the expected current is less than CURRENT_MIN_UA
+# WARNING! Do not exceed 1100mA continuously or damage may occur!
 CURRENT_MAX_UA  = 1100000.0    # skip setups where the expected current is more than CURRENT_MAX_UA
 
 #                   loads to cycle thru         Resistance
@@ -135,9 +134,23 @@ def main():
     """
 
     # check if the P1125 is reachable
-    success, result = p1125.ping()
-    logger.info("ping: {}".format(result))
+    success, p1125_details = p1125.ping()
+    logger.info("ping: {}".format(p1125_details))
     if not success: return False
+
+    title = f"P1125: Serial: {p1125_details['rpi_serial']}, HWVer: {p1125_details['a10_hw_ver']:x}, " \
+            f"SW Ver: {p1125_details['version']}"
+
+    if WRITE_CVS:
+        csv_filename = f"p1125_{p1125_details['rpi_serial']}"
+        try:
+            f_csv = open(csv_filename, "w")
+            f_csv.write(f"{title}\n")
+            f_csv.write("vout, resistance, expected_i_ua, avg, err%/limit%, RMSNoise%/limit%, pass/fail\n")
+
+        except Exception as e:
+            logger.error(e)
+            return False
 
     success, result = p1125.status()
     logger.info("status: {}".format(result))
@@ -170,16 +183,16 @@ def main():
 
         for load, resistance in LOADS_TO_PLOT:
             expected_i_ua = float(vout) / resistance * 1000.0
-            if expected_i_ua < CURRENT_MIN_UA or expected_i_ua > CURRENT_MAX_UA:
+            if not (CURRENT_MIN_UA < expected_i_ua < CURRENT_MAX_UA):
                 logger.info("SKIP (Current out of range): {} mV, {:0.3f} Ohms, expected {:.1f} uA".format(vout, resistance, expected_i_ua))
                 continue
 
-            logger.info("{} mV, {}, expected {} uA".format(vout, resistance, expected_i_ua))
+            logger.info("{} mV, {}, expected {:0.3f} uA".format(vout, resistance, expected_i_ua))
 
             success, result = p1125.set_cal_load(loads=load)
             logger.info("set_cal_load: {}".format(result))
             if not success: break
-            sleep(0.1)  # allow load time to settle
+            sleep(0.4)  # allow load time to settle
 
             success, result = p1125.acquisition_start(mode=P1125API.ACQUIRE_MODE_SINGLE)
             logger.info("acquisition_start: {}".format(result))
@@ -198,49 +211,52 @@ def main():
             data["vout"].append(vout)
             data["min"].append(min(result["i"]))
             data["max"].append(max(result["i"]))
-            data["avg"].append(sum(result["i"]) / samples)
+            data["avg"].append(sum(result["i"][0:AVG_NUM_SAMPLES]) / AVG_NUM_SAMPLES)
             data["exp"].append(expected_i_ua)
-            data["err"].append((abs(data["avg"][-1] - data["exp"][-1]) * 100.0) / data["exp"][-1])
             data["res"].append(resistance)
 
-            # find the peak error from the acquistion
-            peak_error = max(abs(data["exp"][-1] - data["min"][-1]), abs(data["exp"][-1] - data["max"][-1]))
-            data["errp"].append(peak_error * 100.0 / data["exp"][-1])
-
-            sigma = np.std(result["i"])
+            sigma = statistics.pstdev(result["i"])
             data["sigma"].append(sigma)
-            sigma_as_percent = sigma * 100.0 / data["exp"][-1]
+            sigma_as_percent = sigma * 100.0 / expected_i_ua
             data["sigma_percent"].append(sigma_as_percent)
-            logger.info("""VOUT {} mV, Expected {:9.2f} uA, min/avg/max: {:9.2f} {:9.2f} {:9.2f} uA, sigma {:8.3f} ({:3.1}%), {} samples""".format(data["vout"][-1],
-                                                                                            data["exp"][-1],
-                                                                                            data["min"][-1],
-                                                                                            data["avg"][-1],
-                                                                                            data["max"][-1],
-                                                                                            sigma, sigma_as_percent,
-                                                                                            samples
-                                                                                            ))
-            # large error...
-            #if data["errp"][-1] > PLOT_CIRCLE_ERR: logger.error(result["i"])
 
-    plot.cross(x="vout", y="avg", size=10, color="blue", source=source)
-    plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
-    plot.dash(x="vout", y="min", size=10, color="red", source=source)
-    plot.dash(x="vout", y="max", size=10, color="red", source=source)
+            pass_or_fail = "Pass"
+            avg_error_allowed_percent = max(ERROR_AVG_UA / expected_i_ua * 100.0, ERROR_AVG_PRCNT)
+            avg_error_percent = abs(data["avg"][-1] - expected_i_ua) / expected_i_ua * 100.0
+            if avg_error_percent > avg_error_allowed_percent:
+                pass_or_fail = f"FAIL_avg_error, {avg_error_percent}% > {avg_error_allowed_percent}%"
 
-    _tooltips_sigma = [("Sigma", "@sigma_percent{0.0} %"), ]
-    dotssigma = plot_sigma.circle_dot(x="vout", y="exp", size="sigma_percent", fill_alpha=0.2, line_width=1, color="red", source=source)
-    plot_sigma.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
-    htsigma = HoverTool(tooltips=_tooltips_sigma, mode='vline', show_arrow=True, renderers=[dotssigma])
-    plot_sigma.tools = [htsigma, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+            else:
+                sigma_error_allowed_prcnt = max(ERROR_SIGMA_UA / expected_i_ua * 100.0, ERROR_SIGMA_PRCNT)
+                if data['sigma_percent'][-1] > sigma_error_allowed_prcnt:
+                    pass_or_fail = f"FAIL_sigma_percent, {data['sigma_percent'][-1]}% > {sigma_error_allowed_prcnt}%"
 
-    _tooltips_peak = [("Error", "@errp{0.0} %"), ]
-    dotsp = plot_errp.circle_dot(x="vout", y="exp", size="errp", fill_alpha=0.2, color="red", source=source)
-    plot_errp.circle(x="vout", y="exp", size=PLOT_CIRCLE_ERR, fill_alpha=0.2, line_width=0, color="green", source=source)
-    htp = HoverTool(tooltips=_tooltips_peak, mode='vline', show_arrow=True, renderers=[dotsp])
-    plot_errp.tools = [htp, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+            logger.info(f"""VOUT {data["vout"][-1]} mV, Expected {data["exp"][-1]:9.2f} uA, """ 
+                        f"""min/avg/max: {data["min"][-1]:9.2f} {data["avg"][-1]:9.2f} {data["max"][-1]:9.2f} uA, """ 
+                        f"""sigma {sigma:8.3f} ({sigma_as_percent:3.1}%), {samples} samples, {pass_or_fail}""")
 
-    doc_layout.children.append(row(plot, plot_errp, plot_sigma))
-    show(doc_layout)
+            if WRITE_CVS:
+                f_csv.write(f"{vout:4}, {resistance:9.1f}, {expected_i_ua:9.1f}, {data['avg'][-1]:10.1f}, " 
+                            f"{avg_error_percent:4.1f}%/{avg_error_allowed_percent:4.1f}% "
+                            f"{data['sigma_percent'][-1]:4.1f}%/{sigma_error_allowed_prcnt:4.1f}%, {pass_or_fail}\n")
+
+    if PLOT_RESULTS:
+        plot.cross(x="vout", y="avg", size=10, color="blue", source=source)
+        plot.dot(x="vout", y="exp", size=20, color="olive", source=source)
+        plot.dash(x="vout", y="min", size=10, color="red", source=source)
+        plot.dash(x="vout", y="max", size=10, color="red", source=source)
+
+        _tooltips_sigma = [("Sigma", "@sigma_percent{0.0} %"), ]
+        dotssigma = plot_sigma.circle_dot(x="vout", y="exp", size="sigma_percent", fill_alpha=0.2, line_width=1, color="red", source=source)
+        plot_sigma.circle(x="vout", y="exp", size="sigma_pass_circle", fill_alpha=0.2, line_width=0, color="green", source=source)
+        htsigma = HoverTool(tooltips=_tooltips_sigma, mode='vline', show_arrow=True, renderers=[dotssigma])
+        plot_sigma.tools = [htsigma, BoxZoomTool(), ZoomInTool(), ResetTool(), UndoTool(), PanTool()]
+
+        doc_layout.children.append(Div(text=title))
+        doc_layout.children.append(row(plot, plot_sigma))
+        show(doc_layout)
+
+    if WRITE_CVS: f_csv.close()
     return True
 
 
@@ -250,6 +266,7 @@ if __name__ == "__main__":
 
     except Exception as e:
         logger.error(e)
+        traceback.print_exc()
         success = False
 
     finally:
